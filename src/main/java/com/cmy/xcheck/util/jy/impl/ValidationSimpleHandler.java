@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import com.cmy.xcheck.config.ErrorMessageBuilder;
 import com.cmy.xcheck.exception.ExpressionDefineException;
-import com.cmy.xcheck.util.CheckResult;
+import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
@@ -15,7 +15,7 @@ public enum ValidationSimpleHandler implements ValidationHandler {
     
     INSTANCE;
     
-    public void validate(Map<String, String> requestParam, String express, CheckResult cr) {
+    public void validate(Map<String, String> requestParam, String express, XResult cr) {
         
         String field;
         ArrayList<FieldMap> fmArray; // 字段名与val值
@@ -40,9 +40,9 @@ public enum ValidationSimpleHandler implements ValidationHandler {
             for (FieldMap fm : fmArray) {
                 if (Validator.isEmpty(fm.getVal())) {
                     if (tildeIndex == -1) {
-                        cr.setErrorMsg(fm.getField() + " can not be null");
+                        cr.failure(fm.getField() + " can not be null");
                     } else {
-                        cr.setErrorMsg(
+                        cr.failure(
                                 express.substring(tildeIndex+1, express.length()));
                     }
                     // 如果校验不通过退出方法
@@ -95,7 +95,7 @@ public enum ValidationSimpleHandler implements ValidationHandler {
     }
     
     private void validate0(String formulas, ArrayList<FieldMap> fmArray,
-            String prompt, CheckResult result) {
+            String prompt, XResult result) {
         Matcher formulaMatcher = FORMULA_PARSING_PATT.matcher(formulas);
         while (formulaMatcher.find()) {
             if (result.isNotPass()) {
@@ -106,7 +106,7 @@ public enum ValidationSimpleHandler implements ValidationHandler {
     }
     
     private void validateField(Matcher formulaMatcher, ArrayList<FieldMap> fmArray,
-            String prompt, CheckResult result) {
+            String prompt, XResult result) {
 
         String formula = formulaMatcher.group();
         String invokeType = formulaMatcher.group(1);
@@ -122,14 +122,14 @@ public enum ValidationSimpleHandler implements ValidationHandler {
                     // @ 校验首先判断字段是否为空
                     String val = fm.getVal();
                     if (Validator.isEmpty(val)) {
-                        result.setErrorMsg(fm.getField() + " can not be null");
+                        result.failure(fm.getField() + " can not be null");
                         return;
                     }
                     Boolean calculate = Validator.calculate(methodAbbr, fm.getVal(), arguments);
                     if (!calculate) {
                         String buildMsg = ErrorMessageBuilder.buildMsg(
                                 methodAbbr, fm.getField(), arguments, prompt);
-                        result.setErrorMsg(buildMsg);
+                        result.failure(buildMsg);
                         return;
                     }
                 } catch (Exception e) {

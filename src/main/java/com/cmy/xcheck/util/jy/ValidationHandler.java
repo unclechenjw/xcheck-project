@@ -2,7 +2,7 @@ package com.cmy.xcheck.util.jy;
 
 import java.util.Map;
 
-import com.cmy.xcheck.util.CheckResult;
+import com.cmy.xcheck.util.XResult;
 
 public interface ValidationHandler {
 
@@ -13,5 +13,5 @@ public interface ValidationHandler {
      * @param cr      返回结果
      */
     public void validate(Map<String, String> requestParam, String express,
-            CheckResult cr);
+            XResult cr);
 }

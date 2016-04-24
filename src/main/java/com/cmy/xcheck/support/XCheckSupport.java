@@ -10,36 +10,32 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cmy.xcheck.support.annotation.Check;
-import com.cmy.xcheck.util.CheckResult;
+import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.jy.OperationFactory;
 
 
 public class XCheckSupport {
 
-//    @Resource
-//    private static final JedisManager jm = SysContext.getBean("jedisManager", JedisManager.class);
-
     /**
      * 校验入口
      * @return
      */
-    public static CheckResult check(Method method, HttpServletRequest request) {
+    public static XResult check(Method method, HttpServletRequest request) {
         // 判断是否验证对象
-        CheckResult cr = new CheckResult();
+        XResult cr = new XResult();
         
         try {
             boolean isAnnotationPresent = method.isAnnotationPresent(Check.class);
             // 带有Check注解的方法进行参数规则校验
             if (isAnnotationPresent) {
-                // 获取RequestMap转换JSON对象
                 Map<String, String> requestParam = prepareRequestParam(request);
                 // TODO delete it
                 formule2Check(method, requestParam, cr);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            cr.setErrorMsg("数据校验异常");
+            cr.failure("数据校验异常");
         }
         return cr;
     }
@@ -52,7 +48,7 @@ public class XCheckSupport {
      * void返回类型
      */
     private static void formule2Check(Method method, Map<String, String> requestParam,
-            CheckResult cr) {
+            XResult cr) {
         Check check = method.getAnnotation(Check.class);
         if (check != null) {
             
@@ -102,14 +98,18 @@ public class XCheckSupport {
         return requestParam;
     }
     
+
+//  @Resource
+//  private static final JedisManager jm = SysContext.getBean("jedisManager", JedisManager.class);
+
     private static boolean verifySessionUser(Check check, Map<String, String> requestParam,
-            CheckResult cr) {
+            XResult cr) {
         // 判断用户是否登录
         if (check.required()) {
             // 如果会话令牌为空
             String sessionToken = requestParam.get("sessionToken");
             if (Validator.isEmpty(sessionToken)) {
-                cr.setErrorMsg("用户未登录");
+                cr.failure("用户未登录");
                 cr.setStatus(1100); //TODO 未登录状态需要修改
                 return false;
             }

@@ -92,7 +92,7 @@ public class ClassPathXBeanDefinitionScanner {
     private static CheckItem parseExpression(String expression) {
         CheckItem checkItem;
         ExpressionTypeEnum expressType = calcExpressType(expression);
-        if (expressType == ExpressionTypeEnum.EXPRESS_TYPE_SIMPLE) {
+        if (expressType == ExpressionTypeEnum.EXPRESSION_TYPE_SIMPLE) {
             checkItem = expressTypeSimple(expression, expressType);
         } else {
             checkItem = expressTypeSimple(expression, expressType);
@@ -178,13 +178,13 @@ public class ClassPathXBeanDefinitionScanner {
     private static ExpressionTypeEnum calcExpressType(String express) {
         ExpressionTypeEnum expressType;
         if (express.startsWith("if")) {
-            expressType = ExpressionTypeEnum.EXPRESS_TYPE_IF_FORMULA;
-        } else if (express.startsWith("[")) {
-            expressType = ExpressionTypeEnum.EXPRESS_TYPE_MULTIATTRIBUTE;
+            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_IF_CONDITION;
+//        } else if (express.startsWith("[")) {
+//            expressType = ExpressionTypeEnum.EXPRESS_TYPE_MULTIATTRIBUTE;
         } else if (express.matches("(.*?)(<=|<|>=|>|==|!=)(.*)")) {
-            expressType = ExpressionTypeEnum.EXPRESS_TYPE_LOGICAL_OPERATION;
+            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_LOGICAL_OPERATION;
         } else {
-            expressType = ExpressionTypeEnum.EXPRESS_TYPE_SIMPLE;
+            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_SIMPLE;
         }
         return expressType;
     }

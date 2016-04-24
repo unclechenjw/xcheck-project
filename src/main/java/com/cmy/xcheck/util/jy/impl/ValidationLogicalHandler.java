@@ -10,7 +10,7 @@ import javax.script.ScriptException;
 
 import com.cmy.xcheck.config.ErrorMessageBuilder;
 import com.cmy.xcheck.exception.ExpressionDefineException;
-import com.cmy.xcheck.util.CheckResult;
+import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
@@ -23,7 +23,7 @@ public enum ValidationLogicalHandler implements ValidationHandler {
     private static final Pattern COMPARISON_OPERATOR_PATT =
             Pattern.compile("(.*?)(<=|<|>=|>|==|!=)(.*)");
 
-    public void validate(Map<String, String> requestParam, String express, CheckResult cr) {
+    public void validate(Map<String, String> requestParam, String express, XResult cr) {
         // 提示信息分隔符
         String[] split = express.split(":");
         String prompt = split.length > 1 ? split[1] : null;
@@ -56,11 +56,11 @@ public enum ValidationLogicalHandler implements ValidationHandler {
             rightVal = "'" + rightVal + "'";
         } else {
             if (Validator.isEmpty(leftVal)) {
-                cr.setErrorMsg(leftComment + "不能为空");
+                cr.failure(leftComment + "不能为空");
                 return;
             }
             if (Validator.isEmpty(rightVal)) {
-                cr.setErrorMsg(rightComment + "不能为空");
+                cr.failure(rightComment + "不能为空");
                 return;
             }
             
@@ -71,11 +71,11 @@ public enum ValidationLogicalHandler implements ValidationHandler {
                 rightVal = "new Date('" + rightVal + "')";
             } else {
                 if (Validator.isNotNumeric(leftVal)){
-                    cr.setErrorMsg(leftComment + "输入不正确");
+                    cr.failure(leftComment + "输入不正确");
                     return;
                 }
                 if (Validator.isNotNumeric(rightVal)) {
-                    cr.setErrorMsg(rightComment + "输入不正确");
+                    cr.failure(rightComment + "输入不正确");
                     return;
                 }
             }
@@ -87,9 +87,9 @@ public enum ValidationLogicalHandler implements ValidationHandler {
             boolean bl =  (Boolean) JS_ENGINE.eval(formula);
             if (!bl) {
                 if (prompt == null) {
-                    cr.setErrorMsg(leftComment + ErrorMessageBuilder.getMsg(comparisonOperator) + rightComment); 
+                    cr.failure(leftComment + ErrorMessageBuilder.getMsg(comparisonOperator) + rightComment); 
                 } else {
-                    cr.setErrorMsg(prompt); 
+                    cr.failure(prompt); 
                 }
             }
         } catch (ScriptException e) {

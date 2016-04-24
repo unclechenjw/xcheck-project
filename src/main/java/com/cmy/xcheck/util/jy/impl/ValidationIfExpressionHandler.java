@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.cmy.xcheck.exception.ExpressionDefineException;
-import com.cmy.xcheck.util.CheckResult;
+import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.jy.OperationFactory;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
@@ -19,7 +19,7 @@ public enum ValidationIfExpressionHandler implements ValidationHandler {
             .compile("^if\\('(.*?)','(.*?)'(?:,'(.*?)')?\\)(?:\\:(.*?))?$");
     
     public void validate(Map<String, String> requestParam, String express,
-            CheckResult cr) {
+            XResult cr) {
         Matcher m = IF_FORMULA_PARSING_PATT.matcher(express.replaceAll("\\s", ""));
         String firstCondition;
         String secondCondition;
@@ -39,7 +39,7 @@ public enum ValidationIfExpressionHandler implements ValidationHandler {
                 }
             }
             if (prompt != null) {
-                cr.setErrorMsg(prompt);
+                cr.failure(prompt);
             }
         } else {
             throw new ExpressionDefineException(express);
