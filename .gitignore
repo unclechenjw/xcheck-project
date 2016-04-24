@@ -1,0 +1,9 @@
+/target/
+*/work/
+*/bin/
+.settings
+.classpath
+.project
+.tomcatplugin
+*.jar
+*XX.java
