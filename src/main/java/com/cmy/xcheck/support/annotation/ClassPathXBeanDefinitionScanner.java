@@ -144,7 +144,6 @@ public class ClassPathXBeanDefinitionScanner {
     /**
      * 获取单字段或多字段[]字段名与值
      * @param field
-     * @param source
      * @return
      */
     private static String[] getField(String fields) {

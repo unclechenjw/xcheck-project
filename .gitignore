@@ -7,3 +7,5 @@
 .tomcatplugin
 *.jar
 *XX.java
+.idea/*
+*.iml
