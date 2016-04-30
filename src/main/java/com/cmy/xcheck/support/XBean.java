@@ -19,25 +19,16 @@ public class XBean {
         this.require = require;
         this.setHint(hint);
     }
+
     public boolean isRequire() {
         return require;
-    }
-    public void setRequire(boolean require) {
-        this.require = require;
     }
     public Map<String, String> getFieldAlias() {
         return fieldAlias;
     }
-    public void setFieldAlias(Map<String, String> fieldAlias) {
-        this.fieldAlias = fieldAlias;
-    }
     public CheckItem[] getCheckItems() {
         return checkItems;
     }
-    public void setCheckItems(CheckItem[] checkItems) {
-        this.checkItems = checkItems;
-    }
-
     public boolean isHint() {
         return hint;
     }
@@ -49,15 +40,15 @@ public class XBean {
         private String formula;
         private String[] fields;
         private String message;
-        private ExpressionTypeEnum expreeionType;
+        private ExpressionTypeEnum expressionType;
         private boolean nullable;
-        public CheckItem(String formula, String[] fields, String message, ExpressionTypeEnum expreeionType,
+        public CheckItem(String formula, String[] fields, String message, ExpressionTypeEnum expressionType,
                 boolean nullable) {
             super();
             this.formula = formula;
             this.fields = fields;
             this.message = message;
-            this.expreeionType = expreeionType;
+            this.expressionType = expressionType;
             this.nullable = nullable;
         }
         public String getFormula() {
@@ -78,18 +69,54 @@ public class XBean {
         public void setMessage(String message) {
             this.message = message;
         }
-        public ExpressionTypeEnum getExpreeionType() {
-            return expreeionType;
+        public ExpressionTypeEnum getExpressionType() {
+            return expressionType;
         }
-        public void setExpreeionType(ExpressionTypeEnum expreeionType) {
-            this.expreeionType = expreeionType;
+        public void setExpressionType(ExpressionTypeEnum expressionType) {
+            this.expressionType = expressionType;
         }
         public boolean isNullable() {
             return nullable;
+        }
+        public boolean canNotBeNull() {
+            return !nullable;
         }
         public void setNullable(boolean nullable) {
             this.nullable = nullable;
         }
         
+    }
+
+    public static class Builder {
+        private Map<String, String> fieldAlias;
+        private CheckItem[] checkItems;
+        private boolean require;
+        private boolean hint;
+        public Builder fieldAlias(Map<String, String> fieldAlias) {
+            this.fieldAlias = fieldAlias;
+            return this;
+        }
+        public Builder checkItems(CheckItem[] checkItems) {
+            this.checkItems = checkItems;
+            return this;
+        }
+        public Builder require(boolean require) {
+            this.require = require;
+            return this;
+        }
+        public Builder hint(boolean hint) {
+            this.hint = hint;
+            return this;
+        }
+        public XBean build() { // 构建，返回一个新对象
+            return new XBean(this);
+        }
+    }
+
+    public XBean(Builder builder) {
+        fieldAlias = builder.fieldAlias;
+        checkItems = builder.checkItems;
+        require    = builder.require;
+        hint       = builder.hint;
     }
 }

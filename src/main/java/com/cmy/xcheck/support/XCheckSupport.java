@@ -29,9 +29,9 @@ public class XCheckSupport {
             boolean isAnnotationPresent = method.isAnnotationPresent(Check.class);
             // 带有Check注解的方法进行参数规则校验
             if (isAnnotationPresent) {
-                Map<String, String> requestParam = prepareRequestParam(request);
+                Map<String, String[]> requestParam = prepareRequestParam(request);
                 // TODO delete it
-                formule2Check(method, requestParam, cr);
+                formula2Check(method, requestParam, cr);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,19 +43,19 @@ public class XCheckSupport {
     /**
      * 公式校验
      * @param method
-     * @param jsonParam
+     * @param requestParam
      * @param cr
      * void返回类型
      */
-    private static void formule2Check(Method method, Map<String, String> requestParam,
-            XResult cr) {
+    private static void formula2Check(Method method, Map<String, String[]> requestParam,
+                                      XResult cr) {
         Check check = method.getAnnotation(Check.class);
         if (check != null) {
             
             // 验证用户是否登录
-            if (!verifySessionUser(check, requestParam, cr)) {
-                return;
-            }
+//            if (!verifySessionUser(check, requestParam, cr)) {
+//                return;
+//            }
             
             String[] value = check.value();
             // 遍历公式
@@ -64,7 +64,8 @@ public class XCheckSupport {
                     continue;
                 }
                 // 公式校验
-                OperationFactory.validateFormula(formula, requestParam, cr);
+                // TODO: 2016/4/30
+//                OperationFactory.validateFormula(formula, requestParam, cr);
                 // 如果校验不通过退出循环
                 if (cr.isNotPass()) {
                     return;
@@ -80,22 +81,22 @@ public class XCheckSupport {
      * @param request
      * @return 返回JSON对象
      */
-    private static Map<String, String> prepareRequestParam(HttpServletRequest request) {
-        Map<String, String> requestParam = new HashMap<String, String>();
-        @SuppressWarnings("unchecked")
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
-        Iterator<Entry<String, String[]>> iterator = entrySet.iterator();
-        Entry<String, String[]> entry;
-        String value[];
-        while (iterator.hasNext()) {
-            entry = iterator.next();
-            value = entry.getValue();
-            if (value != null && value.length > 0) {
-                requestParam.put(entry.getKey(), value[0]);
-            }
-        }
-        return requestParam;
+    private static Map<String, String[]> prepareRequestParam(HttpServletRequest request) {
+//        Map<String, String> requestParam = new HashMap<String, String>();
+//        @SuppressWarnings("unchecked")
+//        Map<String, String[]> parameterMap = request.getParameterMap();
+//        Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
+//        Iterator<Entry<String, String[]>> iterator = entrySet.iterator();
+//        Entry<String, String[]> entry;
+//        String value[];
+//        while (iterator.hasNext()) {
+//            entry = iterator.next();
+//            value = entry.getValue();
+//            if (value != null && value.length > 0) {
+//                requestParam.put(entry.getKey(), value[0]);
+//            }
+//        }
+        return request.getParameterMap();
     }
     
 

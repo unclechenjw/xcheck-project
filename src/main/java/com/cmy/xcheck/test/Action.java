@@ -8,4 +8,16 @@ public class Action {
     public void get() {
         
     }
+
+    @Check(value={"[a,b,c]@d"})
+    public void test0() {
+
+    }
+
+    @Check(value={"if(a>b,a>c,b>c)"})
+    public void test1() {
+
+    }
+
+
 }

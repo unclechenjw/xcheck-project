@@ -63,33 +63,21 @@ public class Validator {
         return str == null || str.length() == 0;
     }
 
-    public static boolean isNotEmpty(Integer i) {
-        return !isEmpty(i);
-    }
-
-    public static boolean isEmpty(Integer i) {
-        return i == null || i == 0;
-    }
-    
-    public static boolean isNotEmpty(Object obj) {
-        return !isEmpty(obj);
-    }
-    
-    public static boolean isEmpty(Object obj) {
-        boolean ret = false;
-        if (obj == null) {
-            ret = true;
-        }
-        if (obj instanceof String) {
-            ret = isEmpty(obj.toString());
-        } else if (obj instanceof String) {
-            try {
-                ret = isEmpty(Integer.parseInt(obj.toString()));
-            } catch (Exception e) {
-            }
-        }
-        return ret;
-    }
+//    public static boolean isEmpty(Object obj) {
+//        boolean ret = false;
+//        if (obj == null) {
+//            ret = true;
+//        }
+//        if (obj instanceof String) {
+//            ret = isEmpty(obj.toString());
+//        } else if (obj instanceof String) {
+//            try {
+//                ret = isEmpty(Integer.parseInt(obj.toString()));
+//            } catch (Exception e) {
+//            }
+//        }
+//        return ret;
+//    }
     
     public static boolean isAllLetter(String str) {
         char[] charArray = str.toCharArray();

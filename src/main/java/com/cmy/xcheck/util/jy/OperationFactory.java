@@ -16,20 +16,21 @@ public class OperationFactory {
         ValidationHandler oh = null;
         switch (expressType) {
         case EXPRESSION_TYPE_IF_CONDITION:
-            oh = ValidationIfExpressionHandler.INSTANCE;
+//            oh = ValidationIfExpressionHandler.INSTANCE;
             break;
 //        case EXPRESS_TYPE_MULTIATTRIBUTE:
 //            oh = ValidationMultiFieldHandler.INSTANCE;
 //            oh = ValidationSimpleHandler.INSTANCE;
 //            break;
         case EXPRESSION_TYPE_LOGICAL_OPERATION:
-            oh = ValidationLogicalHandler.INSTANCE;
+//            oh = ValidationLogicalHandler.INSTANCE;
             break;
         case EXPRESSION_TYPE_SIMPLE:
             oh = ValidationSimpleHandler.INSTANCE;
             break;
         }
-        oh.validate(requestParam, formula, cr);
+        // TODO
+//        oh.validate(requestParam, formula, cr);
     }
 
     private static ExpressionTypeEnum getExpressType(String express) {

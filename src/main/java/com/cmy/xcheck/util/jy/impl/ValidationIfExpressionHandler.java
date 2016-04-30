@@ -9,7 +9,7 @@ import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.jy.OperationFactory;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
-public enum ValidationIfExpressionHandler implements ValidationHandler {
+public enum ValidationIfExpressionHandler {
 
     INSTANCE;
 

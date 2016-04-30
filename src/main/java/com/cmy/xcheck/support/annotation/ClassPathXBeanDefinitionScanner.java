@@ -3,22 +3,18 @@ package com.cmy.xcheck.support.annotation;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.cmy.xcheck.ExpressionTypeEnum;
 import com.cmy.xcheck.support.XBean;
-import com.cmy.xcheck.support.XBean.CheckItem;
-import com.cmy.xcheck.util.Assert;
+import com.cmy.xcheck.util.XExpressionParser;
 
 public class ClassPathXBeanDefinitionScanner {
 
@@ -50,150 +46,21 @@ public class ClassPathXBeanDefinitionScanner {
 //    }
     
     public static void main(String[] args) {
-        Set<Class<?>> classes = getClasses("com.cmy");
-        scanXBean(classes);
-//        ArrayList<Class<?>> array = new ArrayList<Class<?>>();
-//        array.addAll(classes);
-//        Class<?> class1 = array.get(0);
-//        Method[] declaredMethods = class1.getDeclaredMethods();
-//        System.out.println(declaredMethods);
-//        declaredMethods[0].isAnnotationPresent(Check.class);
-//        System.out.println(classes);
+        Set<Class<?>> classes = scanXBean("com.cmy.xcheck");
+        XExpressionParser.parseXbean(classes);
+        System.out.println(classes.size());
+        Map<String, XBean> x = XAnnotationConfigApplicationContext.x;
+        System.out.println(x);
     }
 
-    public static void scanXBean(Set<Class<?>> classes) {
-        
-        for (Class<?> clz : classes) {
-            Method[] methods = clz.getMethods();
-            for (Method method : methods) {
-                if (method.isAnnotationPresent(Check.class)) {
-                    parseXbean(clz, method);
-                }
-            }
-        }
-    }
-    
-    private static void parseXbean(Class<?> clz, Method method) {
-        Check check = method.getAnnotation(Check.class);
-        String[] values = check.value();
-        Map<String, String> fieldAlias = parseMap(check.fieldAlias());
-        boolean hint = check.hint();
-        boolean required = check.required();
-        CheckItem[] checkItems = new CheckItem[values.length];
-        for (int i = 0; i < values.length; i++) {
-            checkItems[i] = parseExpression(values[i]);
-        }
-        String identify = clz.getName() + "$" + method.getName();
-        XAnnotationConfigApplicationContext.register(identify,
-                new XBean(fieldAlias, checkItems, required, hint));
-    }
 
-    // 
-    private static CheckItem parseExpression(String expression) {
-        CheckItem checkItem;
-        ExpressionTypeEnum expressType = calcExpressType(expression);
-        if (expressType == ExpressionTypeEnum.EXPRESSION_TYPE_SIMPLE) {
-            checkItem = expressTypeSimple(expression, expressType);
-        } else {
-            checkItem = expressTypeSimple(expression, expressType);
-        }
-        return checkItem;
-    }
-    
-    public static CheckItem expressTypeSimple(String expression, ExpressionTypeEnum expressionType) {
-        
-        Assert.expressionIllegal(expression);
-        
-        String formula;
-        boolean nullable;
-        
-        int fieldBehindIndex;
-        int atIndex = expression.indexOf("@");
-        int numberSignIndex = expression.indexOf("#");
-        // @校验参数不可空
-        if (atIndex != -1) {
-            nullable = false;
-            fieldBehindIndex = atIndex;
-        // #校验参数允许空
-        } else if (numberSignIndex != -1) {
-            nullable = true;
-            fieldBehindIndex = numberSignIndex;
-            // 无公式校验,参数不可空
-        } else {
-            nullable = false;
-            fieldBehindIndex = expression.length();
-        }
-
-        String[] fields = getField(expression.substring(0, fieldBehindIndex));
-
-        // 自定义错误提示
-        String message;
-        int tildeIndex = expression.indexOf(":");
-        if (tildeIndex == -1) {
-            formula = expression.substring(fieldBehindIndex, expression.length());
-            message = null;
-        } else {
-            formula = expression.substring(fieldBehindIndex, tildeIndex);
-            message = expression.substring(tildeIndex+1, expression.length());
-        }
-        return new XBean.CheckItem(
-                formula, fields, message, expressionType, nullable);
-        
-    }
-
-    /**
-     * 获取单字段或多字段[]字段名与值
-     * @param field
-     * @return
-     */
-    private static String[] getField(String fields) {
-        if (fields.startsWith("[")) {
-            String[] split = fields.substring(1, fields.length()-1).split(",");
-            return split;
-        } else {
-            return new String[]{fields};
-        }
-    }
-    
-    private static Map<String, String> parseMap(String[] fieldAlias) {
-        Map<String, String> m = new HashMap<String, String>();
-        for (String alias : fieldAlias) {
-            String[] split = alias.replaceAll("\\s", "").split(",");
-            for (String sp :split) {
-                String[] fieldAndName = sp.split("=");
-                int flen = fieldAndName.length;
-                if (flen == 1) {
-                    return m;
-                } else if ( flen == 2) {
-                    m.put(fieldAndName[0], fieldAndName[1]);
-                } else {
-                    throw new IllegalArgumentException("");
-                }
-            }
-        }
-        return m;
-    }
-    
-    private static ExpressionTypeEnum calcExpressType(String express) {
-        ExpressionTypeEnum expressType;
-        if (express.startsWith("if")) {
-            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_IF_CONDITION;
-//        } else if (express.startsWith("[")) {
-//            expressType = ExpressionTypeEnum.EXPRESS_TYPE_MULTIATTRIBUTE;
-        } else if (express.matches("(.*?)(<=|<|>=|>|==|!=)(.*)")) {
-            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_LOGICAL_OPERATION;
-        } else {
-            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_SIMPLE;
-        }
-        return expressType;
-    }
     /** 
      * 从包package中获取所有的Class 
      *  
      * @param pack 
      * @return 
      */  
-    public static Set<Class<?>> getClasses(String pack) {  
+    public static Set<Class<?>> scanXBean(String pack) {
   
         // 第一个class类的集合  
         Set<Class<?>> classes = new LinkedHashSet<Class<?>>();  

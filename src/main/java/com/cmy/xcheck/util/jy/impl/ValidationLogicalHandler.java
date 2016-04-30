@@ -8,13 +8,12 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import com.cmy.xcheck.config.ErrorMessageBuilder;
+import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.exception.ExpressionDefineException;
 import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.Validator;
-import com.cmy.xcheck.util.jy.ValidationHandler;
 
-public enum ValidationLogicalHandler implements ValidationHandler {
+public enum ValidationLogicalHandler {
     
     INSTANCE;
     
@@ -87,7 +86,7 @@ public enum ValidationLogicalHandler implements ValidationHandler {
             boolean bl =  (Boolean) JS_ENGINE.eval(formula);
             if (!bl) {
                 if (prompt == null) {
-                    cr.failure(leftComment + ErrorMessageBuilder.getMsg(comparisonOperator) + rightComment); 
+                    cr.failure(leftComment + XMessageBuilder.getMsg(comparisonOperator) + rightComment);
                 } else {
                     cr.failure(prompt); 
                 }
