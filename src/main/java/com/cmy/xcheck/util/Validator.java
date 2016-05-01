@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 
 public class Validator {
     
-    private static final Validator INSTANCE = new Validator();
+    public static final Validator INSTANCE = new Validator();
     
-    public static final HashMap<String, Item> CHECK_METHODS = 
-            new HashMap<String, Item>();
+    public static final HashMap<String, CheckMethod> CHECK_METHODS =
+            new HashMap<String, CheckMethod>();
     private static final Pattern TEL_PATT =
             Pattern.compile("^\\d{11}$");
     private static final Pattern EMAIL_PATT =
@@ -38,16 +38,16 @@ public class Validator {
             Method isMoneyFormat  = INSTANCE.getClass().getMethod("isMoneyFormat", String.class);
             Method in             = INSTANCE.getClass().getMethod("in", String.class, String.class);
             
-            CHECK_METHODS.put("w",  new Item(isAllLetter, 0));
-            CHECK_METHODS.put("W",  new Item(isAllNotLetter, 0));
-            CHECK_METHODS.put("d",  new Item(isAllDigit, 0));
-            CHECK_METHODS.put("D",  new Item(isAllNotDigit, 0));
-            CHECK_METHODS.put("l",  new Item(isLengthIn, 1));
-            CHECK_METHODS.put("ml", new Item(isInMaxLength, 1));
-            CHECK_METHODS.put("p",  new Item(isPhoneNumber, 0));
-            CHECK_METHODS.put("e",  new Item(isEmail, 0));
-            CHECK_METHODS.put("$",  new Item(isMoneyFormat, 0));
-            CHECK_METHODS.put("in", new Item(in, 1));
+            CHECK_METHODS.put("w",  new CheckMethod(isAllLetter, 0));
+            CHECK_METHODS.put("W",  new CheckMethod(isAllNotLetter, 0));
+            CHECK_METHODS.put("d",  new CheckMethod(isAllDigit, 0));
+            CHECK_METHODS.put("D",  new CheckMethod(isAllNotDigit, 0));
+            CHECK_METHODS.put("l",  new CheckMethod(isLengthIn, 1));
+            CHECK_METHODS.put("ml", new CheckMethod(isInMaxLength, 1));
+            CHECK_METHODS.put("p",  new CheckMethod(isPhoneNumber, 0));
+            CHECK_METHODS.put("e",  new CheckMethod(isEmail, 0));
+            CHECK_METHODS.put("$",  new CheckMethod(isMoneyFormat, 0));
+            CHECK_METHODS.put("in", new CheckMethod(in, 1));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -211,7 +211,7 @@ public class Validator {
                 formatDate.parse(param);
             }
             return true;
-        } catch (Exception exception) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -220,15 +220,20 @@ public class Validator {
             String arguments) throws Exception {
         return CHECK_METHODS.get(methodAbbr).calculate(val, arguments);
     }
-    
-    private static class Item {
+
+    public static class CheckMethod {
         private final Method method;
         private final int argNum;
-        private Item (Method method, int argNum) {
+        public Method getMethod() {
+            return method;
+        }
+        public int getArgNum() {
+            return argNum;
+        }
+        private CheckMethod(Method method, int argNum) {
             this.method = method;
             this.argNum = argNum;
         }
-        
         public Boolean calculate(String val, String arguments) throws Exception{
             if (argNum == 0) {
                 return (Boolean) method.invoke(INSTANCE, val);
@@ -236,5 +241,11 @@ public class Validator {
                 return (Boolean) method.invoke(INSTANCE, val, arguments);
             }
         }
+
     }
+
+    public static CheckMethod getCheckMethod(String methodAbbr) {
+        return CHECK_METHODS.get(methodAbbr);
+    }
+
 }

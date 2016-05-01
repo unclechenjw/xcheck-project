@@ -51,12 +51,7 @@ public class XCheckSupport {
                                       XResult cr) {
         Check check = method.getAnnotation(Check.class);
         if (check != null) {
-            
-            // 验证用户是否登录
-//            if (!verifySessionUser(check, requestParam, cr)) {
-//                return;
-//            }
-            
+
             String[] value = check.value();
             // 遍历公式
             for (String formula : value) {
@@ -82,20 +77,6 @@ public class XCheckSupport {
      * @return 返回JSON对象
      */
     private static Map<String, String[]> prepareRequestParam(HttpServletRequest request) {
-//        Map<String, String> requestParam = new HashMap<String, String>();
-//        @SuppressWarnings("unchecked")
-//        Map<String, String[]> parameterMap = request.getParameterMap();
-//        Set<Entry<String, String[]>> entrySet = parameterMap.entrySet();
-//        Iterator<Entry<String, String[]>> iterator = entrySet.iterator();
-//        Entry<String, String[]> entry;
-//        String value[];
-//        while (iterator.hasNext()) {
-//            entry = iterator.next();
-//            value = entry.getValue();
-//            if (value != null && value.length > 0) {
-//                requestParam.put(entry.getKey(), value[0]);
-//            }
-//        }
         return request.getParameterMap();
     }
     

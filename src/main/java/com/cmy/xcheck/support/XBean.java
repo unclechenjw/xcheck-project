@@ -1,8 +1,11 @@
 package com.cmy.xcheck.support;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 import com.cmy.xcheck.ExpressionTypeEnum;
+import com.cmy.xcheck.util.Validator;
 
 public class XBean {
 
@@ -37,25 +40,19 @@ public class XBean {
     }
 
     public static class CheckItem {
-        private String formula;
+        private List<FormulaItem> formulaItems;
         private String[] fields;
         private String message;
         private ExpressionTypeEnum expressionType;
         private boolean nullable;
-        public CheckItem(String formula, String[] fields, String message, ExpressionTypeEnum expressionType,
+        public CheckItem(List<FormulaItem> formulaItems, String[] fields, String message, ExpressionTypeEnum expressionType,
                 boolean nullable) {
             super();
-            this.formula = formula;
+            this.formulaItems = formulaItems;
             this.fields = fields;
             this.message = message;
             this.expressionType = expressionType;
             this.nullable = nullable;
-        }
-        public String getFormula() {
-            return formula;
-        }
-        public void setFormula(String formula) {
-            this.formula = formula;
         }
         public String[] getFields() {
             return fields;
@@ -84,7 +81,45 @@ public class XBean {
         public void setNullable(boolean nullable) {
             this.nullable = nullable;
         }
-        
+        public List<FormulaItem> getFormulaItems() {
+            return formulaItems;
+        }
+        public void setFormulaItems(List<FormulaItem> formulaItems) {
+            this.formulaItems = formulaItems;
+        }
+    }
+
+    public static class FormulaItem {
+        private String methodAbbr;
+        private Method method;
+        private String argument;
+        private int argNum;
+
+        public FormulaItem(String methodAbbr, Method method, int argNum, String argument) {
+            this.methodAbbr = methodAbbr;
+            this.method = method;
+            this.argNum = argNum;
+            this.argument = argument;
+        }
+        public Boolean calculate(String val) {
+            try {
+                if (argNum == 0) {
+                    return (Boolean) method.invoke(Validator.INSTANCE, val);
+                } else {
+                    return (Boolean) method.invoke(Validator.INSTANCE, val, argument);
+                }
+            } catch (Exception e) {
+                // TODO: 2016/5/1
+                e.printStackTrace();
+                return false;
+            }
+        }
+        public String getMethodAbbr() {
+            return methodAbbr;
+        }
+        public String getArgument() {
+            return argument;
+        }
     }
 
     public static class Builder {

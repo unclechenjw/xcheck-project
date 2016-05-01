@@ -86,7 +86,8 @@ public enum ValidationLogicalHandler {
             boolean bl =  (Boolean) JS_ENGINE.eval(formula);
             if (!bl) {
                 if (prompt == null) {
-                    cr.failure(leftComment + XMessageBuilder.getMsg(comparisonOperator) + rightComment);
+                    // TODO: 2016/5/1
+//                    cr.failure(leftComment + XMessageBuilder.getMsg(comparisonOperator) + rightComment);
                 } else {
                     cr.failure(prompt); 
                 }

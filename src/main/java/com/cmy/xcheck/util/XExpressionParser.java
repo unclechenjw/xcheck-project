@@ -7,9 +7,7 @@ import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +58,7 @@ public class XExpressionParser {
      * @param fields
      * @return
      */
-    private static String[] getField(String fields) {
+    private static String[] getFieldArray(String fields) {
         if (fields.startsWith("[")) {
             String[] split = fields.substring(1, fields.length()-1).split(",");
             return split;
@@ -79,9 +77,12 @@ public class XExpressionParser {
         for (String alias : fieldAlias) {
             String[] split = alias.replaceAll("\\s", "").split(",");
             for (String sp :split) {
+                if(Validator.isEmpty(sp)) {
+                    continue;
+                }
                 String[] fieldAndName = sp.split("=");
                 int fieldNameLen = fieldAndName.length;
-                if ( fieldNameLen == 2) {
+                if (fieldNameLen == 2) {
                     m.put(fieldAndName[0], fieldAndName[1]);
                 } else {
                     throw new IllegalArgumentException(XMessageBuilder.getProperty("fieldAliasError"));
@@ -162,7 +163,7 @@ public class XExpressionParser {
         }
 
         // 取得字段数组
-        String[] fields = getField(expression.substring(0, fieldBehindIndex));
+        String[] fields = getFieldArray(expression.substring(0, fieldBehindIndex));
 
         // 自定义错误提示
         String message;
@@ -174,15 +175,19 @@ public class XExpressionParser {
             formula = expression.substring(fieldBehindIndex, colonIndex);
             message = expression.substring(colonIndex+1, expression.length());
         }
+
+        // 公式取得
         Matcher matcher = FORMULA_PARSING_PATTERN.matcher(formula);
-        String method;
+        List<XBean.FormulaItem> formulaItems = new ArrayList<XBean.FormulaItem>();
+        String methodAbbr;
         String argument;
         while (matcher.find()) {
-            method = matcher.group(2);
+            methodAbbr = matcher.group(2);
             argument = matcher.group(3);
-
+            Validator.CheckMethod checkMethod = Validator.getCheckMethod(methodAbbr);
+            formulaItems.add(new XBean.FormulaItem(methodAbbr, checkMethod.getMethod(), checkMethod.getArgNum(), argument));
         }
-        return new XBean.CheckItem(formula, fields, message, expressionType, nullable);
+        return new XBean.CheckItem(formulaItems, fields, message, expressionType, nullable);
     }
 
 }

@@ -12,8 +12,8 @@ import com.cmy.xcheck.util.XResult;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
-//public enum ValidationSimpleHandler implements ValidationHandler {
-public enum ValidationSimpleHandler {
+public enum ValidationSimpleHandler implements ValidationHandler {
+//public enum ValidationSimpleHandler {
 
     INSTANCE;
 
@@ -32,16 +32,16 @@ public enum ValidationSimpleHandler {
         }
     }
 
-    private void validate0(String formulas, ArrayList<FieldMap> fmArray,
-                           String prompt, XResult result) {
-        Matcher formulaMatcher = FORMULA_PARSING_PATT.matcher(formulas);
-        while (formulaMatcher.find()) {
-            if (result.isNotPass()) {
-                return;
-            }
-            validateField(formulaMatcher, fmArray, prompt, result);
-        }
-    }
+//    private void validate0(String formulas, ArrayList<FieldMap> fmArray,
+//                           String prompt, XResult result) {
+//        Matcher formulaMatcher = FORMULA_PARSING_PATT.matcher(formulas);
+//        while (formulaMatcher.find()) {
+//            if (result.isNotPass()) {
+//                return;
+//            }
+//            validateField(formulaMatcher, fmArray, prompt, result);
+//        }
+//    }
 
     /**
      * 校验null值
@@ -161,39 +161,39 @@ public enum ValidationSimpleHandler {
      * @param prompt
      * @param result
      */
-    private void validateField(Matcher formulaMatcher, ArrayList<FieldMap> fmArray,
-            String prompt, XResult result) {
-
-        String formula = formulaMatcher.group();
-        String invokeType = formulaMatcher.group(1);
-        String methodAbbr = formulaMatcher.group(2);
-        String arguments  = formulaMatcher.group(3);
-        for (FieldMap fm : fmArray) {
-            if ("#".equals(invokeType) &&
-                    Validator.isEmpty(fm.getVal())) {
-                // # 允许字段为null
-                continue;
-            } else {
-                try {
-                    // @ 校验首先判断字段是否为空
-                    String val = fm.getVal();
-                    if (Validator.isEmpty(val)) {
-                        result.failure(fm.getField() + " can not be null");
-                        return;
-                    }
-                    Boolean calculate = Validator.calculate(methodAbbr, fm.getVal(), arguments);
-                    if (!calculate) {
-                        String buildMsg = XMessageBuilder.buildMsg(
-                                methodAbbr, fm.getField(), arguments, prompt);
-                        result.failure(buildMsg);
-                        return;
-                    }
-                } catch (Exception e) {
-                    throw new ExpressionDefineException(formula, e);
-                }
-            }
-        }
-    }
+//    private void validateField(Matcher formulaMatcher, ArrayList<FieldMap> fmArray,
+//            String prompt, XResult result) {
+//
+//        String formula = formulaMatcher.group();
+//        String invokeType = formulaMatcher.group(1);
+//        String methodAbbr = formulaMatcher.group(2);
+//        String arguments  = formulaMatcher.group(3);
+//        for (FieldMap fm : fmArray) {
+//            if ("#".equals(invokeType) &&
+//                    Validator.isEmpty(fm.getVal())) {
+//                // # 允许字段为null
+//                continue;
+//            } else {
+//                try {
+//                    // @ 校验首先判断字段是否为空
+//                    String val = fm.getVal();
+//                    if (Validator.isEmpty(val)) {
+//                        result.failure(fm.getField() + " can not be null");
+//                        return;
+//                    }
+//                    Boolean calculate = Validator.calculate(methodAbbr, fm.getVal(), arguments);
+//                    if (!calculate) {
+//                        String buildMsg = XMessageBuilder.buildMsg(
+//                                methodAbbr, fm.getField(), arguments, prompt);
+//                        result.failure(buildMsg);
+//                        return;
+//                    }
+//                } catch (Exception e) {
+//                    throw new ExpressionDefineException(formula, e);
+//                }
+//            }
+//        }
+//    }
     // 表达式：字段@或#（方法名（参数）？）多组（&公式&） 可有可无
 //    private static final Pattern EXPRESS_PARSING_PATT = Pattern.compile(
 //            "([a-zA-Z0-9]+)([@#a-zA-Z0-9$]+\\(.*\\))+(&(.*?)&)?");

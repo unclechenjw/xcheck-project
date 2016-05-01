@@ -8,36 +8,19 @@ import java.util.*;
 
 public class XMessageBuilder {
 
-
+    /** 是否输出错误信息 */
     private static final boolean ErrorDisplay = true;
-
-//    private static final HashMap<String, String> msg = new HashMap<String, String>();
+    private static Properties properties;
 
     static {
-//        // 输出错误信息使用
-//        msg.put(">", "必须大于");
-//        msg.put("<", "必须小于");
-//        msg.put(">=", "必须大于或等于");
-//        msg.put("<=", "必须小于或等于");
-//        msg.put("==", "必须等于");
-//        msg.put("!=", "必须不等于");
-//
-//        msg.put("d", "必须为数字");
-//        msg.put("D", "不能包含数字");
-//        msg.put("w", "必须为字母");
-//        msg.put("W", "不能包含字母");
-//        msg.put("e", "邮箱格式不正确");
-//        msg.put("p", "手机号码不正确");
-//        msg.put("l", "字符长度必须是{0}位");
-//        msg.put("ml", "字符长度最大只能{0}位");
-//        msg.put("$", "金额输入错误");
-//        msg.put("in", "必须为{0}");
-        init();
+        properties = new Properties();
+        try {
+            InputStreamReader in = new InputStreamReader(XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties"), "utf-8");
+            properties.load(in);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-//    public static String getMsg(String key) {
-//        return msg.get(key);
-//    }
 
     public static String buildMsg(String methodAbbr, String field,
                                   String arguments, XBean xBean, XBean.CheckItem checkItem) {
@@ -66,16 +49,6 @@ public class XMessageBuilder {
         return properties.get(key).toString();
     }
 
-    private static Properties properties;
-    public static void init() {
-        properties = new Properties();
-        try {
-            InputStreamReader in = new InputStreamReader(XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties"), "utf-8");
-            properties.load(in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) {
         System.out.println(properties);
