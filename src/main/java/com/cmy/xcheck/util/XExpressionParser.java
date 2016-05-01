@@ -48,9 +48,9 @@ public class XExpressionParser {
         for (int i = 0; i < values.length; i++) {
             checkItems[i] = parseExpression(values[i]);
         }
-        String identify = clz.getName() + "$" + method.getName();
         XBean xBean = new XBean.Builder().fieldAlias(fieldAlias).checkItems(checkItems).require(required).hint(hint).build();
-        XAnnotationConfigApplicationContext.register(identify, xBean);
+        // 注册校验对象
+        XAnnotationConfigApplicationContext.register(check, xBean);
     }
 
     /**
@@ -92,7 +92,6 @@ public class XExpressionParser {
         return m;
     }
 
-
     /**
      * 解析表达式类型
      * @param expression
@@ -103,13 +102,13 @@ public class XExpressionParser {
         ExpressionTypeEnum expressType = calcExpressType(expression);
         if (expressType == ExpressionTypeEnum.EXPRESSION_TYPE_IF_CONDITION) {
             // TODO: 2016/4/30
-            checkItem = expressTypeSimple(expression, expressType);
+            checkItem = parseExpressionTypeSimple(expression, expressType);
         } else if (expressType == ExpressionTypeEnum.EXPRESSION_TYPE_LOGICAL_OPERATION) {
             // TODO: 2016/4/30
-            checkItem = expressTypeSimple(expression, expressType);
+            checkItem = parseExpressionTypeSimple(expression, expressType);
         } else {
             // 普通表达式转换
-            checkItem = expressTypeSimple(expression, expressType);
+            checkItem = parseExpressionTypeSimple(expression, expressType);
         }
         return checkItem;
     }
@@ -131,15 +130,17 @@ public class XExpressionParser {
         return expressType;
     }
 
-    private static final Pattern FORMULA_PARSING_PATTERN = Pattern.compile(
+    /** 普通表达式捕获pattern */
+    private static final Pattern SIMPLE_EXPRESSION_PATTERN = Pattern.compile(
             "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
+
     /**
      * 解析普通表达式
      * @param expression
      * @param expressionType
      * @return
      */
-    public static XBean.CheckItem expressTypeSimple(String expression, ExpressionTypeEnum expressionType) {
+    public static XBean.CheckItem parseExpressionTypeSimple(String expression, ExpressionTypeEnum expressionType) {
         Assert.expressionIllegal(expression);
 
         String formula;
@@ -177,7 +178,7 @@ public class XExpressionParser {
         }
 
         // 公式取得
-        Matcher matcher = FORMULA_PARSING_PATTERN.matcher(formula);
+        Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(formula);
         List<XBean.FormulaItem> formulaItems = new ArrayList<XBean.FormulaItem>();
         String methodAbbr;
         String argument;

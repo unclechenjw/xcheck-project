@@ -3,9 +3,7 @@ package com.cmy.xcheck.util.jy;
 import java.util.Map;
 
 import com.cmy.xcheck.ExpressionTypeEnum;
-import com.cmy.xcheck.util.XResult;
-import com.cmy.xcheck.util.jy.impl.ValidationIfExpressionHandler;
-import com.cmy.xcheck.util.jy.impl.ValidationLogicalHandler;
+import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.jy.impl.ValidationSimpleHandler;
 
 public class OperationFactory {

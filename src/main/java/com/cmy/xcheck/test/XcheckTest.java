@@ -2,10 +2,14 @@ package com.cmy.xcheck.test;
 
 import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.support.XBean;
+import com.cmy.xcheck.support.XCheckHandler;
+import com.cmy.xcheck.support.XResult;
+import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.ClassPathXBeanDefinitionScanner;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
 import com.cmy.xcheck.util.XExpressionParser;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -17,32 +21,18 @@ public class XcheckTest {
         Set<Class<?>> classes = ClassPathXBeanDefinitionScanner.scanXBean("com.cmy.xcheck");
         XExpressionParser.parseXbean(classes);
 
-        requestParam.put("a", new String[]{"x"});
-        requestParam.put("b", new String[]{"a2"});
+        requestParam.put("a.a", new String[]{"1121111111"});
+        requestParam.put("b", new String[]{"22.2", "0.11"});
+        requestParam.put("c", new String[]{"22", "0"});
     }
-    public static void main(String[] args) {
-        Map<String, XBean> x = XAnnotationConfigApplicationContext.x;
-        System.out.println(x);
-        XBean xBean = x.get("com.cmy.xcheck.test.Action$test0");
-        simple(xBean);
+    public static void main(String[] args) throws Exception {
+        Method test0 = Action.class.getMethod("test0");
+        Check check = test0.getAnnotation(Check.class);
+        XBean xBean = XAnnotationConfigApplicationContext.getXBean(check);
+        XResult xResult = new XResult();
+        XCheckHandler.handle(xBean, requestParam, xResult);
+        System.out.println(xResult.isPass());
+        System.out.println(xResult.getMessage());
     }
 
-    public static void simple(XBean xBean) {
-
-        XBean.CheckItem[] checkItems = xBean.getCheckItems();
-        for (XBean.CheckItem checkItem : checkItems) {
-            List<XBean.FormulaItem> formulaItems = checkItem.getFormulaItems();
-            for (XBean.FormulaItem formulaItem : formulaItems)
-                for (String field : checkItem.getFields()) {
-                    String[] values = requestParam.get(field);
-                    for (String value : values) {
-                        Boolean calculate = formulaItem.calculate(value);
-                        if (!calculate) {
-                            String s = XMessageBuilder.buildMsg(formulaItem.getMethodAbbr(), field, formulaItem.getArgument(), xBean, checkItem);
-                            System.out.println(s);
-                        }
-                    }
-                }
-        }
-    }
 }

@@ -1,19 +1,13 @@
 package com.cmy.xcheck.support;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.cmy.xcheck.support.annotation.Check;
-import com.cmy.xcheck.util.XResult;
+import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
 import com.cmy.xcheck.util.Validator;
-import com.cmy.xcheck.util.jy.OperationFactory;
-
 
 public class XCheckSupport {
 
@@ -23,52 +17,17 @@ public class XCheckSupport {
      */
     public static XResult check(Method method, HttpServletRequest request) {
         // 判断是否验证对象
-        XResult cr = new XResult();
-        
-        try {
-            boolean isAnnotationPresent = method.isAnnotationPresent(Check.class);
-            // 带有Check注解的方法进行参数规则校验
-            if (isAnnotationPresent) {
-                Map<String, String[]> requestParam = prepareRequestParam(request);
-                // TODO delete it
-                formula2Check(method, requestParam, cr);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            cr.failure("数据校验异常");
+        XResult xResult = new XResult();
+        boolean isAnnotationPresent = method.isAnnotationPresent(Check.class);
+        // 带有Check注解的方法进行参数规则校验
+        if (isAnnotationPresent) {
+            Check check = method.getAnnotation(Check.class);
+            XBean xBean = XAnnotationConfigApplicationContext.getXBean(check);
+            Map<String, String[]> requestParam = prepareRequestParam(request);
+            XCheckHandler.handle(xBean, requestParam, xResult);
         }
-        return cr;
+        return xResult;
     }
-
-    /**
-     * 公式校验
-     * @param method
-     * @param requestParam
-     * @param cr
-     * void返回类型
-     */
-    private static void formula2Check(Method method, Map<String, String[]> requestParam,
-                                      XResult cr) {
-        Check check = method.getAnnotation(Check.class);
-        if (check != null) {
-
-            String[] value = check.value();
-            // 遍历公式
-            for (String formula : value) {
-                if (Validator.isEmpty(formula)) {
-                    continue;
-                }
-                // 公式校验
-                // TODO: 2016/4/30
-//                OperationFactory.validateFormula(formula, requestParam, cr);
-                // 如果校验不通过退出循环
-                if (cr.isNotPass()) {
-                    return;
-                }
-            }
-        }
-    }
-
 
     /**
      * ParameterMap转Map
@@ -80,33 +39,4 @@ public class XCheckSupport {
         return request.getParameterMap();
     }
     
-
-//  @Resource
-//  private static final JedisManager jm = SysContext.getBean("jedisManager", JedisManager.class);
-
-    private static boolean verifySessionUser(Check check, Map<String, String> requestParam,
-            XResult cr) {
-        // 判断用户是否登录
-        if (check.required()) {
-            // 如果会话令牌为空
-            String sessionToken = requestParam.get("sessionToken");
-            if (Validator.isEmpty(sessionToken)) {
-                cr.failure("用户未登录");
-                cr.setStatus(1100); //TODO 未登录状态需要修改
-                return false;
-            }
-
-            // redis获取用户信息
-//            SessionUser sessionUser = (SessionUser) jm.getObject(
-//                    CommonKeyEnum.token_app_user, requestParam.get("userID"));
-            // 或者会话令牌不匹配，提示用户未登录
-//            if (sessionUser == null
-//                    || !sessionUser.getSessionToken().equals(sessionToken)) { // token不匹配
-//                cr.setErrorMsg("用户未登录");
-//                cr.setStatus(100);
-//                return false;
-//            }
-        }
-        return true;
-    }
 }

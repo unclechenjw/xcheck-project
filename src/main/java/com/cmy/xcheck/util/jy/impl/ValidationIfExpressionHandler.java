@@ -5,9 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.cmy.xcheck.exception.ExpressionDefineException;
-import com.cmy.xcheck.util.XResult;
+import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.jy.OperationFactory;
-import com.cmy.xcheck.util.jy.ValidationHandler;
 
 public enum ValidationIfExpressionHandler {
 

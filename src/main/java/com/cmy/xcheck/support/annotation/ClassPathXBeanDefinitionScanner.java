@@ -49,8 +49,7 @@ public class ClassPathXBeanDefinitionScanner {
         Set<Class<?>> classes = scanXBean("com.cmy.xcheck");
         XExpressionParser.parseXbean(classes);
         System.out.println(classes.size());
-        Map<String, XBean> x = XAnnotationConfigApplicationContext.x;
-        System.out.println(x);
+
     }
 
 

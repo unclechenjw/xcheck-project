@@ -8,9 +8,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.exception.ExpressionDefineException;
-import com.cmy.xcheck.util.XResult;
+import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.Validator;
 
 public enum ValidationLogicalHandler {

@@ -1,14 +1,11 @@
 package com.cmy.xcheck.util.jy.impl;
 
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.cmy.xcheck.config.XMessageBuilder;
-import com.cmy.xcheck.exception.ExpressionDefineException;
 import com.cmy.xcheck.support.XBean;
-import com.cmy.xcheck.util.XResult;
+import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
@@ -56,7 +53,7 @@ public enum ValidationSimpleHandler implements ValidationHandler {
             String[] values = requestParam.get(field);
             for (String val : values) {
                 if (Validator.isEmpty(val)) {
-                    String message = XMessageBuilder.buildMsg("CanNotBeNull", field, null, xBean, checkItem);
+                    String message = XMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItem);
                     xResult.failure(message);
                     return;
                 }
