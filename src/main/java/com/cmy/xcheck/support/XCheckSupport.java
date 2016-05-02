@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
-import com.cmy.xcheck.util.Validator;
+import com.cmy.xcheck.util.XCheckDispatcher;
 
 public class XCheckSupport {
 
@@ -24,7 +24,7 @@ public class XCheckSupport {
             Check check = method.getAnnotation(Check.class);
             XBean xBean = XAnnotationConfigApplicationContext.getXBean(check);
             Map<String, String[]> requestParam = prepareRequestParam(request);
-            XCheckHandler.handle(xBean, requestParam, xResult);
+            XCheckDispatcher.execute(xBean, requestParam, xResult);
         }
         return xResult;
     }
@@ -38,5 +38,4 @@ public class XCheckSupport {
     private static Map<String, String[]> prepareRequestParam(HttpServletRequest request) {
         return request.getParameterMap();
     }
-    
 }

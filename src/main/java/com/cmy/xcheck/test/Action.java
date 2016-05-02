@@ -4,8 +4,10 @@ import com.cmy.xcheck.support.annotation.Check;
 
 public class Action {
 
-    @Check(value={"a.a@d", "b@$", "[a,c]@d", "a@l(10)@ml(10)@l(3,11)"},
+    @Check(
+//            value={"a.a@d", "b@$", "[a,c]@d", "a@l(10)@ml(10)@l(3,11)"},
 //            value = {"a>b"},
+//            value = {"a@reg([0-9]{1,9})"},
             fieldAlias = {"a.a=参数a.a,b=参数b", "a=参数a"})
     public void test0() {
         

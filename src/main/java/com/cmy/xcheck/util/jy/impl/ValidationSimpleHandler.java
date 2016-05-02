@@ -1,33 +1,70 @@
 package com.cmy.xcheck.util.jy.impl;
 
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.support.XBean;
+import com.cmy.xcheck.util.item.XCheckItem;
+import com.cmy.xcheck.util.item.XCheckItemSimple;
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.jy.ValidationHandler;
 
 public enum ValidationSimpleHandler implements ValidationHandler {
-//public enum ValidationSimpleHandler {
-
     INSTANCE;
 
-    public void validate(Map<String, String[]> requestParam, XBean xBean, XResult xResult) {
-        XBean.CheckItem[] checkItems = xBean.getCheckItems();
-        String[] fields;
-        for (XBean.CheckItem item : checkItems) {
-            fields = item.getFields();
-            if (item.canNotBeNull()) {
-                validateFields(fields, requestParam, xBean, item, xResult);
-            }
-            if (xResult.isNotPass()) {
-                return;
-            }
+    @Override
+    public void validate(XBean xBean, XCheckItem checkItem, XResult xResult, Map<String, String[]> requestParam) {
+        XCheckItemSimple checkItemSimple = (XCheckItemSimple) checkItem;
+        List<XCheckItemSimple.FormulaItem> formulaItems = checkItemSimple.getFormulaItems();
+        // 遍历公式
+        for (XCheckItemSimple.FormulaItem formulaItem : formulaItems) {
+            // 遍历校验字段
+            for (String field : checkItemSimple.getFields()) {
+                String[] values = requestParam.get(field);
 
+                if (values == null) {
+                    // 允许为空结束当前校验
+                    if (checkItemSimple.isNullable()) {
+                        continue;
+                    } else {
+                        String message = XMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
+                        xResult.failure(message);
+                        return;
+                    }
+                }
+
+                // 遍历校验字段值
+                for (String value : values) {
+                    if (checkItemSimple.isNullable() && Validator.isEmpty(value)) {
+                        // 允许空,字段值为空跳过当前校验
+                        continue;
+                    }
+                    Boolean calculate = formulaItem.calculate(value);
+                    if (!calculate) {
+                        String message = XMessageBuilder.buildMsg(field, xBean, formulaItem, checkItemSimple);
+                        xResult.failure(message);
+                        return;
+                    }
+                }
+            }
         }
     }
+//    public void validate(Map<String, String[]> requestParam, XBean xBean, XResult xResult) {
+//        XCheckItemSimple[] checkItems = (XCheckItemSimple[]) xBean.getCheckItems();
+//        String[] fields;
+//        for (XCheckItemSimple item : checkItems) {
+//            fields = item.getFields();
+//            if (item.canNotBeNull()) {
+//                validateFields(fields, requestParam, xBean, item, xResult);
+//            }
+//            if (xResult.isNotPass()) {
+//                return;
+//            }
+//
+//        }
+//    }
 
 //    private void validate0(String formulas, ArrayList<FieldMap> fmArray,
 //                           String prompt, XResult result) {
@@ -40,26 +77,26 @@ public enum ValidationSimpleHandler implements ValidationHandler {
 //        }
 //    }
 
-    /**
-     * 校验null值
-     * @param fields
-     * @param requestParam
-     * @param xBean
-     * @param checkItem
-     * @param xResult
-     */
-    private void validateFields(String[] fields, Map<String, String[]> requestParam, XBean xBean, XBean.CheckItem checkItem, XResult xResult) {
-        for (String field : fields) {
-            String[] values = requestParam.get(field);
-            for (String val : values) {
-                if (Validator.isEmpty(val)) {
-                    String message = XMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItem);
-                    xResult.failure(message);
-                    return;
-                }
-            }
-        }
-    }
+//    /**
+//     * 校验null值
+//     * @param fields
+//     * @param requestParam
+//     * @param xBean
+//     * @param checkItem
+//     * @param xResult
+//     */
+//    private void validateFields(String[] fields, Map<String, String[]> requestParam, XBean xBean, XCheckItemSimple checkItem, XResult xResult) {
+//        for (String field : fields) {
+//            String[] values = requestParam.get(field);
+//            for (String val : values) {
+//                if (Validator.isEmpty(val)) {
+//                    String message = XMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItem);
+//                    xResult.failure(message);
+//                    return;
+//                }
+//            }
+//        }
+//    }
 
 //    public void validate(Map<String, String> requestParam, String expression, XResult cr) {
 //
@@ -119,7 +156,7 @@ public enum ValidationSimpleHandler implements ValidationHandler {
 //        // 开始公式校验
 //        validate0(formulas, fmArray, prompt, cr);
 //    }
-    
+
 //    /**
 //     * 获取单字段或多字段[]字段名与值
 //     * @param field
@@ -139,7 +176,7 @@ public enum ValidationSimpleHandler implements ValidationHandler {
 //        }
 //        return array;
 //    }
-    
+
 //    private void validate0(String formulas, ArrayList<FieldMap> fmArray,
 //            String prompt, XResult result) {
 //        Matcher formulaMatcher = FORMULA_PARSING_PATT.matcher(formulas);
@@ -151,13 +188,13 @@ public enum ValidationSimpleHandler implements ValidationHandler {
 //        }
 //    }
 
-    /**
-     * 字段校验
-     * @param formulaMatcher
-     * @param fmArray
-     * @param prompt
-     * @param result
-     */
+//    /**
+//     * 字段校验
+//     * @param formulaMatcher
+//     * @param fmArray
+//     * @param prompt
+//     * @param result
+//     */
 //    private void validateField(Matcher formulaMatcher, ArrayList<FieldMap> fmArray,
 //            String prompt, XResult result) {
 //
@@ -194,9 +231,9 @@ public enum ValidationSimpleHandler implements ValidationHandler {
     // 表达式：字段@或#（方法名（参数）？）多组（&公式&） 可有可无
 //    private static final Pattern EXPRESS_PARSING_PATT = Pattern.compile(
 //            "([a-zA-Z0-9]+)([@#a-zA-Z0-9$]+\\(.*\\))+(&(.*?)&)?");
-    private static final Pattern FORMULA_PARSING_PATT = Pattern.compile(
-            "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
-    
+//    private static final Pattern FORMULA_PARSING_PATT = Pattern.compile(
+//            "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
+
 //    private class FieldMap {
 //        private String field;
 //        private String val;

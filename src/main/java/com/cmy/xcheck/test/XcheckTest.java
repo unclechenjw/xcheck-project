@@ -1,8 +1,7 @@
 package com.cmy.xcheck.test;
 
-import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.support.XBean;
-import com.cmy.xcheck.support.XCheckHandler;
+import com.cmy.xcheck.util.XCheckDispatcher;
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.ClassPathXBeanDefinitionScanner;
@@ -21,6 +20,7 @@ public class XcheckTest {
         Set<Class<?>> classes = ClassPathXBeanDefinitionScanner.scanXBean("com.cmy.xcheck");
         XExpressionParser.parseXbean(classes);
 
+        requestParam.put("a", new String[]{"1111111111"});
         requestParam.put("a.a", new String[]{"1121111111"});
         requestParam.put("b", new String[]{"22.2", "0.11"});
         requestParam.put("c", new String[]{"22", "0"});
@@ -30,7 +30,7 @@ public class XcheckTest {
         Check check = test0.getAnnotation(Check.class);
         XBean xBean = XAnnotationConfigApplicationContext.getXBean(check);
         XResult xResult = new XResult();
-        XCheckHandler.handle(xBean, requestParam, xResult);
+        XCheckDispatcher.execute(xBean, requestParam, xResult);
         System.out.println(xResult.isPass());
         System.out.println(xResult.getMessage());
     }

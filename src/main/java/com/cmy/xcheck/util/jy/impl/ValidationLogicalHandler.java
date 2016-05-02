@@ -62,7 +62,6 @@ public enum ValidationLogicalHandler {
                 return;
             }
             
-            
             if (leftVal.matches(".*?[-/].*?")) {
                 // 值包含-或者/ 表示日期类型比较
                 leftVal = "new Date('" + leftVal + "')";

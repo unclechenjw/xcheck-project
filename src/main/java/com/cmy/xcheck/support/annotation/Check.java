@@ -20,22 +20,24 @@ import java.lang.annotation.Target;
  * @e:Email     是否邮箱地址格式
  * @p:phone     是否11位有效手机号码
  * @$: money    金额格式
- * @in:         字段必须参数范围内  example： Field@IN_a,b,c Field只能为a,b或c 
+ * @in:         字段必须参数范围内  example： Field@IN_a,b,c Field只能为a,b或c
  * @if          example if('conditon1','conditon2','conditon3')
+ * @reg regEx   正则表达式校验
  * : 校验公式冒号后':'可以添加错误提示内容,无则使用系统默认提示
- * 
+ *
  * ###########################################
  * 字段可空或适应某校验规则请替换@为#调用校验方法
  * 注意！ 以上所有@校验方法 ，#全部支持
  * 例如：验证字段为空或者全字母 ：Field#w
  * #w:     字符为空或者字母
  * #ML(10)  字符为空或者最大长度为10位
- * 
+ *
  * 数值或日期字段之间逻辑比较运算
  * 例如： >、>=、<、<=、==与!=
  * example1: field1<field2 字段1小于字段2
  * example2: field<100     字段小于指定值100
- * @see 例子见底部Main方法
+ * @see: 例子见底部Main方法
+ *
  */
 @Target({ java.lang.annotation.ElementType.METHOD,
     java.lang.annotation.ElementType.TYPE })

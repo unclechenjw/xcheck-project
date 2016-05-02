@@ -1,15 +1,14 @@
 package com.cmy.xcheck.util;
 
-import com.cmy.xcheck.ExpressionTypeEnum;
 import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
+import com.cmy.xcheck.util.analyze.SimpleExpressionAnalyzer;
+import com.cmy.xcheck.util.item.XCheckItem;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 表达式解析
@@ -27,7 +26,7 @@ public class XExpressionParser {
             Method[] methods = clz.getMethods();
             for (Method method : methods) {
                 if (method.isAnnotationPresent(Check.class)) {
-                    parseXbean_(clz, method);
+                    parseXbean_(method);
                 }
             }
         }
@@ -35,36 +34,23 @@ public class XExpressionParser {
 
     /**
      * 解析校验对象
-     * @param clz
      * @param method
      */
-    public static void parseXbean_(Class<?> clz, Method method) {
+    public static void parseXbean_(Method method) {
         Check check = method.getAnnotation(Check.class);
         String[] values = check.value();
         Map<String, String> fieldAlias = parseFieldAliasToMap(check.fieldAlias());
         boolean hint = check.hint();
         boolean required = check.required();
-        XBean.CheckItem[] checkItems = new XBean.CheckItem[values.length];
+        List<XCheckItem> checkItems = new ArrayList<XCheckItem>();
         for (int i = 0; i < values.length; i++) {
-            checkItems[i] = parseExpression(values[i]);
+            if (Validator.isNotEmpty(values[i])) {
+                checkItems.add(parseExpression(values[i]));
+            }
         }
-        XBean xBean = new XBean.Builder().fieldAlias(fieldAlias).checkItems(checkItems).require(required).hint(hint).build();
+        XBean xBean = new XBean(fieldAlias, checkItems, required, hint);
         // 注册校验对象
         XAnnotationConfigApplicationContext.register(check, xBean);
-    }
-
-    /**
-     * 获取单字段或多字段[]字段名与值
-     * @param fields
-     * @return
-     */
-    private static String[] getFieldArray(String fields) {
-        if (fields.startsWith("[")) {
-            String[] split = fields.substring(1, fields.length()-1).split(",");
-            return split;
-        } else {
-            return new String[]{fields};
-        }
     }
 
     /**
@@ -97,98 +83,19 @@ public class XExpressionParser {
      * @param expression
      * @return
      */
-    private static XBean.CheckItem parseExpression(String expression) {
-        XBean.CheckItem checkItem;
-        ExpressionTypeEnum expressType = calcExpressType(expression);
-        if (expressType == ExpressionTypeEnum.EXPRESSION_TYPE_IF_CONDITION) {
-            // TODO: 2016/4/30
-            checkItem = parseExpressionTypeSimple(expression, expressType);
-        } else if (expressType == ExpressionTypeEnum.EXPRESSION_TYPE_LOGICAL_OPERATION) {
-            // TODO: 2016/4/30
-            checkItem = parseExpressionTypeSimple(expression, expressType);
+    private static XCheckItem parseExpression(String expression) {
+        XCheckItem checkItem;
+        if (expression.startsWith("if")) {
+            // if表达式
+            checkItem = SimpleExpressionAnalyzer.analyze(expression);
+        } else if (expression.matches("(.*?)(<=|<|>=|>|==|!=)(.*)")) {
+            // 逻辑比较表达式
+            checkItem = SimpleExpressionAnalyzer.analyze(expression);
         } else {
-            // 普通表达式转换
-            checkItem = parseExpressionTypeSimple(expression, expressType);
+            // 普通表达式
+            checkItem = SimpleExpressionAnalyzer.analyze(expression);
         }
         return checkItem;
-    }
-
-    /**
-     * 获取表达式类型
-     * @param expression
-     * @return
-     */
-    private static ExpressionTypeEnum calcExpressType(String expression) {
-        ExpressionTypeEnum expressType;
-        if (expression.startsWith("if")) {
-            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_IF_CONDITION;
-        } else if (expression.matches("(.*?)(<=|<|>=|>|==|!=)(.*)")) {
-            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_LOGICAL_OPERATION;
-        } else {
-            expressType = ExpressionTypeEnum.EXPRESSION_TYPE_SIMPLE;
-        }
-        return expressType;
-    }
-
-    /** 普通表达式捕获pattern */
-    private static final Pattern SIMPLE_EXPRESSION_PATTERN = Pattern.compile(
-            "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
-
-    /**
-     * 解析普通表达式
-     * @param expression
-     * @param expressionType
-     * @return
-     */
-    public static XBean.CheckItem parseExpressionTypeSimple(String expression, ExpressionTypeEnum expressionType) {
-        Assert.expressionIllegal(expression);
-
-        String formula;
-        boolean nullable;
-        int fieldBehindIndex;
-        int atIndex = expression.indexOf("@");
-        int numberSignIndex = expression.indexOf("#");
-
-        // @校验参数不可空
-        if (atIndex != -1) {
-            nullable = false;
-            fieldBehindIndex = atIndex;
-            // #校验参数允许空
-        } else if (numberSignIndex != -1) {
-            nullable = true;
-            fieldBehindIndex = numberSignIndex;
-            // 无公式校验,参数不可空
-        } else {
-            nullable = false;
-            fieldBehindIndex = expression.length();
-        }
-
-        // 取得字段数组
-        String[] fields = getFieldArray(expression.substring(0, fieldBehindIndex));
-
-        // 自定义错误提示
-        String message;
-        int colonIndex = expression.indexOf(":");
-        if (colonIndex == -1) {
-            formula = expression.substring(fieldBehindIndex, expression.length());
-            message = null;
-        } else {
-            formula = expression.substring(fieldBehindIndex, colonIndex);
-            message = expression.substring(colonIndex+1, expression.length());
-        }
-
-        // 公式取得
-        Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(formula);
-        List<XBean.FormulaItem> formulaItems = new ArrayList<XBean.FormulaItem>();
-        String methodAbbr;
-        String argument;
-        while (matcher.find()) {
-            methodAbbr = matcher.group(2);
-            argument = matcher.group(3);
-            Validator.CheckMethod checkMethod = Validator.getCheckMethod(methodAbbr);
-            formulaItems.add(new XBean.FormulaItem(methodAbbr, checkMethod.getMethod(), checkMethod.getArgNum(), argument));
-        }
-        return new XBean.CheckItem(formulaItems, fields, message, expressionType, nullable);
     }
 
 }

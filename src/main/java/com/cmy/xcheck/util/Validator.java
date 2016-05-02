@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validator {
+public enum Validator {
     
-    public static final Validator INSTANCE = new Validator();
-    
+    INSTANCE;
+
     public static final HashMap<String, CheckMethod> CHECK_METHODS =
             new HashMap<String, CheckMethod>();
     private static final Pattern TEL_PATT =
@@ -37,7 +37,8 @@ public class Validator {
             Method isEmail        = INSTANCE.getClass().getMethod("isEmail", String.class);
             Method isMoneyFormat  = INSTANCE.getClass().getMethod("isMoneyFormat", String.class);
             Method in             = INSTANCE.getClass().getMethod("in", String.class, String.class);
-            
+            Method reg            = INSTANCE.getClass().getMethod("reg", String.class, String.class);
+
             CHECK_METHODS.put("w",  new CheckMethod(isAllLetter, 0));
             CHECK_METHODS.put("W",  new CheckMethod(isAllNotLetter, 0));
             CHECK_METHODS.put("d",  new CheckMethod(isAllDigit, 0));
@@ -48,6 +49,7 @@ public class Validator {
             CHECK_METHODS.put("e",  new CheckMethod(isEmail, 0));
             CHECK_METHODS.put("$",  new CheckMethod(isMoneyFormat, 0));
             CHECK_METHODS.put("in", new CheckMethod(in, 1));
+            CHECK_METHODS.put("reg", new CheckMethod(reg, 1));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -124,7 +126,7 @@ public class Validator {
         return true;
     }
 
-    public boolean isLengthIn1(String str, String len) {
+    private boolean isLengthIn1(String str, String len) {
         if(!isAllDigit(len)) {
             throw new IllegalArgumentException();
         }
@@ -216,10 +218,14 @@ public class Validator {
         }
     }
 
-    public static Boolean calculate(String methodAbbr, String val,
-            String arguments) throws Exception {
-        return CHECK_METHODS.get(methodAbbr).calculate(val, arguments);
+    public static boolean reg(String value, String regEx) {
+        return value.matches(regEx);
     }
+
+//    public static Boolean calculate(String methodAbbr, String val,
+//            String arguments) throws Exception {
+//        return CHECK_METHODS.get(methodAbbr).calculate(val, arguments);
+//    }
 
     public static class CheckMethod {
         private final Method method;

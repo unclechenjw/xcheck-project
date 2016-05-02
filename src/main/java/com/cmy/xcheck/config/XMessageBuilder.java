@@ -1,6 +1,7 @@
 package com.cmy.xcheck.config;
 
 import com.cmy.xcheck.support.XBean;
+import com.cmy.xcheck.util.item.XCheckItemSimple;
 
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
@@ -23,7 +24,7 @@ public class XMessageBuilder {
     }
 
     public static String buildMsg(String field, XBean xBean,
-                                  XBean.FormulaItem formulaItem, XBean.CheckItem checkItem) {
+                                  XCheckItemSimple.FormulaItem formulaItem, XCheckItemSimple checkItem) {
         if (!xBean.isHint() && !ErrorDisplay) {
             return getProperty("ParameterError");
         }
@@ -37,7 +38,7 @@ public class XMessageBuilder {
     }
 
     public static String buildMsg(String field, String methodAbbr, XBean xBean,
-                                  XBean.CheckItem checkItem) {
+                                  XCheckItemSimple checkItem) {
         if (!xBean.isHint() && !ErrorDisplay) {
             return getProperty("ParameterError");
         }
@@ -67,10 +68,8 @@ public class XMessageBuilder {
     public static void main(String[] args) {
         System.out.println(properties);
         Set<Map.Entry<Object, Object>> entries = properties.entrySet();
-        Iterator<Map.Entry<Object, Object>> iterator = entries.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Object, Object> next = iterator.next();
-            System.out.println(next.getKey() + "___" + next.getValue());
+        for (Map.Entry<Object, Object> entry : entries) {
+            System.out.println(entry.getKey() + "___" + entry.getValue());
         }
         System.out.println(properties.get("!="));
     }
