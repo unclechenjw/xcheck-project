@@ -11,17 +11,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 解析普通表达式
  * Created by Kevin72c on 2016/5/2.
  */
 public class SimpleExpressionAnalyzer {
 
-    /**
-     * 解析普通表达式
-     * @param expression
-     * @return
-     */
     public static XCheckItem analyze(String expression) {
-        Assert.expressionIllegal(expression);
+        Assert.simpleExpressionIllegal(expression);
 
         String formula;
         boolean nullable;

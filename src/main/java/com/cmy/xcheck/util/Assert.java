@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public abstract class Assert {
     
-    public static void expressionIllegal(String expression) {
+    public static void simpleExpressionIllegal(String expression) {
         int atIndex = expression.indexOf("@");
         int numberSignIndex = expression.indexOf("#");
         if (atIndex != -1 && numberSignIndex != -1) {
@@ -64,19 +64,5 @@ public abstract class Assert {
         if (collection == null || collection.size() == 0)
             throw new IllegalArgumentException(message);
     }
-
-//    public static void notEmpty(Collection<?> collection) {
-//        notEmpty(collection,
-//                "[Assertion failed] - this collection must not be empty: it must contain at least 1 element");
-//    }
-
-//    public static void notEmpty(Map<?, ?> map, String message) {
-//        if (CollectionUtils.isEmpty(map))
-//            throw new IllegalArgumentException(message);
-//    }
-//
-//    public static void notEmpty(Map<?, ?> map) {
-//        notEmpty(map, "[Assertion failed] - this map must not be empty; it must contain at least one entry");
-//    }
 
 }

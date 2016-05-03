@@ -1,44 +1,36 @@
 package com.cmy.xcheck.util.analyze;
 
-import com.cmy.xcheck.util.Assert;
-import com.cmy.xcheck.util.Validator;
+import com.cmy.xcheck.exception.ExpressionDefineException;
 import com.cmy.xcheck.util.item.XCheckItem;
-import com.cmy.xcheck.util.item.XCheckItemSimple;
+import com.cmy.xcheck.util.item.XCheckItemLogic;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 解析逻辑表达式
  * Created by Kevin72c on 2016/5/2.
  */
 public class LogicExpressionAnalyzer {
 
-    /**
-     * 解析普通表达式
-     * @param expression
-     * @return
-     */
+    private static final Pattern COMPARISON_OPERATOR_PATTERN =
+            Pattern.compile("(.*?)(<=|<|>=|>|==|!=)(.*)");
+
     public static XCheckItem analyze(String expression) {
-        Assert.expressionIllegal(expression);
+        // 提示信息分隔符
+        String[] split = expression.split(":");
+        String message = split.length > 1 ? split[1] : null;
 
-//        return new XCheckItemSimple(formulaItems, fields, message, nullable);
-        return null;
-    }
-
-
-    /**
-     * 获取单字段或多字段[]字段名与值
-     * @param fields
-     * @return
-     */
-    private static String[] getFieldArray(String fields) {
-        if (fields.startsWith("[")) {
-            String[] split = fields.substring(1, fields.length()-1).split(",");
-            return split;
-        } else {
-            return new String[]{fields};
+        Matcher matcher = COMPARISON_OPERATOR_PATTERN.matcher(split[0]);
+        if (!matcher.find()) {
+            throw new ExpressionDefineException("公式定义不正确：" + expression);
         }
+        // 解析公式
+        String leftField = matcher.group(1);
+        String comparisonOperator = matcher.group(2);
+        String rightField = matcher.group(3);
+
+        return new XCheckItemLogic(leftField, rightField, comparisonOperator, message);
     }
+
 }

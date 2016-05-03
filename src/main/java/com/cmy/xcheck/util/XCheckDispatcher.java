@@ -3,8 +3,8 @@ package com.cmy.xcheck.util;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.support.XResult;
-import com.cmy.xcheck.util.jy.ValidationHandler;
-import com.cmy.xcheck.util.jy.XFactory;
+import com.cmy.xcheck.util.handler.ValidationHandler;
+import com.cmy.xcheck.util.handler.XFactory;
 
 import java.util.List;
 import java.util.Map;

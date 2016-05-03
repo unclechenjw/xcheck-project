@@ -4,6 +4,8 @@ import com.cmy.xcheck.config.XMessageBuilder;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
+import com.cmy.xcheck.util.analyze.ConditionExpressionAnalyzer;
+import com.cmy.xcheck.util.analyze.LogicExpressionAnalyzer;
 import com.cmy.xcheck.util.analyze.SimpleExpressionAnalyzer;
 import com.cmy.xcheck.util.item.XCheckItem;
 
@@ -87,10 +89,10 @@ public class XExpressionParser {
         XCheckItem checkItem;
         if (expression.startsWith("if")) {
             // if表达式
-            checkItem = SimpleExpressionAnalyzer.analyze(expression);
+            checkItem = ConditionExpressionAnalyzer.analyze(expression);
         } else if (expression.matches("(.*?)(<=|<|>=|>|==|!=)(.*)")) {
             // 逻辑比较表达式
-            checkItem = SimpleExpressionAnalyzer.analyze(expression);
+            checkItem = LogicExpressionAnalyzer.analyze(expression);
         } else {
             // 普通表达式
             checkItem = SimpleExpressionAnalyzer.analyze(expression);

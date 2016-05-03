@@ -33,7 +33,6 @@ public class XCheckSupport {
      * ParameterMap转Map
      * 摈弃数组参数下标1以后的值
      * @param request
-     * @return 返回JSON对象
      */
     private static Map<String, String[]> prepareRequestParam(HttpServletRequest request) {
         return request.getParameterMap();

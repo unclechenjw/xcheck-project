@@ -11,10 +11,26 @@ public class XCheckItemLogic implements XCheckItem {
     private String message;
     private String comparisonOperator;
 
-    public XCheckItemLogic(String leftField, String rightField, String message, String comparisonOperator) {
+    public XCheckItemLogic(String leftField, String rightField, String comparisonOperator, String message) {
         this.leftField = leftField;
         this.rightField = rightField;
-        this.message = message;
         this.comparisonOperator = comparisonOperator;
+        this.message = message;
+    }
+
+    public String getLeftField() {
+        return leftField;
+    }
+
+    public String getRightField() {
+        return rightField;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getComparisonOperator() {
+        return comparisonOperator;
     }
 }
