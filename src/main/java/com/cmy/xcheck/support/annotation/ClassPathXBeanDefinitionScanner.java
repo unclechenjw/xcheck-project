@@ -8,69 +8,42 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.util.XExpressionParser;
+
+import javax.annotation.PostConstruct;
 
 public class ClassPathXBeanDefinitionScanner {
 
-//    protected Set<BeanDefinitionHolder> doScan(String[] basePackages) {
-//        Assert.notEmpty(basePackages, "At least one base package must be specified");
-//        Set beanDefinitions = new LinkedHashSet();
-//        for (String basePackage : basePackages) {
-//            Set candidates = findCandidateComponents(basePackage);
-//            for (BeanDefinition candidate : candidates) {
-//                ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(candidate);
-//                candidate.setScope(scopeMetadata.getScopeName());
-//                String beanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);
-//                if (candidate instanceof AbstractBeanDefinition) {
-//                    postProcessBeanDefinition((AbstractBeanDefinition) candidate, beanName);
-//                }
-//                if (candidate instanceof AnnotatedBeanDefinition) {
-//                    AnnotationConfigUtils.processCommonDefinitionAnnotations((AnnotatedBeanDefinition) candidate);
-//                }
-//                if (checkCandidate(beanName, candidate)) {
-//                    BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(candidate, beanName);
-//                    definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder,
-//                            this.registry);
-//                    beanDefinitions.add(definitionHolder);
-//                    registerBeanDefinition(definitionHolder, this.registry);
-//                }
-//            }
-//        }
-//        return beanDefinitions;
-//    }
-    
-    public static void main(String[] args) {
-//        Set<Class<?>> classes = scanXBean("com.cmy.xcheck");
-        Set<Class<?>> classes = scanXBean(args[0]);
-        XExpressionParser.parseXbean(classes);
-        System.out.println(classes.size());
-
+    private String[] scanPackages;
+    public ClassPathXBeanDefinitionScanner(String[] scanPackages) {
+        this.scanPackages = scanPackages;
+    }
+    @PostConstruct
+    public void scanAndParse() {
+        for (String p : scanPackages) {
+            Set<Class<?>> classes = scanXBean(p);
+            XExpressionParser.parseXbean(classes);
+            System.out.println(classes.size());
+        }
     }
 
-    static {
-        main(new String[]{"com.dojoy.server.controller"});
-    }
-
-    /** 
+    /**
      * 从包package中获取所有的Class 
-     *  
-     * @param pack 
-     * @return 
-     */  
-    public static Set<Class<?>> scanXBean(String pack) {
+     * @param pkg scan package
+     * @return scanned class
+     */
+    public static Set<Class<?>> scanXBean(String pkg) {
   
         // 第一个class类的集合  
         Set<Class<?>> classes = new LinkedHashSet<Class<?>>();  
         // 是否循环迭代  
         boolean recursive = true;  
         // 获取包的名字 并进行替换  
-        String packageName = pack;  
+        String packageName = pkg;
         String packageDirName = packageName.replace('.', '/');  
         // 定义一个枚举的集合 并进行循环来处理这个目录下的things  
         Enumeration<URL> dirs;  
@@ -165,7 +138,7 @@ public class ClassPathXBeanDefinitionScanner {
      * @param recursive 
      * @param classes 
      */  
-    public static void findAndAddClassesInPackageByFile(String packageName,  
+    private static void findAndAddClassesInPackageByFile(String packageName,
             String packagePath, final boolean recursive, Set<Class<?>> classes) {  
         // 获取此包的目录 建立一个File  
         File dir = new File(packagePath);  
@@ -182,9 +155,9 @@ public class ClassPathXBeanDefinitionScanner {
                         || (file.getName().endsWith(".class"));  
             }  
         });  
-        // 循环所有文件  
-        for (File file : dirfiles) {  
-            // 如果是目录 则继续扫描  
+        // 循环所有文件
+        for (File file : dirfiles) {
+            // 如果是目录 则继续扫描
             if (file.isDirectory()) {  
                 findAndAddClassesInPackageByFile(packageName + "."  
                         + file.getName(), file.getAbsolutePath(), recursive,  
