@@ -1,7 +1,6 @@
 package com.cmy.xcheck.support.interceptor;
 
 import org.apache.struts2.convention.annotation.InterceptorRef;
-
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 

@@ -46,12 +46,16 @@ public class ClassPathXBeanDefinitionScanner {
 //    }
     
     public static void main(String[] args) {
-        Set<Class<?>> classes = scanXBean("com.cmy.xcheck");
+//        Set<Class<?>> classes = scanXBean("com.cmy.xcheck");
+        Set<Class<?>> classes = scanXBean(args[0]);
         XExpressionParser.parseXbean(classes);
         System.out.println(classes.size());
 
     }
 
+    static {
+        main(new String[]{"com.dojoy.server.controller"});
+    }
 
     /** 
      * 从包package中获取所有的Class 

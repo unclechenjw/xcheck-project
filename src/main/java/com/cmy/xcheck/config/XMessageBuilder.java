@@ -3,6 +3,7 @@ package com.cmy.xcheck.config;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.util.item.XCheckItemSimple;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.*;
@@ -16,7 +17,8 @@ public class XMessageBuilder {
     static {
         properties = new Properties();
         try {
-            InputStreamReader in = new InputStreamReader(XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties"), "utf-8");
+            InputStream inStream = XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties");
+            InputStreamReader in = new InputStreamReader(inStream , "utf-8");
             properties.load(in);
         } catch (Exception e) {
             e.printStackTrace();
