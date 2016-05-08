@@ -6,4 +6,5 @@ package com.cmy.xcheck.util.item;
  */
 public interface XCheckItem {
 
+    String getMessage();
 }

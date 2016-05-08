@@ -28,6 +28,7 @@ public class XCheckItemSimple implements XCheckItem {
         return fields;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }

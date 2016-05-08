@@ -12,13 +12,13 @@ public enum Validator {
 
     public static final HashMap<String, CheckMethod> CHECK_METHODS =
             new HashMap<String, CheckMethod>();
-    private static final Pattern TEL_PATT =
+    private static final Pattern TEL_PATTERN =
             Pattern.compile("^\\d{11}$");
-    private static final Pattern EMAIL_PATT =
+    private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^.+?@.+?\\..+$");
-    private static final Pattern MONEY_FORMAT_PATT =
+    private static final Pattern MONEY_FORMAT_PATTERN =
             Pattern.compile("^\\-?\\d+(\\.\\d{1,2})?$");
-    private static final Pattern NUMERICAL_PATT = 
+    private static final Pattern DECIMAL_PATTERN =
             Pattern.compile("^\\-?\\d+(.\\d*)?$");
     
     static {
@@ -36,6 +36,7 @@ public enum Validator {
             Method isPhoneNumber  = INSTANCE.getClass().getMethod("isPhoneNumber", String.class);
             Method isEmail        = INSTANCE.getClass().getMethod("isEmail", String.class);
             Method isMoneyFormat  = INSTANCE.getClass().getMethod("isMoneyFormat", String.class);
+            Method isDecimal      = INSTANCE.getClass().getMethod("isDecimal", String.class);
             Method in             = INSTANCE.getClass().getMethod("in", String.class, String.class);
             Method reg            = INSTANCE.getClass().getMethod("reg", String.class, String.class);
 
@@ -50,9 +51,9 @@ public enum Validator {
             CHECK_METHODS.put("$",  new CheckMethod(isMoneyFormat, 0));
             CHECK_METHODS.put("in", new CheckMethod(in, 1));
             CHECK_METHODS.put("reg", new CheckMethod(reg, 1));
+
+            CHECK_METHODS.put("decimal", new CheckMethod(isDecimal, 0));
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -85,8 +86,8 @@ public enum Validator {
         char[] charArray = str.toCharArray();
         if (charArray.length == 0) 
             return false;
-        for (int i = 0; i < charArray.length; i++) {
-            if (!Character.isLetter(charArray[i]))
+        for (char aChar : charArray) {
+            if (!Character.isLetter(aChar))
                 return false;
         }
         return true;
@@ -96,8 +97,8 @@ public enum Validator {
         char[] charArray = str.toCharArray();
         if (charArray.length == 0) 
             return false;
-        for (int i = 0; i < charArray.length; i++) {
-            if (Character.isLetter(charArray[i]))
+        for (char aChar : charArray) {
+            if (Character.isLetter(aChar))
                 return false;
         }
         return true;
@@ -108,8 +109,8 @@ public enum Validator {
             return false;
         }
         char[] charArray = str.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (!Character.isDigit(charArray[i]))
+        for (char aChar : charArray) {
+            if (!Character.isDigit(aChar))
                 return false;
         }
         return true;
@@ -119,8 +120,8 @@ public enum Validator {
         char[] charArray = str.toCharArray();
         if (charArray.length == 0) 
             return false;
-        for (int i = 0; i < charArray.length; i++) {
-            if (Character.isDigit(charArray[i]))
+        for (char aChar : charArray) {
+            if (Character.isDigit(aChar))
                 return false;
         }
         return true;
@@ -162,29 +163,29 @@ public enum Validator {
     }
     
     public static boolean isPhoneNumber(String telNumber) {
-        Matcher matcher = TEL_PATT.matcher(telNumber);
+        Matcher matcher = TEL_PATTERN.matcher(telNumber);
         return matcher.find();
     }
 
     public static boolean isEmail(String eMail) {
-        Matcher matcher = EMAIL_PATT.matcher(eMail);
+        Matcher matcher = EMAIL_PATTERN.matcher(eMail);
         return matcher.find();
     }
 
     public static boolean isMoneyFormat(String str) {
-        Matcher matcher = MONEY_FORMAT_PATT.matcher(str);
+        Matcher matcher = MONEY_FORMAT_PATTERN.matcher(str);
         return matcher.find();
     }
     
-    public static boolean isNumeric(String str) {
+    public static boolean isDecimal(String str) {
         if (str == null)
             return false;
-        Matcher matcher = NUMERICAL_PATT.matcher(str);
+        Matcher matcher = DECIMAL_PATTERN.matcher(str);
         return matcher.find();
     }
     
-    public static boolean isNotNumeric(String str) {
-        return !isNumeric(str);
+    public static boolean isNotDecimal(String str) {
+        return !isDecimal(str);
     }
 
     public static boolean in(String s, String arg) {
@@ -240,13 +241,13 @@ public enum Validator {
             this.method = method;
             this.argNum = argNum;
         }
-        public Boolean calculate(String val, String arguments) throws Exception{
-            if (argNum == 0) {
-                return (Boolean) method.invoke(INSTANCE, val);
-            } else {
-                return (Boolean) method.invoke(INSTANCE, val, arguments);
-            }
-        }
+//        public Boolean calculate(String val, String arguments) throws Exception{
+//            if (argNum == 0) {
+//                return (Boolean) method.invoke(INSTANCE, val);
+//            } else {
+//                return (Boolean) method.invoke(INSTANCE, val, arguments);
+//            }
+//        }
 
     }
 

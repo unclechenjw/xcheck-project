@@ -1,6 +1,8 @@
 package com.cmy.xcheck.config;
 
 import com.cmy.xcheck.support.XBean;
+import com.cmy.xcheck.util.item.XCheckItem;
+import com.cmy.xcheck.util.item.XCheckItemLogic;
 import com.cmy.xcheck.util.item.XCheckItemSimple;
 
 import java.io.InputStream;
@@ -40,7 +42,7 @@ public class XMessageBuilder {
     }
 
     public static String buildMsg(String field, String methodAbbr, XBean xBean,
-                                  XCheckItemSimple checkItem) {
+                                  XCheckItem checkItem) {
         if (!xBean.isHint() && !ErrorDisplay) {
             return getProperty("ParameterError");
         }
@@ -66,15 +68,12 @@ public class XMessageBuilder {
         return properties.get(key).toString();
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(properties);
-        Set<Map.Entry<Object, Object>> entries = properties.entrySet();
-        for (Map.Entry<Object, Object> entry : entries) {
-            System.out.println(entry.getKey() + "___" + entry.getValue());
-        }
-        System.out.println(properties.get("!="));
+    /**
+     * logic formula error message build
+     */
+    public static String buildLogicErrorMessage(XBean xBean, XCheckItemLogic xCheckItem) {
+        String left = getFiledAlias(xCheckItem.getLeftField(), xBean.getFieldAlias());
+        String right = getFiledAlias(xCheckItem.getRightField(), xBean.getFieldAlias());
+        return left + getProperty(xCheckItem.getComparisonOperator()) + right;
     }
-
-
 }

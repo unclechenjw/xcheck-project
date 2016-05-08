@@ -17,4 +17,9 @@ public class XCheckItemCondition implements XCheckItem {
         this.message = message;
         this.comparisonOperator = comparisonOperator;
     }
+
+    @Override
+    public String getMessage() {
+        return null;
+    }
 }
