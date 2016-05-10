@@ -17,7 +17,9 @@ public class XCheckDispatcher {
 
     public static void execute(XBean xBean, Map<String, String[]> requestParam, XResult xResult) {
         if (xBean.isRequire()) {
-
+            if (!verifySessionUser(requestParam, xResult)) {
+                return;
+            }
         }
         List<XCheckItem> checkItems = xBean.getCheckItems();
         // 遍历表达式
@@ -30,5 +32,33 @@ public class XCheckDispatcher {
         }
     }
 
+    /**
+     * 校验用户是否登录
+     * @param requestParam
+     * @param xResult
+     * @return
+     */
+    private static boolean verifySessionUser(Map<String, String[]> requestParam,
+                                             XResult xResult) {
+        // 如果会话令牌为空
+        String[] sessionToken = requestParam.get("sessionToken");
+        if (sessionToken == null || Validator.isEmpty(sessionToken[0])) {
+            xResult.failure("用户未登录");
+            xResult.setStatus(1100); //TODO 未登录状态需要修改
+            return false;
+        }
+
+//        // redis获取用户信息
+//        SessionUser sessionUser = (SessionUser) jm.getObject(
+//                CommonKey.Token_App_User, jsonParam.getString("userID"));
+//        // 或者会话令牌不匹配，提示用户未登录
+//        if (sessionUser == null
+//                || !sessionUser.getSessionToken().equals(sessionToken)) { // token不匹配
+//            cr.setErrorMsg("用户未登录");
+//            cr.setStatus(100);
+//            return false;
+//        }
+        return true;
+    }
 
 }

@@ -14,19 +14,16 @@ import java.util.jar.JarFile;
 
 import com.cmy.xcheck.util.XExpressionParser;
 
-import javax.annotation.PostConstruct;
-
 public class ClassPathXBeanDefinitionScanner {
 
-    private String[] scanPackages;
+    private String[] scanPackage;
     public ClassPathXBeanDefinitionScanner(String[] scanPackages) {
-        this.scanPackages = scanPackages;
+        this.scanPackage = scanPackages;
     }
-    @PostConstruct
     public void scanAndParse() {
-        for (String p : scanPackages) {
+        for (String p : scanPackage) {
             Set<Class<?>> classes = scanXBean(p);
-            XExpressionParser.parseXbean(classes);
+            XExpressionParser.parseXBean(classes);
             System.out.println(classes.size());
         }
     }
@@ -36,7 +33,7 @@ public class ClassPathXBeanDefinitionScanner {
      * @param pkg scan package
      * @return scanned class
      */
-    public static Set<Class<?>> scanXBean(String pkg) {
+    public Set<Class<?>> scanXBean(String pkg) {
   
         // 第一个class类的集合  
         Set<Class<?>> classes = new LinkedHashSet<Class<?>>();  
@@ -138,7 +135,7 @@ public class ClassPathXBeanDefinitionScanner {
      * @param recursive 
      * @param classes 
      */  
-    private static void findAndAddClassesInPackageByFile(String packageName,
+    private void findAndAddClassesInPackageByFile(String packageName,
             String packagePath, final boolean recursive, Set<Class<?>> classes) {  
         // 获取此包的目录 建立一个File  
         File dir = new File(packagePath);  

@@ -13,13 +13,21 @@ import java.util.*;
 public class XMessageBuilder {
 
     /** 是否输出错误信息 */
-    private static final boolean ErrorDisplay = true;
+    public static boolean ErrorMessageDisplay;
+    /** 语言环境 */
+    public static String locale;
     private static Properties properties;
 
-    static {
+    public static void init() {
         properties = new Properties();
         try {
-            InputStream inStream = XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties");
+            InputStream inStream;
+            // 国际化支持
+            if ("".equals(locale)) {
+                inStream = XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties");
+            } else {
+                inStream = XMessageBuilder.class.getClassLoader().getResourceAsStream("com/cmy/xcheck/config/check_messages_CN.properties");
+            }
             InputStreamReader in = new InputStreamReader(inStream , "utf-8");
             properties.load(in);
         } catch (Exception e) {
@@ -29,7 +37,7 @@ public class XMessageBuilder {
 
     public static String buildMsg(String field, XBean xBean,
                                   XCheckItemSimple.FormulaItem formulaItem, XCheckItemSimple checkItem) {
-        if (!xBean.isHint() && !ErrorDisplay) {
+        if (!xBean.isHint() && !ErrorMessageDisplay) {
             return getProperty("ParameterError");
         }
         if (checkItem.getMessage() != null) {
@@ -43,7 +51,7 @@ public class XMessageBuilder {
 
     public static String buildMsg(String field, String methodAbbr, XBean xBean,
                                   XCheckItem checkItem) {
-        if (!xBean.isHint() && !ErrorDisplay) {
+        if (!xBean.isHint() && !ErrorMessageDisplay) {
             return getProperty("ParameterError");
         }
         if (checkItem.getMessage() != null) {

@@ -22,13 +22,13 @@ public class XExpressionParser {
      * 扫描解析校验对象
      * @param classes
      */
-    public static void parseXbean(Set<Class<?>> classes) {
+    public static void parseXBean(Set<Class<?>> classes) {
 
         for (Class<?> clz : classes) {
             Method[] methods = clz.getMethods();
             for (Method method : methods) {
                 if (method.isAnnotationPresent(Check.class)) {
-                    parseXbean_(method);
+                    parseXBean_(method);
                 }
             }
         }
@@ -38,7 +38,7 @@ public class XExpressionParser {
      * 解析校验对象
      * @param method
      */
-    public static void parseXbean_(Method method) {
+    public static void parseXBean_(Method method) {
         Check check = method.getAnnotation(Check.class);
         String[] values = check.value();
         Map<String, String> fieldAlias = parseFieldAliasToMap(check.fieldAlias());

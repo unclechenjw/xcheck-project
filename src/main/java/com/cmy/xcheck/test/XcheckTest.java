@@ -17,15 +17,14 @@ import java.util.*;
 public class XcheckTest {
     static Map<String, String[]> requestParam = new HashMap<String, String[]>();
     static {
-        Set<Class<?>> classes = ClassPathXBeanDefinitionScanner.scanXBean("com.cmy.xcheck");
-        XExpressionParser.parseXbean(classes);
-
+        new ClassPathXBeanDefinitionScanner(new String[]{"com.cmy.xcheck"}).scanAndParse();
         requestParam.put("a", new String[]{"1111111111"});
         requestParam.put("a.a", new String[]{"1121111111"});
         requestParam.put("b", new String[]{"22.2", "0.11"});
         requestParam.put("c", new String[]{"22", "0"});
     }
     public static void main(String[] args) throws Exception {
+
         Method test0 = Action.class.getMethod("test0");
         Check check = test0.getAnnotation(Check.class);
         XBean xBean = XAnnotationConfigApplicationContext.getXBean(check);
