@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cmy</groupId>
-    <artifactId>xcheck</artifactId>
+    <artifactId>xcheck-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>sample</module>
