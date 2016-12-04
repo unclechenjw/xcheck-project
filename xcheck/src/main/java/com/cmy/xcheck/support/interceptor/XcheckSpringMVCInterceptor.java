@@ -19,7 +19,7 @@ public class XcheckSpringMVCInterceptor implements HandlerInterceptor {
     @Autowired
     private XCheckSupport xCheckSupport;
     @Autowired
-    private XCheckHandlerAdapter xCheckHandlerAdatper;
+    private XCheckHandlerAdapter xCheckHandlerAdapter;
 
     @Override
     public void afterCompletion(HttpServletRequest request,
@@ -41,11 +41,11 @@ public class XcheckSpringMVCInterceptor implements HandlerInterceptor {
             // xcheck校验入口
             XResult checkResult = xCheckSupport.check(handlerMethod.getMethod(), request);
             if (checkResult.isSessionExpire()) {
-                xCheckHandlerAdatper.sessionExpireHandle(request, response, paramObject);
+                xCheckHandlerAdapter.sessionExpireHandle(request, response, paramObject);
                 return false;
             } else if (checkResult.isNotPass()) {
                 // 返回校验不通过原因,错误信息， status：300, message：校验结果
-                xCheckHandlerAdatper.checkFailHandle(request, response, paramObject, checkResult.getMessage());
+                xCheckHandlerAdapter.checkFailHandle(request, response, paramObject, checkResult.getMessage());
                 return false;
             }
         }
