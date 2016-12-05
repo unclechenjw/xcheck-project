@@ -45,7 +45,7 @@ public enum Validator {
             Method isDecimal      = INSTANCEClass.getMethod("isDecimal", String.class);
             Method in             = INSTANCEClass.getMethod("in", String.class, String.class);
             Method reg            = INSTANCEClass.getMethod("reg", String.class, String.class);
-            Method vaildIdentity  = INSTANCEClass.getMethod("vaildIdentity", String.class);
+            Method validIdentity  = INSTANCEClass.getMethod("validIdentity", String.class);
 
             CHECK_METHODS.put("w",  new CheckMethod(isAllLetter, 0));      // 纯字母
             CHECK_METHODS.put("W",  new CheckMethod(isAllNotLetter, 0));   // 非字母
@@ -59,7 +59,7 @@ public enum Validator {
             CHECK_METHODS.put("in", new CheckMethod(in, 1));               // 参数为制定范围
             CHECK_METHODS.put("reg", new CheckMethod(reg, 1));             // 正则校验
             CHECK_METHODS.put("decimal", new CheckMethod(isDecimal, 0));   // 数值
-            CHECK_METHODS.put("id", new CheckMethod(vaildIdentity, 0));    // 身份证
+            CHECK_METHODS.put("id", new CheckMethod(validIdentity, 0));    // 身份证
 
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -271,10 +271,10 @@ public enum Validator {
     /**
      * 身份证校验
      * @param value
-     * @param countryCode
+//     * @param countryCode
      * @return
      */
-    public static boolean validIdentity(String value, String countryCode) {
+    public static boolean validIdentity(String value) {
 
         return true;
     }

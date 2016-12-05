@@ -14,7 +14,7 @@ import com.cmy.xcheck.support.XCheckSupport;
 import com.cmy.xcheck.support.XResult;
 
 @Component
-public class XcheckSpringMVCInterceptor implements HandlerInterceptor {
+public class XCheckSpringMVCInterceptor implements HandlerInterceptor {
 
     @Autowired
     private XCheckSupport xCheckSupport;
