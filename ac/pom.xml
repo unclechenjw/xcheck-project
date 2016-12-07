@@ -40,6 +40,12 @@
                     <include>**/*.properties</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.ttc</include>
+                </includes>
+            </resource>
         </resources>
     </build>
 </project>
