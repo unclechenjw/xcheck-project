@@ -1,5 +1,7 @@
 package com.c.j.w.security;
 
+import com.c.j.w.security.annotation.Security;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +18,7 @@ public interface SecurityResolveAdapter {
      * @param request
      * @param response
      */
-    void responseVerifyCode(HttpServletRequest request, HttpServletResponse response);
+    void responseVerifyCode(HttpServletRequest request, HttpServletResponse response, Security security, String message);
 
     /**
      * Ip拒绝访问响应

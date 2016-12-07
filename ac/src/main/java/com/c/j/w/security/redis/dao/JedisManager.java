@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
  * @Author chenjw
  * @Date 2016年12月06日
  */
-@Component
+@Component("acJedisManager")
 public class JedisManager {
 
     @Autowired(required = false)

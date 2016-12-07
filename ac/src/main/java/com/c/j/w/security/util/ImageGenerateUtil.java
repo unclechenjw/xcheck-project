@@ -61,6 +61,9 @@ public class ImageGenerateUtil {
         ImageIO.write(image, "jpg", os);
     }
 
+    public static String geneBase64Img(String content) {
+        return Base64.encode(generateByteData(content));
+    }
     /**
      * 生成验证码
      * 默认长度200，宽度80

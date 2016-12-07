@@ -77,7 +77,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
         return result;
     }
 
-    private static final String VerifyCode = "verifyCode";
+    private static final String SecurityCode = "securityCode";
 
     /**
      * 校验通过返回true,否则false
@@ -90,22 +90,23 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
             return true;
         }
         Security security = method.getAnnotation(Security.class);
-        String verifyCode = request.getParameter(VerifyCode);
+        String verifyCode = request.getParameter(SecurityCode);
         if (verifyCode != null && verifyCode.length() > 0) {
             if (jm.del(verifyCode) > 0) {
                 // 验证码正确校验通过
                 return true;
             } else {
-                securityResolveAdapter.responseVerifyCode(request, response);
+                // 验证码不正确
+                securityResolveAdapter.responseVerifyCode(request, response, security, "验证码不正确请重新输入");
                 return false;
             }
         }
         String key = JedisKey.Security_Access_Frequency + security.module();
         Long incr = jm.incr(key);
         // 延迟过期时间
-        jm.expire(key, 300);
-        if (incr > 3) {
-            securityResolveAdapter.responseVerifyCode(request, response);
+        jm.expire(key, security.seconds());
+        if (incr > security.limit()) {
+            securityResolveAdapter.responseVerifyCode(request, response, security, "请输入验证码");
             return false;
         }
         return true;

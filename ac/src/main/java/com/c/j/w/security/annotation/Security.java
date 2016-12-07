@@ -15,5 +15,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Security {
 
+    /** 模块名称 */
     String module() default "";
+
+    /** 默认过期时间30秒 */
+    int seconds() default 180;
+
+    /** 请求次数限制 */
+    int limit() default 3;
 }
