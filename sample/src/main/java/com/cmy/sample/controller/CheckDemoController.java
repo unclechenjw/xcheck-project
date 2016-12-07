@@ -12,7 +12,7 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("demo")
-public class DemoController {
+public class CheckDemoController {
 
     @Check({"a@d", "b@w", "c@ml(2)"})
     @GetMapping
