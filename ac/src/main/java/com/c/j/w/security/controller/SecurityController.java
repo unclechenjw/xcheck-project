@@ -2,13 +2,15 @@ package com.c.j.w.security.controller;
 
 import com.c.j.w.security.redis.dao.JedisKey;
 import com.c.j.w.security.redis.dao.JedisManager;
-import com.c.j.w.security.util.ImageGenerateUtil;
+import com.c.j.w.security.util.VerifyCodeUtil;
+import com.c.j.w.security.util.VerifyCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 验证码获取接口
@@ -24,9 +26,12 @@ public class SecurityController {
     private JedisManager jm;
 
     @GetMapping("sc")
-    public String getSecurityCodeImg() {
-        int i = new Random().nextInt(1000);
-        jm.set(JedisKey.Security_Code + "" + i, 60, ""); // 验证码有效时间60秒
-        return ImageGenerateUtil.geneBase64Img(i+"");
+    public Map<String, String> getSecurityCodeImg() {
+        VerifyCode verifyCode = VerifyCodeUtil.generateVerifyCodeData();
+        Map<String, String> map = new HashMap<>();
+        map.put("status", "200");
+        map.put("infobean", verifyCode.getBase64Str());
+        jm.set(JedisKey.Security_Code + verifyCode.getCode(), 60, ""); // 验证码有效时间60秒
+        return map;
     }
 }
