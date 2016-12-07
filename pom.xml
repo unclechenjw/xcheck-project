@@ -13,10 +13,54 @@
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
 
+    <developers>
+        <developer>
+            <email>kevin72c@qq.com</email>
+            <name>chenjw</name>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>1.8</java.version>
+        <repository.url>http://218.244.130.132:8081</repository.url>
         <spring.version>4.3.3.RELEASE</spring.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Maven Central</name>
+            <url>${repository.url}/nexus/content/repositories/central/</url>
+        </repository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>${repository.url}/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>${repository.url}/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>third</id>
+            <name>Nexus Third Repository</name>
+            <url>${repository.url}/nexus/content/repositories/thirdparty/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>${repository.url}/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>${repository.url}/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
