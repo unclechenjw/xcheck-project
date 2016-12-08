@@ -32,7 +32,7 @@ public class DefaultSecurityResolver implements SecurityResolveAdapter {
         PrintWriter writer = null;
         try {
             VerifyCode verifyCode = VerifyCodeUtil.generateVerifyCodeData();
-            jm.set(JedisKey.Security_Code + verifyCode.getCode(), 60, ""); // 验证码有效时间60秒
+            jm.set(JedisKey.Security_Code + verifyCode.getCode().toLowerCase(), 60, ""); // 验证码有效时间60秒
             response.setContentType("application/json;charset=utf-8");
             writer = response.getWriter();
             writer.write("{\"status\":450,\"message\":\""+ message + "\",\"infobean\":\"" +

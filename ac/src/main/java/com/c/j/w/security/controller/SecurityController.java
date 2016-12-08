@@ -31,7 +31,7 @@ public class SecurityController {
         Map<String, String> map = new HashMap<>();
         map.put("status", "200");
         map.put("infobean", verifyCode.getBase64Str());
-        jm.set(JedisKey.Security_Code + verifyCode.getCode(), 60, ""); // 验证码有效时间60秒
+        jm.set(JedisKey.Security_Code + verifyCode.getCode().toLowerCase(), 60, ""); // 验证码有效时间60秒
         return map;
     }
 }

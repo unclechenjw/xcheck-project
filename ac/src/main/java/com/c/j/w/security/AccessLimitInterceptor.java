@@ -92,7 +92,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
         Security security = method.getAnnotation(Security.class);
         String verifyCode = request.getParameter(SecurityCode);
         if (verifyCode != null && verifyCode.length() > 0) {
-            if (jm.del(JedisKey.Security_Code + verifyCode) > 0) {
+            if (jm.del(JedisKey.Security_Code + verifyCode.toLowerCase()) > 0) {
                 // 验证码正确校验通过
                 return true;
             } else {
