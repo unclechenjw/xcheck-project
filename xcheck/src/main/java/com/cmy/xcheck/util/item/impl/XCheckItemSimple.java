@@ -1,6 +1,7 @@
-package com.cmy.xcheck.util.item;
+package com.cmy.xcheck.util.item.impl;
 
 import com.cmy.xcheck.util.Validator;
+import com.cmy.xcheck.util.item.XCheckItem;
 
 import java.lang.reflect.Method;
 import java.util.List;

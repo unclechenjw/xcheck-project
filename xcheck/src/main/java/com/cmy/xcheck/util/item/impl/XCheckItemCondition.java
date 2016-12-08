@@ -1,4 +1,6 @@
-package com.cmy.xcheck.util.item;
+package com.cmy.xcheck.util.item.impl;
+
+import com.cmy.xcheck.util.item.XCheckItem;
 
 /**
  * 逻辑表达式

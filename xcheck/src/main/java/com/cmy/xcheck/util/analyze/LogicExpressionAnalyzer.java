@@ -2,7 +2,7 @@ package com.cmy.xcheck.util.analyze;
 
 import com.cmy.xcheck.exception.ExpressionDefineException;
 import com.cmy.xcheck.util.item.XCheckItem;
-import com.cmy.xcheck.util.item.XCheckItemLogic;
+import com.cmy.xcheck.util.item.impl.XCheckItemLogic;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

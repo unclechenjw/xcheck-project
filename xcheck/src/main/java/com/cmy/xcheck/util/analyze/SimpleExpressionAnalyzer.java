@@ -3,7 +3,7 @@ package com.cmy.xcheck.util.analyze;
 import com.cmy.xcheck.util.Assert;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.item.XCheckItem;
-import com.cmy.xcheck.util.item.XCheckItemSimple;
+import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 
 import java.util.ArrayList;
 import java.util.Arrays;

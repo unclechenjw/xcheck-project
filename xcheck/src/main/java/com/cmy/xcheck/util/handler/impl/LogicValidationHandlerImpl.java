@@ -7,7 +7,7 @@ import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.XMessageBuilder;
 import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
-import com.cmy.xcheck.util.item.XCheckItemLogic;
+import com.cmy.xcheck.util.item.impl.XCheckItemLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

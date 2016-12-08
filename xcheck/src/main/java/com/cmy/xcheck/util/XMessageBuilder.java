@@ -3,10 +3,9 @@ package com.cmy.xcheck.util;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XCheckContext;
 import com.cmy.xcheck.util.item.XCheckItem;
-import com.cmy.xcheck.util.item.XCheckItemLogic;
-import com.cmy.xcheck.util.item.XCheckItemSimple;
+import com.cmy.xcheck.util.item.impl.XCheckItemLogic;
+import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
