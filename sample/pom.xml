@@ -34,7 +34,6 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
