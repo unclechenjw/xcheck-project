@@ -9,6 +9,7 @@ import com.cmy.xcheck.util.handler.XFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -20,16 +21,13 @@ import java.util.Map;
 public class XCheckDispatcher {
 
     @Autowired(required = false)
-    private XCheckHandlerAdapter xCheckHandlerAdatper;
+    private XCheckHandlerAdapter xCheckHandlerAdapter;
     @Autowired
     private XFactory xFactory;
 
     public void execute(XBean xBean, Map<String, String[]> requestParam, XResult xResult) {
         if (xBean.isRequire()) {
-            if (xCheckHandlerAdatper == null) {
-                throw new RuntimeException("XCheckHandlerAdapter is unimplemented");
-            }
-            if (!xCheckHandlerAdatper.verifySession(requestParam)) {
+            if (!xCheckHandlerAdapter.verifySession(requestParam)) {
                 xResult.setStatus(XResult.XCHECK_SESSION_EXPIRE);
                 return;
             }
@@ -45,5 +43,14 @@ public class XCheckDispatcher {
         }
     }
 
+    /**
+     * 检查校验响应是否正确配置
+     */
+    @PostConstruct
+    public void checkEnv() {
+        if (xCheckHandlerAdapter == null) {
+            throw new RuntimeException("XCheckHandlerAdapter unimplemented");
+        }
+    }
 
 }
