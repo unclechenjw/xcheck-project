@@ -3,7 +3,6 @@ package com.cmy.xcheck.support;
 import java.util.Locale;
 
 /**
- * 杭州动享互联网技术有限公司
  * @Author chenjw
  * @Date 2016年05月09日
  */

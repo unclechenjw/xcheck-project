@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * 验证码获取接口
- * 杭州动享互联网技术有限公司
  * @Author chenjw
  * @Date 2016年12月07日
  */

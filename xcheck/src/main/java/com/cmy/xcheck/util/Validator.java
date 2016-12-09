@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 /**
  * @module 校验处理类
  * @author chenjw
- * @company 杭州动享互联网技术有限公司
  * @date: 2016/9/21 10:53
  */
 public enum Validator {

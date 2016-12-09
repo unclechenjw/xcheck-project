@@ -6,7 +6,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 杭州动享互联网技术有限公司
  *
  * @Author chenjw
  * @Date 2016年12月06日
@@ -19,7 +18,7 @@ public @interface Security {
     String module() default "";
 
     /** 默认过期时间30秒 */
-    int seconds() default 60;
+    int seconds() default 180;
 
     /** 请求次数限制 */
     int limit() default 3;

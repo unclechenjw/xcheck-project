@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * 杭州动享互联网技术有限公司
- *
+ * 默认验证码处理
  * @Author chenjw
  * @Date 2016年12月06日
  */

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 杭州动享互联网技术有限公司
  *
  * @Author chenjw
  * @Date 2016年12月06日

@@ -6,7 +6,6 @@ import java.util.Map;
 
 /**
  * 用户会话有效校验接口
- * 杭州动享互联网技术有限公司
  * @Author chenjw
  * @Date 2016年09月10日
  */

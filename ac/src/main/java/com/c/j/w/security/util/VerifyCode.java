@@ -3,7 +3,6 @@ package com.c.j.w.security.util;
 /**
  * @author xuzhen
  * @module 验证码
- * @company 杭州动享互联网技术有限公司
  * @date: 2016/12/7 13:09
  */
 public class VerifyCode {

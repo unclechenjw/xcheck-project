@@ -3,19 +3,30 @@ package com.cmy.xcheck.support;
 public class XResult {
 
     public static final int XCHECK_SESSION_EXPIRE = 1100;
-    public static final int XCHECK_SUCCESS = 200;
-    public static final int XCHECK_FAILURE = 300;
+    public static final int Success = 200;
+    public static final int Failure = 300;
     
-    private int status = XCHECK_SUCCESS;
+    private int status = Success;
     private String message;
+
+    public XResult() {
+    }
+    public XResult(int status) {
+        this.status = status;
+    }
+    public XResult(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 
     public String getMessage() {
         return message;
     }
-    public XResult failure(String errorMsg) {
-        this.status = XCHECK_FAILURE;
-        this.message = errorMsg;
-        return this;
+    public static XResult failure(String msg) {
+        return new XResult(Failure, msg);
+    }
+    public static XResult success() {
+        return new XResult(Success);
     }
     public int getStatus() {
         return status;
@@ -24,7 +35,7 @@ public class XResult {
         this.status = status;
     }
     public boolean isPass() {
-        return status == XCHECK_SUCCESS;
+        return status == Success;
     }
     public boolean isNotPass() {
         return !isPass();

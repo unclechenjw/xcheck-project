@@ -14,7 +14,6 @@ import java.util.Random;
 /**
  * @author xuzhen
  * @module 图片验证码
- * @company 杭州动享互联网技术有限公司
  * @date: 2016/12/6 9:43
  * http://blog.csdn.net/ruixue0117/article/details/22829557
  */

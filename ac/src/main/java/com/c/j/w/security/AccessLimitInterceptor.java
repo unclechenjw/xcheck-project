@@ -17,8 +17,6 @@ import java.lang.reflect.Method;
 
 /**
  * 访问限制拦截器
- * @Description: 
- * 杭州动享互联网技术有限公司
  * @author chenjw
  * @date 2016年12月6日 下午11:20:08
  */
