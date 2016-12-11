@@ -31,7 +31,7 @@ public class ClassPathXBeanDefinitionScanner {
         for (String p : xCheckContext.getControllerPackage()) {
             Set<Class<?>> classes = scanXBean(p);
             xExpressionParser.parseXBean(classes);
-            System.out.println(classes.size() + " controllers");
+            System.out.println(classes.size() + " controllers scanned");
         }
     }
 

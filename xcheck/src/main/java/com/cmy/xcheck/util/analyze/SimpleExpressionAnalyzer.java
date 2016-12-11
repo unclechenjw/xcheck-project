@@ -4,6 +4,9 @@ import com.cmy.xcheck.util.Assert;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
+import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.ValidatePack;
+import com.cmy.xcheck.util.validate.ValidatorFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +19,9 @@ import java.util.regex.Pattern;
  * Created by Kevin72c on 2016/5/2.
  */
 public class SimpleExpressionAnalyzer {
+
+    private static final int Method_Abbreviation_Index = 2;
+    private static final int Argument_Index = 3;
 
     public static XCheckItem analyze(String expression) {
         Assert.simpleExpressionIllegal(expression);
@@ -59,16 +65,19 @@ public class SimpleExpressionAnalyzer {
                 "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
         // 公式取得
         Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(formula);
-        List<XCheckItemSimple.FormulaItem> formulaItems = new ArrayList<XCheckItemSimple.FormulaItem>();
+//        List<XCheckItemSimple.FormulaItem> formulaItems = new ArrayList<XCheckItemSimple.FormulaItem>();
+        List<ValidatePack> validatePacks = new ArrayList<ValidatePack>();
         String methodAbbr;
         String argument;
         while (matcher.find()) {
-            methodAbbr = matcher.group(2);
-            argument = matcher.group(3);
-            Validator.CheckMethod checkMethod = Validator.getCheckMethod(methodAbbr);
-            formulaItems.add(new XCheckItemSimple.FormulaItem(methodAbbr, checkMethod.getMethod(), checkMethod.getArgNum(), argument));
+            methodAbbr = matcher.group(Method_Abbreviation_Index);
+            argument = matcher.group(Argument_Index);
+            validatePacks.add(new ValidatePack(ValidatorFactory.getValidatorByAbbr(methodAbbr),
+                    argument));
+//            Validator.CheckMethod checkMethod = Validator.getCheckMethod(methodAbbr);
+//            formulaItems.add(new XCheckItemSimple.FormulaItem(methodAbbr, checkMethod.getMethod(), checkMethod.getArgNum(), argument));
         }
-        return new XCheckItemSimple(formulaItems, fields, message, nullable);
+        return new XCheckItemSimple(validatePacks, fields, message, nullable);
     }
 
 

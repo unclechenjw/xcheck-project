@@ -2,6 +2,8 @@ package com.cmy.xcheck.util.item.impl;
 
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.item.XCheckItem;
+import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.ValidatePack;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -13,13 +15,19 @@ import java.util.List;
 
 public class XCheckItemSimple implements XCheckItem {
     private List<FormulaItem> formulaItems;
+    private List<ValidatePack> validatePacks;
     private List<String> fields;
     private String message;
     private boolean nullable;
 
-    public XCheckItemSimple(List<FormulaItem> formulaItems, final List<String> fields, String message, boolean nullable) {
-        super();
-        this.formulaItems = formulaItems;
+//    public XCheckItemSimple(List<FormulaItem> formulaItems, final List<String> fields, String message, boolean nullable) {
+//        this.formulaItems = formulaItems;
+//        this.fields = fields;
+//        this.message = message;
+//        this.nullable = nullable;
+//    }
+    public XCheckItemSimple(List<ValidatePack> validatePacks, final List<String> fields, String message, boolean nullable) {
+        this.validatePacks = validatePacks;
         this.fields = fields;
         this.message = message;
         this.nullable = nullable;
@@ -76,5 +84,13 @@ public class XCheckItemSimple implements XCheckItem {
         public String getArgument() {
             return argument;
         }
+    }
+
+    public List<ValidatePack> getValidatePacks() {
+        return validatePacks;
+    }
+
+    public void setValidatePacks(List<ValidatePack> validatePacks) {
+        this.validatePacks = validatePacks;
     }
 }
