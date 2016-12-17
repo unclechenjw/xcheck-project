@@ -1,21 +1,27 @@
 package com.cmy.xcheck.support;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
-import com.cmy.xcheck.util.XCheckDispatcher;
+import com.cmy.xcheck.util.handler.ValidationHandler;
+import com.cmy.xcheck.util.handler.XFactory;
+import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class XCheckSupport {
 
+    @Autowired(required = false)
+    private XCheckHandlerAdapter xCheckHandlerAdapter;
     @Autowired
-    private XCheckDispatcher xCheckDispatcher;
+    private XFactory xFactory;
 
     /**
      * 校验入口
@@ -23,7 +29,6 @@ public class XCheckSupport {
      */
     public XResult check(Method method, HttpServletRequest request) {
         // 判断是否验证对象
-        XResult xResult = new XResult();
         boolean isAnnotationPresent = method.isAnnotationPresent(Check.class);
         // 带有Check注解的方法进行参数规则校验
         if (isAnnotationPresent) {
@@ -32,18 +37,33 @@ public class XCheckSupport {
             if (xBean == null) {
                 throw new RuntimeException("未配置扫描校验对象,请在XCheckContext中配置ControllerPackage路径");
             }
-            Map<String, String[]> requestParam = prepareRequestParam(request);
-            xCheckDispatcher.execute(xBean, requestParam, xResult);
+            return dispatch(xBean, request);
         }
-        return xResult;
+        return XResult.success();
+    }
+
+    public XResult dispatch(XBean xBean, HttpServletRequest request) {
+        if (xBean.isRequire()) {
+            if (!xCheckHandlerAdapter.verifySession(request.getParameterMap())) {
+                return new XResult(XResult.XCHECK_SESSION_EXPIRE, "用户未登录或会话过期");
+            }
+        }
+        List<XCheckItem> checkItems = xBean.getCheckItems();
+        // 遍历表达式
+        for (XCheckItem checkItem : checkItems) {
+            ValidationHandler handler = xFactory.getCheckHandler(checkItem);
+            return handler.validate(xBean, checkItem, request);
+        }
+        return XResult.success();
     }
 
     /**
-     * ParameterMap转Map
-     * 摈弃数组参数下标1以后的值
-     * @param request
+     * 检查校验响应是否正确配置
      */
-    private static Map<String, String[]> prepareRequestParam(HttpServletRequest request) {
-        return request.getParameterMap();
+    @PostConstruct
+    public void checkEnv() {
+        if (xCheckHandlerAdapter == null) {
+            throw new RuntimeException("XCheckHandlerAdapter unimplemented");
+        }
     }
 }

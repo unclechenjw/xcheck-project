@@ -6,6 +6,7 @@ import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,18 +14,19 @@ import java.util.regex.Pattern;
 @Component
 public class ConditionValidationHandlerImpl implements ValidationHandler {
 
-    @Override
-    public void validate(XBean xBean, XCheckItem checkItem, XResult xResult, Map<String, String[]> requestParam) {
-
-    }
-
     // 公式if('condition','condition',('condition')?)(:prompt)?
     private static final Pattern IF_FORMULA_PARSING_PATT = Pattern
             //TODO
             .compile("^if\\('(.*?)','(.*?)'(?:,'(.*?)')?\\)(?:\\:(.*?))?$");
-    
+
+    @Override
+    public XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request) {
+        return null;
+    }
+
     public void validate(Map<String, String> requestParam, String express,
-            XResult cr) {
+                         XResult cr) {
+
 //        Matcher m = IF_FORMULA_PARSING_PATT.matcher(express.replaceAll("\\s", ""));
 //        String firstCondition;
 //        String secondCondition;

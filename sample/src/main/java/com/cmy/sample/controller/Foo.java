@@ -24,4 +24,10 @@ public class Foo {
     public void setB(ArrayList<String> b) {
         this.b = b;
     }
+
+    public static void main(String[] args) {
+        String s = "a[0].s[1]d".replaceAll("\\[\\d+\\]", "");
+//        String s = "a[0].s[1]d".replaceAll("/d+/]]", "");
+        System.out.println(s);
+    }
 }

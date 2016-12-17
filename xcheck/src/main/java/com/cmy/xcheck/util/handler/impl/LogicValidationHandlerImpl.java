@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Component
@@ -26,8 +27,10 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
     private static final ScriptEngine JS_ENGINE =
             new ScriptEngineManager().getEngineByName("javascript");
 
+
     @Override
-    public void validate(XBean xBean, XCheckItem checkItem, XResult xResult, Map<String, String[]> requestParam) {
+    public XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request) {
+        Map<String, String[]> requestParam = request.getParameterMap();
         XCheckItemLogic checkItemLogic = (XCheckItemLogic) checkItem;
         String[] leftVal = requestParam.get(checkItemLogic.getLeftField());
         String[] rightVal = requestParam.get(checkItemLogic.getRightField());
@@ -35,8 +38,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         if (leftVal == null || Validator.isEmpty(leftVal[0])) {
             String message = xMessageBuilder.buildMsg(checkItemLogic.getLeftField(),
                     "CanNotBeNull", xBean, checkItem);
-            xResult.failure(message);
-            return;
+            return XResult.failure(message);
         }
         String finalLeftVal = leftVal[0];
         String finalRightVal;
@@ -46,8 +48,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
             if (rightVal == null || Validator.isEmpty(rightVal[0])) {
                 String message = xMessageBuilder.buildMsg(checkItemLogic.getRightField(),
                         "CanNotBeNull", xBean, checkItem);
-                xResult.failure(message);
-                return;
+                return XResult.failure(message);
             } else {
                 finalRightVal = rightVal[0];
             }
@@ -61,15 +62,16 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
 //        }
         boolean isArgError = Validator.isDecimal(finalLeftVal) && Validator.isDecimal(finalRightVal);
         if (!isArgError) {
-            xResult.failure(xMessageBuilder.getProperty("ParameterError"));
-            return;
+            return XResult.failure(xMessageBuilder.getProperty("ParameterError"));
         }
         // 比较公式
         String formula =  finalLeftVal + checkItemLogic.getComparisonOperator() + finalRightVal;
         try {
             boolean bl =  (Boolean) JS_ENGINE.eval(formula);
             if (!bl) {
-                xResult.failure(xMessageBuilder.buildLogicErrorMessage(xBean, checkItemLogic));
+                return XResult.failure(xMessageBuilder.buildLogicErrorMessage(xBean, checkItemLogic));
+            } else {
+                return XResult.success();
             }
         } catch (ScriptException e) {
             throw new ExpressionDefineException(

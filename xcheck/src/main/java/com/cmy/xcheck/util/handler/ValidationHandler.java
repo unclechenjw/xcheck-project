@@ -1,10 +1,10 @@
 package com.cmy.xcheck.util.handler;
 
-import java.util.Map;
-
 import com.cmy.xcheck.support.XBean;
-import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.support.XResult;
+import com.cmy.xcheck.util.item.XCheckItem;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface ValidationHandler {
 
@@ -12,8 +12,7 @@ public interface ValidationHandler {
      * 校验方法接口
      * @param xBean
      * @param checkItem
-     * @param xResult
-     * @param requestParam
+     * @param request
      */
-    void validate(XBean xBean, XCheckItem checkItem, XResult xResult, Map<String, String[]> requestParam);
+    XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request);
 }

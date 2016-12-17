@@ -1,11 +1,8 @@
 package com.cmy.xcheck.util.item.impl;
 
-import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.item.XCheckItem;
-import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -14,7 +11,7 @@ import java.util.List;
  */
 
 public class XCheckItemSimple implements XCheckItem {
-    private List<FormulaItem> formulaItems;
+//    private List<FormulaItem> formulaItems;
     private List<ValidatePack> validatePacks;
     private List<String> fields;
     private String message;
@@ -46,45 +43,45 @@ public class XCheckItemSimple implements XCheckItem {
         return nullable;
     }
 
-    public List<FormulaItem> getFormulaItems() {
-        return formulaItems;
-    }
+//    public List<FormulaItem> getFormulaItems() {
+//        return formulaItems;
+//    }
 
-    public static class FormulaItem {
-        private String methodAbbr;
-        private Method method;
-        private String argument;
-        private int argNum;
-
-        public FormulaItem(String methodAbbr, Method method, int argNum, String argument) {
-            this.methodAbbr = methodAbbr;
-            this.method = method;
-            this.argNum = argNum;
-            this.argument = argument;
-        }
-
-        public Boolean calculate(String val) {
-            try {
-                if (argNum == 0) {
-                    return (Boolean) method.invoke(Validator.INSTANCE, val);
-                } else {
-                    return (Boolean) method.invoke(Validator.INSTANCE, val, argument);
-                }
-            } catch (Exception e) {
-                // TODO: 2016/5/1
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        public String getMethodAbbr() {
-            return methodAbbr;
-        }
-
-        public String getArgument() {
-            return argument;
-        }
-    }
+//    public static class FormulaItem {
+//        private String methodAbbr;
+//        private Method method;
+//        private String argument;
+//        private int argNum;
+//
+//        public FormulaItem(String methodAbbr, Method method, int argNum, String argument) {
+//            this.methodAbbr = methodAbbr;
+//            this.method = method;
+//            this.argNum = argNum;
+//            this.argument = argument;
+//        }
+//
+//        public Boolean calculate(String val) {
+//            try {
+//                if (argNum == 0) {
+//                    return (Boolean) method.invoke(Validator.INSTANCE, val);
+//                } else {
+//                    return (Boolean) method.invoke(Validator.INSTANCE, val, argument);
+//                }
+//            } catch (Exception e) {
+//                // TODO: 2016/5/1
+//                e.printStackTrace();
+//                return false;
+//            }
+//        }
+//
+//        public String getMethodAbbr() {
+//            return methodAbbr;
+//        }
+//
+//        public String getArgument() {
+//            return argument;
+//        }
+//    }
 
     public List<ValidatePack> getValidatePacks() {
         return validatePacks;

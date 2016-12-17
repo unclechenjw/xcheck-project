@@ -81,19 +81,19 @@ public class XMessageBuilder {
         }
     }
 
-    public String buildMsg(String field, XBean xBean,
-                           XCheckItemSimple.FormulaItem formulaItem, XCheckItemSimple checkItem) {
-        if (!xBean.isHint() && !xCheckContext.isErrorMessageDisplay()) {
-            return getProperty("ParameterError");
-        }
-        if (checkItem.getMessage() != null) {
-            return checkItem.getMessage();
-        } else {
-            String baseMsg = getProperty(formulaItem.getMethodAbbr());
-            String filedAlias = getFiledAlias(field, xBean.getFieldAlias());
-            return filedAlias + MessageFormat.format(baseMsg, formulaItem.getArgument());
-        }
-    }
+//    public String buildMsg(String field, XBean xBean,
+//                           XCheckItemSimple.FormulaItem formulaItem, XCheckItemSimple checkItem) {
+//        if (!xBean.isHint() && !xCheckContext.isErrorMessageDisplay()) {
+//            return getProperty("ParameterError");
+//        }
+//        if (checkItem.getMessage() != null) {
+//            return checkItem.getMessage();
+//        } else {
+//            String baseMsg = getProperty(formulaItem.getMethodAbbr());
+//            String filedAlias = getFiledAlias(field, xBean.getFieldAlias());
+//            return filedAlias + MessageFormat.format(baseMsg, formulaItem.getArgument());
+//        }
+//    }
 
     public String buildMsg(String field, String methodAbbr, XBean xBean,
                            XCheckItem checkItem) {

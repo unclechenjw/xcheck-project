@@ -12,6 +12,7 @@ import com.cmy.xcheck.util.validate.ValidatePack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -21,24 +22,33 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
     @Autowired
     private XMessageBuilder xMessageBuilder;
 
-//    private String getVal() {
-//
-//    }
+    private Map<String, String[]>  getVal(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            if (entry.getKey().contains("[")) {
+                String newKey = entry.getKey().replaceAll("\\[\\d+\\]", "");
+                parameterMap.put(newKey, entry.getValue());
+            }
+        }
+        return parameterMap;
+    }
 
     @Override
-    public void validate(XBean xBean, XCheckItem checkItem, XResult xResult, Map<String, String[]> requestParam) {
+    public XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request) {
         XCheckItemSimple checkItemSimple = (XCheckItemSimple) checkItem;
-//        List<XCheckItemSimple.FormulaItem> formulaItems = checkItemSimple.getFormulaItems();
         List<ValidatePack> validatePacks = checkItemSimple.getValidatePacks();
-        System.out.println(requestParam);
         for (ValidatePack vp : validatePacks) {
             ValidateMethod validateMethod = vp.getValidateMethod();
             List<String> fields = checkItemSimple.getFields();
             for (String field : fields) {
+//                Map<String, String[]> parameterMap = request.getParameterMap();
+//                parameterMap.get(field);
+                getVal(request);
 
 //                validateMethod.validate()
             }
         }
+        return XResult.success();
 
 //        assertNull(xBean,xResult, requestParam, checkItemSimple, formulaItems);
 
@@ -75,6 +85,7 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
 //            }
 //        }
     }
+
 
 //    private void assertNull(XBean xBean, XResult xResult, Map<String, String[]> requestParam,
 //                               XCheckItemSimple checkItemSimple, List<XCheckItemSimple.FormulaItem> formulaItems) {
