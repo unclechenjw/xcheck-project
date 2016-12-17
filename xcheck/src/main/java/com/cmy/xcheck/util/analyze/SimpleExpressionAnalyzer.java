@@ -7,6 +7,10 @@ import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
 import com.cmy.xcheck.util.validate.ValidatorFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,12 +22,16 @@ import java.util.regex.Pattern;
  * 解析普通表达式
  * Created by Kevin72c on 2016/5/2.
  */
+@Component
+@Scope("prototype")
 public class SimpleExpressionAnalyzer {
 
+    @Autowired
+    private ValidatorFactory validatorFactory;
     private static final int Method_Abbreviation_Index = 2;
     private static final int Argument_Index = 3;
 
-    public static XCheckItem analyze(String expression) {
+    public XCheckItem analyze(String expression) {
         Assert.simpleExpressionIllegal(expression);
 
         String formula;
@@ -72,7 +80,7 @@ public class SimpleExpressionAnalyzer {
         while (matcher.find()) {
             methodAbbr = matcher.group(Method_Abbreviation_Index);
             argument = matcher.group(Argument_Index);
-            validatePacks.add(new ValidatePack(ValidatorFactory.getValidatorByAbbr(methodAbbr),
+            validatePacks.add(new ValidatePack(validatorFactory.getValidatorByAbbr(methodAbbr),
                     argument));
 //            Validator.CheckMethod checkMethod = Validator.getCheckMethod(methodAbbr);
 //            formulaItems.add(new XCheckItemSimple.FormulaItem(methodAbbr, checkMethod.getMethod(), checkMethod.getArgNum(), argument));

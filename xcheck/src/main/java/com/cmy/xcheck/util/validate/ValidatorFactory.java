@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Map;
 @Component
 public class ValidatorFactory implements ApplicationContextAware {
 
-    private static Map<String, ValidateMethod> ValidateMethodMap;
+    private Map<String, ValidateMethod> ValidateMethodMap;
     private ApplicationContext context;
 
 
@@ -25,6 +26,7 @@ public class ValidatorFactory implements ApplicationContextAware {
 
     @PostConstruct
     public void init() {
+        ValidateMethodMap = new HashMap<>();
         Map<String, ValidateMethod> beansOfType = context.getBeansOfType(ValidateMethod.class);
         System.out.println(beansOfType);
         for (ValidateMethod vm : beansOfType.values()) {
@@ -32,7 +34,7 @@ public class ValidatorFactory implements ApplicationContextAware {
         }
     }
 
-    public static ValidateMethod getValidatorByAbbr(String methodAbbr) {
+    public ValidateMethod getValidatorByAbbr(String methodAbbr) {
         return ValidateMethodMap.get(methodAbbr);
     }
 }

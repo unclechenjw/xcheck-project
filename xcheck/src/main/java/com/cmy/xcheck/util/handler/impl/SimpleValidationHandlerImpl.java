@@ -7,6 +7,8 @@ import com.cmy.xcheck.util.XMessageBuilder;
 import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
+import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.ValidatePack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,72 +21,86 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
     @Autowired
     private XMessageBuilder xMessageBuilder;
 
+//    private String getVal() {
+//
+//    }
+
     @Override
     public void validate(XBean xBean, XCheckItem checkItem, XResult xResult, Map<String, String[]> requestParam) {
         XCheckItemSimple checkItemSimple = (XCheckItemSimple) checkItem;
-        List<XCheckItemSimple.FormulaItem> formulaItems = checkItemSimple.getFormulaItems();
+//        List<XCheckItemSimple.FormulaItem> formulaItems = checkItemSimple.getFormulaItems();
+        List<ValidatePack> validatePacks = checkItemSimple.getValidatePacks();
+        System.out.println(requestParam);
+        for (ValidatePack vp : validatePacks) {
+            ValidateMethod validateMethod = vp.getValidateMethod();
+            List<String> fields = checkItemSimple.getFields();
+            for (String field : fields) {
 
-        assertNull(xBean,xResult, requestParam, checkItemSimple, formulaItems);
+//                validateMethod.validate()
+            }
+        }
+
+//        assertNull(xBean,xResult, requestParam, checkItemSimple, formulaItems);
 
         // 遍历公式
-        for (XCheckItemSimple.FormulaItem formulaItem : formulaItems) {
-            // 遍历校验字段
-            for (String field : checkItemSimple.getFields()) {
-                String[] values = requestParam.get(field);
-
-                if (values == null) {
-                    // 允许为空结束当前校验
-                    if (checkItemSimple.isNullable()) {
-                        continue;
-                    } else {
-                        String message = xMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
-                        xResult.failure(message);
-                        return;
-                    }
-                }
-
-                // 遍历校验字段值
-                for (String value : values) {
-                    if (checkItemSimple.isNullable() && Validator.isEmpty(value)) {
-                        // 允许空,字段值为空跳过当前校验
-                        continue;
-                    }
-                    Boolean calculate = formulaItem.calculate(value);
-                    if (!calculate) {
-                        String message = xMessageBuilder.buildMsg(field, xBean, formulaItem, checkItemSimple);
-                        xResult.failure(message);
-                        return;
-                    }
-                }
-            }
-        }
+//        for (XCheckItemSimple.FormulaItem formulaItem : formulaItems) {
+//            // 遍历校验字段
+//            for (String field : checkItemSimple.getFields()) {
+//                String[] values = requestParam.get(field);
+//
+//                if (values == null) {
+//                    // 允许为空结束当前校验
+//                    if (checkItemSimple.isNullable()) {
+//                        continue;
+//                    } else {
+//                        String message = xMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
+//                        xResult.failure(message);
+//                        return;
+//                    }
+//                }
+//
+//                // 遍历校验字段值
+//                for (String value : values) {
+//                    if (checkItemSimple.isNullable() && Validator.isEmpty(value)) {
+//                        // 允许空,字段值为空跳过当前校验
+//                        continue;
+//                    }
+//                    Boolean calculate = formulaItem.calculate(value);
+//                    if (!calculate) {
+//                        String message = xMessageBuilder.buildMsg(field, xBean, formulaItem, checkItemSimple);
+//                        xResult.failure(message);
+//                        return;
+//                    }
+//                }
+//            }
+//        }
     }
 
-    private void assertNull(XBean xBean, XResult xResult, Map<String, String[]> requestParam,
-                               XCheckItemSimple checkItemSimple, List<XCheckItemSimple.FormulaItem> formulaItems) {
-        // 无校验公式，直接判断值不为空
-        if (formulaItems.size() > 0) {
-            return;
-        }
-        for (String field : checkItemSimple.getFields()) {
-            String[] values = requestParam.get(field);
-
-            if (values == null) {
-                String message = xMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
-                xResult.failure(message);
-                return;
-            }
-
-            // 遍历校验字段值
-            for (String value : values) {
-                if (checkItemSimple.isNullable() && Validator.isEmpty(value)) {
-                    String message = xMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
-                    xResult.failure(message);
-                    return;
-                }
-            }
-        }
-    }
+//    private void assertNull(XBean xBean, XResult xResult, Map<String, String[]> requestParam,
+//                               XCheckItemSimple checkItemSimple, List<XCheckItemSimple.FormulaItem> formulaItems) {
+//        // 无校验公式，直接判断值不为空
+//        if (formulaItems.size() > 0) {
+//            return;
+//        }
+//        for (String field : checkItemSimple.getFields()) {
+//            String[] values = requestParam.get(field);
+//
+//            if (values == null) {
+//                String message = xMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
+//                xResult.failure(message);
+//                return;
+//            }
+//
+//            // 遍历校验字段值
+//            for (String value : values) {
+//                if (checkItemSimple.isNullable() && Validator.isEmpty(value)) {
+//                    String message = xMessageBuilder.buildMsg(field, "CanNotBeNull", xBean, checkItemSimple);
+//                    xResult.failure(message);
+//                    return;
+//                }
+//            }
+//        }
+//    }
 //    public void validate(Map<String, String[]> requestParam, XBean xBean, XResult xResult) {
 //        XCheckItemSimple[] checkItems = (XCheckItemSimple[]) xBean.getCheckItems();
 //        String[] fields;

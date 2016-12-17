@@ -8,6 +8,7 @@ import com.cmy.xcheck.util.analyze.LogicExpressionAnalyzer;
 import com.cmy.xcheck.util.analyze.SimpleExpressionAnalyzer;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -18,10 +19,13 @@ import java.util.*;
  * Created by Kevin72c on 2016/4/29.
  */
 @Component
+@Scope("prototype")
 public class XExpressionParser {
 
     @Autowired
     private XMessageBuilder xMessageBuilder;
+    @Autowired
+    private SimpleExpressionAnalyzer simpleExpressionAnalyzer;
 
     /**
      * 扫描解析校验对象
@@ -101,7 +105,7 @@ public class XExpressionParser {
             checkItem = LogicExpressionAnalyzer.analyze(expression);
         } else {
             // 普通表达式
-            checkItem = SimpleExpressionAnalyzer.analyze(expression);
+            checkItem = simpleExpressionAnalyzer.analyze(expression);
         }
         return checkItem;
     }
