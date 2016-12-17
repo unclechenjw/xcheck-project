@@ -13,24 +13,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class SimpleValidationHandlerImpl implements ValidationHandler {
 
-    @Autowired
-    private XMessageBuilder xMessageBuilder;
+//    @Autowired
+//    private XMessageBuilder xMessageBuilder;
 
     private Map<String, String[]>  getVal(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
-        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            if (entry.getKey().contains("[")) {
-                String newKey = entry.getKey().replaceAll("\\[\\d+\\]", "");
-                parameterMap.put(newKey, entry.getValue());
+        Map<String, String[]> newMap = new HashMap<>();
+        parameterMap.entrySet().stream().forEach(entry -> {
+            String k = entry.getKey();
+            if (k.contains("[")) {
+                newMap.put(k.replaceAll("\\[\\d+\\]", ""),
+                        entry.getValue());
+            } else {
+                newMap.put(k, entry.getValue());
             }
-        }
-        return parameterMap;
+        });
+        return newMap;
     }
 
     @Override
@@ -42,10 +47,14 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
             List<String> fields = checkItemSimple.getFields();
             for (String field : fields) {
 //                Map<String, String[]> parameterMap = request.getParameterMap();
-//                parameterMap.get(field);
-                getVal(request);
+                String[] vals = getVal(request).get(field);
+                for (String val : vals) {
+                    XResult xResult = validateMethod.validate(val, vp.getArgument());
+                    if (xResult.isNotPass()) {
+                        return xResult;
+                    }
+                }
 
-//                validateMethod.validate()
             }
         }
         return XResult.success();
