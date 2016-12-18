@@ -22,6 +22,9 @@ public class XResult {
     public String getMessage() {
         return message;
     }
+    public void setMessage(String message) {
+        this.message = message;
+    }
     public static XResult failure(String msg) {
         return new XResult(Failure, msg);
     }

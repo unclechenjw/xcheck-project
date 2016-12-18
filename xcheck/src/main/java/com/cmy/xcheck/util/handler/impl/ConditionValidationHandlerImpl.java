@@ -20,7 +20,7 @@ public class ConditionValidationHandlerImpl implements ValidationHandler {
             .compile("^if\\('(.*?)','(.*?)'(?:,'(.*?)')?\\)(?:\\:(.*?))?$");
 
     @Override
-    public XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request) {
+    public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
         return null;
     }
 

@@ -20,40 +20,39 @@ import java.util.Map;
 @Component
 public class SimpleValidationHandlerImpl implements ValidationHandler {
 
-//    @Autowired
-//    private XMessageBuilder xMessageBuilder;
-
-    private Map<String, String[]>  getVal(HttpServletRequest request) {
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        Map<String, String[]> newMap = new HashMap<>();
-        parameterMap.entrySet().stream().forEach(entry -> {
-            String k = entry.getKey();
-            if (k.contains("[")) {
-                newMap.put(k.replaceAll("\\[\\d+\\]", ""),
-                        entry.getValue());
-            } else {
-                newMap.put(k, entry.getValue());
-            }
-        });
-        return newMap;
-    }
-
     @Override
-    public XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request) {
+    public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
         XCheckItemSimple checkItemSimple = (XCheckItemSimple) checkItem;
         List<ValidatePack> validatePacks = checkItemSimple.getValidatePacks();
         for (ValidatePack vp : validatePacks) {
             ValidateMethod validateMethod = vp.getValidateMethod();
             List<String> fields = checkItemSimple.getFields();
             for (String field : fields) {
-//                Map<String, String[]> parameterMap = request.getParameterMap();
-                String[] vals = getVal(request).get(field);
-                for (String val : vals) {
-                    XResult xResult = validateMethod.validate(val, vp.getArgument());
+                String[] params = requestParams.get(field);
+
+                for (String param : params) {
+                    if (param == null || param.length() == 0) {
+                        if (checkItemSimple.isNullable()) {
+                            continue;
+                        } else {
+                            return XResult.failure(field + "不能为空");
+                        }
+                    }
+
+                    XResult xResult = validateMethod.validate(param, vp.getArgument());
                     if (xResult.isNotPass()) {
+                        xResult.setMessage(field + xResult.getMessage());
                         return xResult;
                     }
                 }
+//                Map<String, String[]> parameterMap = request.getParameterMap();
+//                String[] vals = getVal(request).get(field);
+//                for (String val : vals) {
+//                    XResult xResult = validateMethod.validate(val, vp.getArgument());
+//                    if (xResult.isNotPass()) {
+//                        return xResult;
+//                    }
+//                }
 
             }
         }

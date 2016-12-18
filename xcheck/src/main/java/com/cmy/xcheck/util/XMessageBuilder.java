@@ -97,7 +97,7 @@ public class XMessageBuilder {
 
     public String buildMsg(String field, String methodAbbr, XBean xBean,
                            XCheckItem checkItem) {
-        if (!xBean.isHint() && !xCheckContext.isErrorMessageDisplay()) {
+        if (xCheckContext.isErrorMessageDisplay()) {
             return getProperty("ParameterError");
         }
         if (checkItem.getMessage() != null) {

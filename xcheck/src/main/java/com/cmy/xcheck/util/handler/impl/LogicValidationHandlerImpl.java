@@ -29,11 +29,10 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
 
 
     @Override
-    public XResult validate(XBean xBean, XCheckItem checkItem, HttpServletRequest request) {
-        Map<String, String[]> requestParam = request.getParameterMap();
+    public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
         XCheckItemLogic checkItemLogic = (XCheckItemLogic) checkItem;
-        String[] leftVal = requestParam.get(checkItemLogic.getLeftField());
-        String[] rightVal = requestParam.get(checkItemLogic.getRightField());
+        String[] leftVal = requestParams.get(checkItemLogic.getLeftField());
+        String[] rightVal = requestParams.get(checkItemLogic.getRightField());
         // prepare values
         if (leftVal == null || Validator.isEmpty(leftVal[0])) {
             String message = xMessageBuilder.buildMsg(checkItemLogic.getLeftField(),

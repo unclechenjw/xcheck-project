@@ -1,12 +1,5 @@
 package com.cmy.xcheck.support;
 
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
 import com.cmy.xcheck.util.handler.ValidationHandler;
@@ -14,6 +7,13 @@ import com.cmy.xcheck.util.handler.XFactory;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class XCheckSupport {
@@ -42,19 +42,45 @@ public class XCheckSupport {
         return XResult.success();
     }
 
-    public XResult dispatch(XBean xBean, HttpServletRequest request) {
+    private XResult dispatch(XBean xBean, HttpServletRequest request) {
         if (xBean.isRequire()) {
             if (!xCheckHandlerAdapter.verifySession(request.getParameterMap())) {
                 return new XResult(XResult.XCHECK_SESSION_EXPIRE, "用户未登录或会话过期");
             }
         }
+
+        Map<String, String[]> requestParams = prepareRequestParams(request, xBean);
         List<XCheckItem> checkItems = xBean.getCheckItems();
         // 遍历表达式
         for (XCheckItem checkItem : checkItems) {
             ValidationHandler handler = xFactory.getCheckHandler(checkItem);
-            return handler.validate(xBean, checkItem, request);
+            XResult validate = handler.validate(xBean, checkItem, requestParams);
+            if (validate.isNotPass()) {
+                return validate;
+            }
         }
         return XResult.success();
+    }
+
+
+    private Map<String, String[]>  prepareRequestParams(HttpServletRequest request, XBean xBean) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Map<String, String[]> newMap = new HashMap<>();
+        parameterMap.entrySet().stream().forEach(entry -> {
+            String k = entry.getKey();
+            if (k.contains("[")) {
+                newMap.put(k.replaceAll("\\[\\d+\\]", ""),
+                        entry.getValue());
+            } else {
+                newMap.put(k, entry.getValue());
+            }
+        });
+
+        // url path variables analyze
+        if (xBean.hasPathParam()) {
+            // TODO: 2016/12/18
+        }
+        return newMap;
     }
 
     /**

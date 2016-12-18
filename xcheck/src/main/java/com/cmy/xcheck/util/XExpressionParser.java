@@ -10,6 +10,7 @@ import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -51,17 +52,50 @@ public class XExpressionParser {
         Check check = method.getAnnotation(Check.class);
         String[] values = check.value();
         Map<String, String> fieldAlias = parseFieldAliasToMap(check.fieldAlias());
-        boolean hint = check.hint();
+
         boolean required = check.required();
-        List<XCheckItem> checkItems = new ArrayList<XCheckItem>();
+        List<XCheckItem> checkItems = new ArrayList<>();
         for (int i = 0; i < values.length; i++) {
             if (Validator.isNotEmpty(values[i])) {
                 checkItems.add(parseExpression(values[i]));
             }
         }
-        XBean xBean = new XBean(fieldAlias, checkItems, required, hint);
+
+        XBean xBean = new XBean(fieldAlias, checkItems, required,
+                analyzeHasPathParam(method));
         // 注册校验对象
         XAnnotationConfigApplicationContext.register(check, xBean);
+    }
+
+    private boolean analyzeHasPathParam(Method method) {
+        String[] urls;
+        if (method.isAnnotationPresent(RequestMapping.class)) {
+            RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+            urls = requestMapping.value();
+        } else if (method.isAnnotationPresent(GetMapping.class)) {
+            GetMapping requestMapping = method.getAnnotation(GetMapping.class);
+            urls = requestMapping.value();
+        } else if (method.isAnnotationPresent(PostMapping.class)) {
+            PostMapping requestMapping = method.getAnnotation(PostMapping.class);
+            urls = requestMapping.value();
+        } else if (method.isAnnotationPresent(DeleteMapping.class)) {
+            DeleteMapping requestMapping = method.getAnnotation(DeleteMapping.class);
+            urls = requestMapping.value();
+        } else if (method.isAnnotationPresent(PutMapping.class)) {
+            PutMapping requestMapping = method.getAnnotation(PutMapping.class);
+            urls = requestMapping.value();
+        } else if (method.isAnnotationPresent(PatchMapping.class)) {
+            PatchMapping requestMapping = method.getAnnotation(PatchMapping.class);
+            urls = requestMapping.value();
+        } else {
+            throw new IllegalStateException("尚未实现的Mapping Url分析");
+        }
+        for (String url :urls) {
+            if (url.contains("{")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
