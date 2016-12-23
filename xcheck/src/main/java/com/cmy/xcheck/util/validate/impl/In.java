@@ -1,7 +1,6 @@
 package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
-import com.cmy.xcheck.util.StringUtil;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
@@ -12,20 +11,22 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component
-public class AllLetter implements ValidateMethod {
+public class In implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-        for (char aChar : validateParam.getMainFieldVal().toCharArray()) {
-            if (!Character.isLetter(aChar)) {
-                return XResult.failure("必须全字母");
+
+        String[] split = validateParam.getArgumentsVal().split(",");
+        for (String e : split) {
+            if (validateParam.getMainFieldVal().equals(e)) {
+                return XResult.success();
             }
         }
-        return XResult.success();
+        return XResult.failure(validateParam.getMainFieldName() + "必须为" + validateParam.getArgumentsVal().replaceAll(",", "、"));
     }
 
     @Override
     public String getMethodAttr() {
-        return "w";
+        return "in";
     }
 }

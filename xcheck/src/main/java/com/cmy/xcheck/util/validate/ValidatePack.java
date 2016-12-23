@@ -5,11 +5,11 @@ package com.cmy.xcheck.util.validate;
  */
 public class ValidatePack {
     private ValidateMethod validateMethod;
-    private String argument;
+    private String arguments;
 
-    public ValidatePack(ValidateMethod validateMethod, String argument) {
+    public ValidatePack(ValidateMethod validateMethod, String arguments) {
         this.validateMethod = validateMethod;
-        this.argument = argument;
+        this.arguments = arguments;
     }
 
     public ValidateMethod getValidateMethod() {
@@ -20,11 +20,11 @@ public class ValidatePack {
         this.validateMethod = validateMethod;
     }
 
-    public String getArgument() {
-        return argument;
+    public String getArguments() {
+        return arguments;
     }
 
-    public void setArgument(String argument) {
-        this.argument = argument;
+    public void setArguments(String arguments) {
+        this.arguments = arguments;
     }
 }

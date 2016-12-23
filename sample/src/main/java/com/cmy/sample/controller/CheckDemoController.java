@@ -16,7 +16,11 @@ import java.util.Random;
 @RequestMapping("demo")
 public class CheckDemoController {
 
-    @Check({"a@d", "b@w", "c@ml(2)"})
+    @Check({
+            "a@d",
+            "b@w",
+            "c@ml(2)"
+    })
     @GetMapping
     public String test(@ModelAttribute Foo foo) {
         return "success" + new Random().nextInt(100);

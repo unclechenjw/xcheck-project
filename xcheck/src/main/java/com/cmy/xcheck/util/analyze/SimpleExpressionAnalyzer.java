@@ -1,14 +1,11 @@
 package com.cmy.xcheck.util.analyze;
 
 import com.cmy.xcheck.util.Assert;
-import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
-import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
 import com.cmy.xcheck.util.validate.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -31,10 +28,13 @@ public class SimpleExpressionAnalyzer {
     private static final int Method_Abbreviation_Index = 2;
     private static final int Argument_Index = 3;
 
+    /** 普通表达式捕获pattern */
+    Pattern SIMPLE_EXPRESSION_PATTERN = Pattern.compile(
+            "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
+
     public XCheckItem analyze(String expression) {
         Assert.simpleExpressionIllegal(expression);
 
-        String formula;
         boolean nullable;
         int fieldBehindIndex;
         int atIndex = expression.indexOf("@");
@@ -54,36 +54,30 @@ public class SimpleExpressionAnalyzer {
             fieldBehindIndex = expression.length();
         }
 
-        // 取得字段数组
+        // 取得校验字段数组
         List<String> fields = getFieldArray(expression.substring(0, fieldBehindIndex));
 
-        // 自定义错误提示
-        String message;
+        String message; // 自定义错误提示
+        String checkRule; // 校验规则
         int colonIndex = expression.indexOf(":");
         if (colonIndex == -1) {
-            formula = expression.substring(fieldBehindIndex, expression.length());
+            checkRule = expression.substring(fieldBehindIndex, expression.length());
             message = null;
         } else {
-            formula = expression.substring(fieldBehindIndex, colonIndex);
+            checkRule = expression.substring(fieldBehindIndex, colonIndex);
             message = expression.substring(colonIndex+1, expression.length());
         }
 
-        /** 普通表达式捕获pattern */
-        Pattern SIMPLE_EXPRESSION_PATTERN = Pattern.compile(
-                "(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
         // 公式取得
-        Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(formula);
-//        List<XCheckItemSimple.FormulaItem> formulaItems = new ArrayList<XCheckItemSimple.FormulaItem>();
+        Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(checkRule);
         List<ValidatePack> validatePacks = new ArrayList<ValidatePack>();
-        String methodAbbr;
-        String argument;
+        String methodAbbr; // 校验方法缩写
+        String arguments; // 方法参数
         while (matcher.find()) {
             methodAbbr = matcher.group(Method_Abbreviation_Index);
-            argument = matcher.group(Argument_Index);
-            validatePacks.add(new ValidatePack(validatorFactory.getValidatorByAbbr(methodAbbr),
-                    argument));
-//            Validator.CheckMethod checkMethod = Validator.getCheckMethod(methodAbbr);
-//            formulaItems.add(new XCheckItemSimple.FormulaItem(methodAbbr, checkMethod.getMethod(), checkMethod.getArgNum(), argument));
+            arguments = matcher.group(Argument_Index);
+            validatePacks.add(
+                    new ValidatePack(validatorFactory.getValidatorByAbbr(methodAbbr), arguments));
         }
         return new XCheckItemSimple(validatePacks, fields, message, nullable);
     }

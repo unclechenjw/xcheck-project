@@ -2,6 +2,7 @@ package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class NonNumeric implements ValidateMethod {
 
     @Override
-    public XResult validate(String... args) {
+    public XResult validate(ValidateParam validateParam) {
         return null;
     }
 

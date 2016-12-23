@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ValidateMethod {
 
-    XResult validate(String... args);
+    XResult validate(ValidateParam validateParam);
 
     String getMethodAttr();
 }

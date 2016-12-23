@@ -2,6 +2,7 @@ package com.cmy.xcheck.util.handler.impl;
 
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XResult;
+import com.cmy.xcheck.util.StringUtil;
 import com.cmy.xcheck.util.Validator;
 import com.cmy.xcheck.util.XMessageBuilder;
 import com.cmy.xcheck.util.handler.ValidationHandler;
@@ -9,6 +10,7 @@ import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
+import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,7 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
     public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
         XCheckItemSimple checkItemSimple = (XCheckItemSimple) checkItem;
         List<ValidatePack> validatePacks = checkItemSimple.getValidatePacks();
+
         for (ValidatePack vp : validatePacks) {
             ValidateMethod validateMethod = vp.getValidateMethod();
             List<String> fields = checkItemSimple.getFields();
@@ -31,7 +34,7 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                 String[] params = requestParams.get(field);
 
                 for (String param : params) {
-                    if (param == null || param.length() == 0) {
+                    if (StringUtil.isEmpty(param)) {
                         if (checkItemSimple.isNullable()) {
                             continue;
                         } else {
@@ -39,7 +42,11 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                         }
                     }
 
-                    XResult xResult = validateMethod.validate(param, vp.getArgument());
+                    ValidateParam validateParam = new ValidateParam();
+                    validateParam.setMainFieldName(field);
+                    validateParam.setMainFieldVal(param);
+                    validateParam.setArgumentsVal("");
+                    XResult xResult = validateMethod.validate(validateParam);
                     if (xResult.isNotPass()) {
                         xResult.setMessage(field + xResult.getMessage());
                         return xResult;
