@@ -7,6 +7,6 @@ public class UnsupportedExpressionException extends XCheckException {
     }
     
     public UnsupportedExpressionException(String s, Throwable t) {
-        super("未支持的表达式:" + s, t);
+        super(s, t);
     }
 }

@@ -33,6 +33,14 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
             for (String field : fields) {
                 String[] params = requestParams.get(field);
 
+                if (params == null) {
+                    if (checkItemSimple.isNullable()) {
+                        continue;
+                    } else {
+                        return XResult.failure(field + "不能为空");
+                    }
+                }
+
                 for (String param : params) {
                     if (StringUtil.isEmpty(param)) {
                         if (checkItemSimple.isNullable()) {
@@ -45,7 +53,7 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                     ValidateParam validateParam = new ValidateParam();
                     validateParam.setMainFieldName(field);
                     validateParam.setMainFieldVal(param);
-                    validateParam.setArgumentsVal("");
+                    validateParam.setArgumentsVal(vp.getArguments());
                     XResult xResult = validateMethod.validate(validateParam);
                     if (xResult.isNotPass()) {
                         xResult.setMessage(field + xResult.getMessage());

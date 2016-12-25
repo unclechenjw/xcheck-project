@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component
-public class NonNumeric implements ValidateMethod {
+public class NonNumeric_D implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {

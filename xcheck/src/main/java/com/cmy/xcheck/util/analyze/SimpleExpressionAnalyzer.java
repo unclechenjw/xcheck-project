@@ -1,8 +1,10 @@
 package com.cmy.xcheck.util.analyze;
 
+import com.cmy.xcheck.exception.UnsupportedExpressionException;
 import com.cmy.xcheck.util.Assert;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
+import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
 import com.cmy.xcheck.util.validate.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,14 +72,19 @@ public class SimpleExpressionAnalyzer {
 
         // 公式取得
         Matcher matcher = SIMPLE_EXPRESSION_PATTERN.matcher(checkRule);
-        List<ValidatePack> validatePacks = new ArrayList<ValidatePack>();
+        List<ValidatePack> validatePacks = new ArrayList<>();
         String methodAbbr; // 校验方法缩写
         String arguments; // 方法参数
         while (matcher.find()) {
             methodAbbr = matcher.group(Method_Abbreviation_Index);
             arguments = matcher.group(Argument_Index);
+            ValidateMethod validateMethod = validatorFactory.getValidatorByAbbr(methodAbbr);
+            if (validateMethod == null) {
+                throw new UnsupportedExpressionException("校验公式设置不正确：" + expression +
+                        "，不支持的校验方法:" + methodAbbr);
+            }
             validatePacks.add(
-                    new ValidatePack(validatorFactory.getValidatorByAbbr(methodAbbr), arguments));
+                    new ValidatePack(validateMethod, arguments));
         }
         return new XCheckItemSimple(validatePacks, fields, message, nullable);
     }

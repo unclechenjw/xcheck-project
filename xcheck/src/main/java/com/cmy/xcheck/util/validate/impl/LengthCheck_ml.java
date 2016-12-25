@@ -11,22 +11,22 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component
-public class In implements ValidateMethod {
+public class LengthCheck_ml implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
 
-        String[] split = validateParam.getArgumentsVal().split(",");
-        for (String e : split) {
-            if (validateParam.getMainFieldVal().equals(e)) {
-                return XResult.success();
-            }
+        if (validateParam.getMainFieldVal().length() <= Integer.parseInt(validateParam.getArgumentsVal())) {
+            return XResult.failure(validateParam.getMainFieldName() + "的长度必须小于或等于" +
+                    validateParam.getArgumentsVal() + "位");
+        } else {
+            return XResult.success();
         }
-        return XResult.failure(validateParam.getMainFieldName() + "必须为" + validateParam.getArgumentsVal().replaceAll(",", "、"));
+
     }
 
     @Override
     public String getMethodAttr() {
-        return "in";
+        return "ml";
     }
 }
