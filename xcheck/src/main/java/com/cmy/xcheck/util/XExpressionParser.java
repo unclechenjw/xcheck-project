@@ -24,7 +24,7 @@ import java.util.*;
 public class XExpressionParser {
 
     @Autowired
-    private XMessageBuilder xMessageBuilder;
+    private XHelper xMessageBuilder;
     @Autowired
     private SimpleExpressionAnalyzer simpleExpressionAnalyzer;
 
@@ -116,7 +116,7 @@ public class XExpressionParser {
                 if (fieldNameLen == 2) {
                     m.put(fieldAndName[0], fieldAndName[1]);
                 } else {
-                    throw new IllegalArgumentException(xMessageBuilder.getProperty("fieldAliasError"));
+                    throw new IllegalArgumentException("字段别名设置不正确");
                 }
             }
         }

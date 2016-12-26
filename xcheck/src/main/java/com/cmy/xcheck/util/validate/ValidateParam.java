@@ -1,5 +1,7 @@
 package com.cmy.xcheck.util.validate;
 
+import java.util.Map;
+
 /**
  * @Author chenjw
  * @Date 2016年12月23日
@@ -8,6 +10,7 @@ public class ValidateParam {
     private String mainFieldName;
     private String mainFieldVal;
     private String argumentsVal;
+    private Map<String, String> fieldAliasMap;
 
     public String getMainFieldName() {
         return mainFieldName;
@@ -31,5 +34,13 @@ public class ValidateParam {
 
     public void setArgumentsVal(String argumentsVal) {
         this.argumentsVal = argumentsVal;
+    }
+
+    public Map<String, String> getFieldAliasMap() {
+        return fieldAliasMap;
+    }
+
+    public void setFieldAliasMap(Map<String, String> fieldAliasMap) {
+        this.fieldAliasMap = fieldAliasMap;
     }
 }

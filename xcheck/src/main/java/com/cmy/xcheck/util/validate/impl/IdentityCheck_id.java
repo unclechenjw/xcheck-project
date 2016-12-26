@@ -25,19 +25,19 @@ public class IdentityCheck_id implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-        if (validateParam.getArgumentsVal() == null ||
-                "CN".equals(validateParam.getArgumentsVal())) {
-           return validateCNIdCardNo(validateParam);
-        } else {
-            return XResult.failure("暂不支持其他校验方法");
-        }
+        return validateCNIdCardNo(validateParam);
+//        if (validateParam.getArgumentsVal() == null ||
+//                "CN".equals(validateParam.getArgumentsVal())) {
+//           return validateCNIdCardNo(validateParam);
+//        } else {
+//            return XResult.failure("暂不支持其他校验方法");
+//        }
     }
 
     @Override
     public String getMethodAttr() {
         return "id";
     }
-
 
     /**
      * 功能：身份证的有效验证
@@ -141,7 +141,6 @@ public class IdentityCheck_id implements ValidateMethod {
      * 功能：设置地区编码
      */
     private static final Map<String, String> CityMap = new HashMap<>();
-
     static {
         CityMap.put("11", "北京");
         CityMap.put("12", "天津");
