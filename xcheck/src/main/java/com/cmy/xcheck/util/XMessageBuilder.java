@@ -4,15 +4,15 @@ import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XCheckContext;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemLogic;
-import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.MessageFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Component
 public class XMessageBuilder {
@@ -68,8 +68,7 @@ public class XMessageBuilder {
         GLOBAL_FIELD_ALIAS = new HashMap<>();
         String filedAlias = xCheckContext.getFiledAlias();
         try {
-
-            if (Validator.isNotEmpty(filedAlias)) {
+            if (StringUtil.isNotEmpty(filedAlias)) {
                 String[] split = filedAlias.replace(" ", "").split(",");
                 for (String alias : split) {
                     String[] aliasSplit = alias.split("=");

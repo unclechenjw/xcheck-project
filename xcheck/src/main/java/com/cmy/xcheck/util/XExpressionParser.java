@@ -56,7 +56,7 @@ public class XExpressionParser {
         boolean required = check.required();
         List<XCheckItem> checkItems = new ArrayList<>();
         for (int i = 0; i < values.length; i++) {
-            if (Validator.isNotEmpty(values[i])) {
+            if (StringUtil.isNotEmpty(values[i])) {
                 checkItems.add(parseExpression(values[i]));
             }
         }
@@ -108,7 +108,7 @@ public class XExpressionParser {
         for (String alias : fieldAlias) {
             String[] split = alias.replaceAll("\\s", "").split(",");
             for (String sp :split) {
-                if(Validator.isEmpty(sp)) {
+                if(StringUtil.isEmpty(sp)) {
                     continue;
                 }
                 String[] fieldAndName = sp.split("=");

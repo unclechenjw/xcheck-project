@@ -3,19 +3,14 @@ package com.cmy.xcheck.util.handler.impl;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.StringUtil;
-import com.cmy.xcheck.util.Validator;
-import com.cmy.xcheck.util.XMessageBuilder;
 import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
 import com.cmy.xcheck.util.validate.ValidateParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,16 +48,24 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                     ValidateParam validateParam = new ValidateParam();
                     validateParam.setMainFieldName(field);
                     validateParam.setMainFieldVal(param);
-                    validateParam.setArgumentsVal(vp.getArguments());
+                    validateParam.setArgumentsVal(preparingArguments(vp.getArguments(), requestParams));
                     XResult xResult = validateMethod.validate(validateParam);
                     if (xResult.isNotPass()) {
-                        xResult.setMessage(field + xResult.getMessage());
                         return xResult;
                     }
                 }
             }
         }
         return XResult.success();
+    }
+
+    private String preparingArguments(String arg, Map<String, String[]> requestParams) {
+        if (StringUtil.isAllDigit(arg)) {
+            return arg;
+        }
+        String[] values = requestParams.get(arg);
+        return values == null || StringUtil.isEmpty(values[0]) ? arg
+                : values[0];
     }
 }
 

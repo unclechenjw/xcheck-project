@@ -29,13 +29,13 @@ public class IdentityCheck_id implements ValidateMethod {
                 "CN".equals(validateParam.getArgumentsVal())) {
            return validateCNIdCardNo(validateParam);
         } else {
-            return XResult.success();
+            return XResult.failure("暂不支持其他校验方法");
         }
     }
 
     @Override
     public String getMethodAttr() {
-        return "in";
+        return "id";
     }
 
 

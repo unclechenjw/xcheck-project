@@ -3,7 +3,7 @@ package com.cmy.xcheck.util.handler.impl;
 import com.cmy.xcheck.exception.ExpressionDefineException;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XResult;
-import com.cmy.xcheck.util.Validator;
+import com.cmy.xcheck.util.StringUtil;
 import com.cmy.xcheck.util.XMessageBuilder;
 import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Component
@@ -34,17 +33,17 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         String[] leftVal = requestParams.get(checkItemLogic.getLeftField());
         String[] rightVal = requestParams.get(checkItemLogic.getRightField());
         // prepare values
-        if (leftVal == null || Validator.isEmpty(leftVal[0])) {
+        if (leftVal == null || StringUtil.isEmpty(leftVal[0])) {
             String message = xMessageBuilder.buildMsg(checkItemLogic.getLeftField(),
                     "CanNotBeNull", xBean, checkItem);
             return XResult.failure(message);
         }
         String finalLeftVal = leftVal[0];
         String finalRightVal;
-        if (Validator.isDecimal(checkItemLogic.getRightField())) {
+        if (StringUtil.isDecimal(checkItemLogic.getRightField())) {
             finalRightVal = checkItemLogic.getRightField();
         } else {
-            if (rightVal == null || Validator.isEmpty(rightVal[0])) {
+            if (rightVal == null || StringUtil.isEmpty(rightVal[0])) {
                 String message = xMessageBuilder.buildMsg(checkItemLogic.getRightField(),
                         "CanNotBeNull", xBean, checkItem);
                 return XResult.failure(message);
@@ -59,9 +58,9 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
 //            finalLeftVal = "'" + finalLeftVal + "'";
 //            finalRightVal = "'" + finalRightVal + "'";
 //        }
-        boolean isArgError = Validator.isDecimal(finalLeftVal) && Validator.isDecimal(finalRightVal);
+        boolean isArgError = StringUtil.isDecimal(finalLeftVal) && StringUtil.isDecimal(finalRightVal);
         if (!isArgError) {
-            return XResult.failure(xMessageBuilder.getProperty("ParameterError"));
+            return XResult.failure("请求参数不正确");
         }
         // 比较公式
         String formula =  finalLeftVal + checkItemLogic.getComparisonOperator() + finalRightVal;

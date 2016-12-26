@@ -16,7 +16,7 @@ public class AllLetter_w implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-        if (StringUtil.isAllLetter(validateParam.getArgumentsVal())) {
+        if (StringUtil.isAllLetter(validateParam.getMainFieldVal())) {
             return XResult.success();
         } else {
             return XResult.failure(validateParam.getMainFieldName() + "必须为全字母");

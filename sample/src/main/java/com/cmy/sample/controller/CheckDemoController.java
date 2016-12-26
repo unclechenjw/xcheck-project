@@ -19,7 +19,14 @@ public class CheckDemoController {
     @Check({
             "a@d",
             "b@w",
-            "c@ml(2)"
+            "c@e",
+            "a.a#p",
+            "[a,b,c]@ml(12)",
+            "e@ml(f)",
+            "id@id(type)",
+            "name@ml(nameType)",
+            "foo.list@d",
+            "startTime<endTime",
     })
     @GetMapping
     public String test(@ModelAttribute Foo foo) {
