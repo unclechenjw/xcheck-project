@@ -10,14 +10,14 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cmy.xcheck.support.XCheckSupport;
+import com.cmy.xcheck.util.CheckDispatcher;
 import com.cmy.xcheck.support.XResult;
 
 @Component
 public class XCheckSpringMVCInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private XCheckSupport xCheckSupport;
+    private CheckDispatcher xCheckSupport;
     @Autowired
     private XCheckHandlerAdapter xCheckHandlerAdapter;
 

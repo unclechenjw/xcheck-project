@@ -11,13 +11,14 @@ public class XBean {
     private List<XCheckItem> checkItems;
     private boolean require;
     private boolean hasPathParam;
-//    private boolean hint;
+    private String[] urls;
 
-    public XBean(Map<String, String> fieldAlias, List<XCheckItem> checkItems, boolean require, boolean hasPathParam) {
+    public XBean(Map<String, String> fieldAlias, List<XCheckItem> checkItems, boolean require, boolean hasPathParam, String[] urls) {
         this.fieldAlias = fieldAlias;
         this.checkItems = checkItems;
         this.require = require;
         this.hasPathParam = hasPathParam;
+        this.urls = urls;
     }
 
     public boolean isRequire() {
@@ -46,4 +47,11 @@ public class XBean {
         return hasPathParam;
     }
 
+    public String[] getUrls() {
+        return urls;
+    }
+
+    public void setUrls(String[] urls) {
+        this.urls = urls;
+    }
 }

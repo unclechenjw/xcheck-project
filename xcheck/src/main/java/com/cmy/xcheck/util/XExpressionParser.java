@@ -61,12 +61,20 @@ public class XExpressionParser {
             }
         }
 
-        XBean xBean = new XBean(fieldAlias, checkItems, required, analyzeHasPathParam(method));
+        String[] urls = getUrls(method);
+        boolean hasPathParam = false;
+        for (String url :urls) {
+            if (url.contains("{")) {
+                hasPathParam = true;
+            }
+        }
+        XBean xBean = new XBean(fieldAlias, checkItems, required, hasPathParam, urls);
+
         // 注册校验对象
         XAnnotationConfigApplicationContext.register(check, xBean);
     }
 
-    private boolean analyzeHasPathParam(Method method) {
+    private String[] getUrls(Method method) {
         String[] urls;
         if (method.isAnnotationPresent(RequestMapping.class)) {
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
@@ -89,12 +97,7 @@ public class XExpressionParser {
         } else {
             throw new IllegalStateException("尚未实现的Mapping Url分析");
         }
-        for (String url :urls) {
-            if (url.contains("{")) {
-                return true;
-            }
-        }
-        return false;
+        return urls;
     }
 
     /**

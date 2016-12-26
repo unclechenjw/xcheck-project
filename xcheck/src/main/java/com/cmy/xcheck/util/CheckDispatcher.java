@@ -1,5 +1,8 @@
-package com.cmy.xcheck.support;
+package com.cmy.xcheck.util;
 
+import com.cmy.xcheck.support.XBean;
+import com.cmy.xcheck.support.XCheckHandlerAdapter;
+import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
 import com.cmy.xcheck.util.handler.ValidationHandler;
@@ -14,14 +17,16 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Component
-public class XCheckSupport {
+public class CheckDispatcher {
 
     @Autowired(required = false)
     private XCheckHandlerAdapter xCheckHandlerAdapter;
     @Autowired
     private XFactory xFactory;
+    private static final Pattern Url_Path_Variable_Match_Pattern = Pattern.compile("^\\{(.*)\\}");
 
     /**
      * 校验入口
@@ -69,16 +74,15 @@ public class XCheckSupport {
         parameterMap.entrySet().stream().forEach(entry -> {
             String k = entry.getKey();
             if (k.contains("[")) {
-                newMap.put(k.replaceAll("\\[\\d+\\]", ""),
-                        entry.getValue());
+                newMap.put(k.replaceAll("\\[\\d+\\]", ""), entry.getValue());
             } else {
                 newMap.put(k, entry.getValue());
             }
         });
 
-        // url path variables analyze
         if (xBean.hasPathParam()) {
-            // TODO: 2016/12/18
+            String[] urls = xBean.getUrls();
+
         }
         return newMap;
     }
