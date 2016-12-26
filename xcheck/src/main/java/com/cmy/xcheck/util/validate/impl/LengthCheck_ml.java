@@ -15,7 +15,6 @@ public class LengthCheck_ml implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-
         if (validateParam.getMainFieldVal().length() <= Integer.parseInt(validateParam.getArgumentsVal())) {
             return XResult.failure(validateParam.getMainFieldName() + "的长度必须小于或等于" +
                     validateParam.getArgumentsVal() + "位");

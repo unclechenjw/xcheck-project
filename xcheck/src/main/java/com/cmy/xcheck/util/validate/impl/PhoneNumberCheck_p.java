@@ -9,25 +9,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 全字母
+ * 手机号码
  * @Author chenjw
- * @Date 2016年12月08日
+ * @Date 2016年12月26日
  */
 @Component
-public class MoneyCheck_$ implements ValidateMethod {
-    private static final Pattern MONEY_FORMAT_PATTERN =
-            Pattern.compile("^-?\\d+(\\.\\d+)?$");
+public class PhoneNumberCheck_p implements ValidateMethod {
+    private static final Pattern Tel_Pattern = Pattern.compile("^\\d{11}$");
+
     @Override
     public XResult validate(ValidateParam validateParam) {
-        Matcher matcher = MONEY_FORMAT_PATTERN.matcher(validateParam.getMainFieldVal());
+        // 默认校验11位手机号码,后期可根据参数加入其它校验方法
+        Matcher matcher = Tel_Pattern.matcher(validateParam.getMainFieldVal());
         if (matcher.matches()) {
-            return XResult.failure(validateParam.getMainFieldName() + "金额格式不正确");
+            return XResult.success();
         }
-        return XResult.success();
+        return XResult.failure(validateParam.getMainFieldName() + "手机号码格式不正确");
     }
 
     @Override
     public String getMethodAttr() {
-        return "$";
+        return "p";
     }
 }

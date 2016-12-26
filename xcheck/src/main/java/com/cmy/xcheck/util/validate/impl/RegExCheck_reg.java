@@ -9,25 +9,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 全字母
+ * 正则表达式
+ *
  * @Author chenjw
- * @Date 2016年12月08日
+ * @Date 2016年12月26日
  */
 @Component
-public class MoneyCheck_$ implements ValidateMethod {
-    private static final Pattern MONEY_FORMAT_PATTERN =
-            Pattern.compile("^-?\\d+(\\.\\d+)?$");
+public class RegExCheck_reg implements ValidateMethod {
+
     @Override
     public XResult validate(ValidateParam validateParam) {
-        Matcher matcher = MONEY_FORMAT_PATTERN.matcher(validateParam.getMainFieldVal());
+        Pattern checkPattern = Pattern.compile(validateParam.getArgumentsVal());
+        Matcher matcher = checkPattern.matcher(validateParam.getMainFieldVal());
         if (matcher.matches()) {
-            return XResult.failure(validateParam.getMainFieldName() + "金额格式不正确");
+            return XResult.failure(validateParam.getMainFieldName() + "参数不正确");
         }
         return XResult.success();
     }
 
     @Override
     public String getMethodAttr() {
-        return "$";
+        return "reg";
     }
 }

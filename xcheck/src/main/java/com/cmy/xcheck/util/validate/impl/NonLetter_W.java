@@ -1,6 +1,7 @@
 package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
+import com.cmy.xcheck.util.StringUtil;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
@@ -15,15 +16,11 @@ public class NonLetter_W implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-//        if (args == null || args.length == 0 || args[0] == null || args.length == 0) {
-//            return XResult.failure("can not be empty");
-//        }
-//        for (char aChar : args[0].toCharArray()) {
-//            if (!Character.isLetter(aChar)) {
-//                return XResult.failure("不能包含字母");
-//            }
-//        }
-        return XResult.success();
+        if (StringUtil.isAllNotLetter(validateParam.getMainFieldVal())) {
+            return XResult.success();
+        } else {
+            return XResult.failure(validateParam.getMainFieldName() + "不能包含任何字母");
+        }
     }
 
     @Override

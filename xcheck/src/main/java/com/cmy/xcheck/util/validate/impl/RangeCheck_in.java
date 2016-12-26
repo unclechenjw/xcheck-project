@@ -6,7 +6,7 @@ import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
 /**
- * 全字母
+ * 参数数值范围校验
  * @Author chenjw
  * @Date 2016年12月08日
  */
@@ -15,7 +15,6 @@ public class RangeCheck_in implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-
         String[] split = validateParam.getArgumentsVal().split(",");
         for (String e : split) {
             if (validateParam.getMainFieldVal().equals(e)) {

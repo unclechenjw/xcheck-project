@@ -19,10 +19,11 @@ import java.lang.annotation.Target;
  * @ml(5): max_length 长度小于等于5位
  * @e:Email     是否邮箱地址格式
  * @p:phone     是否11位有效手机号码
- * @$: money    金额格式
+ * @$: money    金额格式正负数 小数位不限
  * @in:         字段必须参数范围内  example： Field@IN_a,b,c Field只能为a,b或c
  * @if          example if('conditon1','conditon2','conditon3')
  * @reg regEx   正则表达式校验
+ * @id(countryCode) 校验身份证号码，无参默认中国ID
  * : 校验公式冒号后':'可以添加错误提示内容,无则使用系统默认提示
  *
  * ###########################################

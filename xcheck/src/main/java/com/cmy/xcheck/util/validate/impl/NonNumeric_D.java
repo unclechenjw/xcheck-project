@@ -1,6 +1,7 @@
 package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
+import com.cmy.xcheck.util.StringUtil;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,11 @@ public class NonNumeric_D implements ValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-        return null;
+        if (StringUtil.isAllNotDigit(validateParam.getMainFieldVal())) {
+            return XResult.success();
+        } else {
+            return XResult.failure(validateParam.getMainFieldName() + "不能包含任何数字");
+        }
     }
 
     @Override
