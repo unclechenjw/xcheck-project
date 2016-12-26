@@ -45,7 +45,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         if (leftValues.length != rightValues.length) {
             return XResult.failure(checkItemLogic.getLeftField() + "或" + checkItemLogic.getRightField() + "填写不正确");
         }
-        return compareEachFiled(leftValues, rightValues, checkItemLogic);
+        return compareEachFiled(leftValues, rightValues, xBean, checkItemLogic);
     }
 
     public static void main(String[] args) {
@@ -83,7 +83,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         }
     }
 
-    private XResult compareEachFiled(String[] leftValues, String[] rightValues, XCheckItemLogic checkItemLogic) {
+    private XResult compareEachFiled(String[] leftValues, String[] rightValues, XBean xBean, XCheckItemLogic checkItemLogic) {
         for (int i = 0; i < leftValues.length; i++) {
             String finalLeftVal = getValue(checkItemLogic.getLeftField(), leftValues[i]);
             if (StringUtil.isEmpty(finalLeftVal)) {
@@ -97,17 +97,17 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
             // 比较公式
             String formula =  finalLeftVal + checkItemLogic.getComparisonOperator() + finalRightVal;
             try {
-                boolean bl =  (Boolean) JS_ENGINE.eval(formula);
-                if (!bl) {
-                    String message = checkItemLogic.getLeftField() + "必须" + xHelper.getPropertity(checkItemLogic.getComparisonOperator())
-                            + checkItemLogic.getRightField();
-                    return XResult.failure(message);
-                } else {
+                boolean valid =  (Boolean) JS_ENGINE.eval(formula);
+                if (valid) {
                     continue;
+                } else {
+                    String message = xHelper.getAlias(checkItemLogic.getLeftField(), xBean.getFieldAlias())
+                            + "必须" + xHelper.getPropertity(checkItemLogic.getComparisonOperator())
+                            + xHelper.getAlias(checkItemLogic.getRightField(), xBean.getFieldAlias());
+                    return XResult.failure(message);
                 }
             } catch (ScriptException e) {
-                throw new ExpressionDefineException(
-                        "比较表达式有误 公式：" + formula, e);
+                throw new ExpressionDefineException("比较表达式有误 公式：" + formula, e);
             }
         }
         return XResult.success();

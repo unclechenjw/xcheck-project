@@ -12,6 +12,13 @@ public class ValidateParam {
     private String argumentsVal;
     private Map<String, String> fieldAliasMap;
 
+    public ValidateParam(String mainFieldName, String mainFieldVal, String argumentsVal, Map<String, String> fieldAliasMap) {
+        this.mainFieldName = mainFieldName;
+        this.mainFieldVal = mainFieldVal;
+        this.argumentsVal = argumentsVal;
+        this.fieldAliasMap = fieldAliasMap;
+    }
+
     public String getMainFieldName() {
         return mainFieldName;
     }

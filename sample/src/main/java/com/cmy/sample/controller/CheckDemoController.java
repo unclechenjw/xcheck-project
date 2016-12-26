@@ -16,7 +16,7 @@ import java.util.Random;
 @RequestMapping("demo")
 public class CheckDemoController {
 
-    @Check({
+    @Check(value = {
             "a@d",
             "b@w",
             "c@e",
@@ -27,7 +27,9 @@ public class CheckDemoController {
             "name@ml(nameType)",
             "foo.list@d",
             "startTime<endTime",
-    })
+            "orderType@in(1,2,3)",
+    },
+    fieldAlias = "orderType=订单类型,id=身份证号码")
     @GetMapping
     public String test(@ModelAttribute Foo foo) {
         return "success" + new Random().nextInt(100);

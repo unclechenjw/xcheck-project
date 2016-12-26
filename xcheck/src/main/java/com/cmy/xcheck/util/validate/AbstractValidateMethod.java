@@ -1,6 +1,7 @@
 package com.cmy.xcheck.util.validate;
 
 import com.cmy.xcheck.util.XHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  */
 public abstract class AbstractValidateMethod implements ValidateMethod {
 
+    @Autowired
     private XHelper xHelper;
 
     /**
@@ -19,7 +21,7 @@ public abstract class AbstractValidateMethod implements ValidateMethod {
      * @param fieldAliasMap
      * @return
      */
-    protected String getAlias(String field, Map<String, String> fieldAliasMap) {
+    protected String getFieldAlias(String field, Map<String, String> fieldAliasMap) {
         return xHelper.getAlias(field, fieldAliasMap);
     }
 
@@ -28,7 +30,7 @@ public abstract class AbstractValidateMethod implements ValidateMethod {
      * @param validateParam
      * @return
      */
-    protected String getAlias(ValidateParam validateParam) {
+    protected String getFieldAlias(ValidateParam validateParam) {
         return xHelper.getAlias(validateParam.getMainFieldName(), validateParam.getFieldAliasMap());
     }
 }

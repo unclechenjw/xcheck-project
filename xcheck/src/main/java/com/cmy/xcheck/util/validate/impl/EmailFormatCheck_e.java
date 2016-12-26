@@ -1,9 +1,10 @@
 package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
-import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.AbstractValidateMethod;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
  * @Date 2016年12月26日
  */
 @Component
-public class EmailFormatCheck_e implements ValidateMethod {
+public class EmailFormatCheck_e extends AbstractValidateMethod {
 
     private static final Pattern Email_Pattern = Pattern.compile("^.+?@.+?\\..+$");
 
@@ -23,7 +24,7 @@ public class EmailFormatCheck_e implements ValidateMethod {
         if (matcher.matches()) {
             return XResult.success();
         }
-        return XResult.failure(validateParam.getMainFieldName() + "邮箱格式不正确");
+        return XResult.failure(getFieldAlias(validateParam) + "邮箱格式不正确");
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.StringUtil;
-import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.AbstractValidateMethod;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component
-public class NonLetter_W implements ValidateMethod {
+public class NonLetter_W extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
         if (StringUtil.isAllNotLetter(validateParam.getMainFieldVal())) {
             return XResult.success();
         } else {
-            return XResult.failure(validateParam.getMainFieldName() + "不能包含任何字母");
+            return XResult.failure(getFieldAlias(validateParam) + "不能包含任何字母");
         }
     }
 

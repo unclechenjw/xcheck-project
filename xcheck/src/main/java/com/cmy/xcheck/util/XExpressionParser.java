@@ -61,8 +61,7 @@ public class XExpressionParser {
             }
         }
 
-        XBean xBean = new XBean(fieldAlias, checkItems, required,
-                analyzeHasPathParam(method));
+        XBean xBean = new XBean(fieldAlias, checkItems, required, analyzeHasPathParam(method));
         // 注册校验对象
         XAnnotationConfigApplicationContext.register(check, xBean);
     }

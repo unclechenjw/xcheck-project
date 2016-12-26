@@ -1,5 +1,6 @@
 package com.cmy.xcheck.util;
 
+import com.cmy.xcheck.exception.XCheckException;
 import com.cmy.xcheck.support.XCheckContext;
 import com.cmy.xcheck.util.XExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,14 @@ public class ClassPathXBeanDefinitionScanner {
 
     @Autowired
     private XExpressionParser xExpressionParser;
-    @Autowired
+    @Autowired(required = false)
     private XCheckContext xCheckContext;
 
     @PostConstruct
     public void scanAndParse() {
+        if (xCheckContext == null) {
+            throw new XCheckException("请设置xcheck环境类XCheckContent");
+        }
         for (String p : xCheckContext.getControllerPackage()) {
             Set<Class<?>> classes = scanXBean(p);
             xExpressionParser.parseXBean(classes);

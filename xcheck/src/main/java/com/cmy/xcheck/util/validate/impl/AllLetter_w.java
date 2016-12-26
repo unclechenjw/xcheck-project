@@ -19,7 +19,7 @@ public class AllLetter_w extends AbstractValidateMethod {
         if (StringUtil.isAllLetter(validateParam.getMainFieldVal())) {
             return XResult.success();
         } else {
-            return XResult.failure(getAlias(validateParam) + "必须为全字母");
+            return XResult.failure(getFieldAlias(validateParam) + "必须为全字母");
         }
     }
 

@@ -40,8 +40,8 @@ import java.lang.annotation.Target;
  * @see: 例子见底部Main方法
  *
  */
-@Target({ java.lang.annotation.ElementType.METHOD,
-    java.lang.annotation.ElementType.TYPE })
+@Target({java.lang.annotation.ElementType.METHOD,
+        java.lang.annotation.ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Check {
 
@@ -50,12 +50,11 @@ public @interface Check {
 
     /** 是否校验用户登录*/
     boolean required() default false;
-    
-    /** 是否错误提示 */
-    boolean hint() default true;
-    
-    /** 字段别名,当校验不通过时,提示字段使用别名,否则默认校验字段 */
+
+    /**
+     * 字段别名，设置为field=字段，多个用小写逗号分隔[,]
+     * 当校验不通过时，提示字段使用别名，否则默认校验字段 */
     String[] fieldAlias() default "";
-    
-    
+
+
 }

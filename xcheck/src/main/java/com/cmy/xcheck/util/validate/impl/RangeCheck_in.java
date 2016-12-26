@@ -1,7 +1,7 @@
 package com.cmy.xcheck.util.validate.impl;
 
 import com.cmy.xcheck.support.XResult;
-import com.cmy.xcheck.util.validate.ValidateMethod;
+import com.cmy.xcheck.util.validate.AbstractValidateMethod;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
@@ -11,17 +11,20 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component
-public class RangeCheck_in implements ValidateMethod {
+public class RangeCheck_in extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-        String[] split = validateParam.getArgumentsVal().split(",");
+        String argValues = validateParam.getArgumentsVal();
+        String[] split = argValues.split(",");
         for (String e : split) {
             if (validateParam.getMainFieldVal().equals(e)) {
                 return XResult.success();
             }
         }
-        return XResult.failure(validateParam.getMainFieldName() + "必须为" + validateParam.getArgumentsVal().replaceAll(",", "、"));
+        int lastIndex = argValues.lastIndexOf(",");
+        String argComment = argValues.substring(0, lastIndex) + "或" + argValues.substring(lastIndex+1, argValues.length());
+        return XResult.failure(getFieldAlias(validateParam) + "必须为" + argComment.replaceAll(",", "、"));
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +14,7 @@ import java.util.regex.Pattern;
 public class ConditionValidationHandlerImpl implements ValidationHandler {
 
     // 公式if('condition','condition',('condition')?)(:prompt)?
-    private static final Pattern IF_FORMULA_PARSING_PATT = Pattern
+    private static final Pattern IF_Formula_Parsing_Pattern = Pattern
             //TODO
             .compile("^if\\('(.*?)','(.*?)'(?:,'(.*?)')?\\)(?:\\:(.*?))?$");
 
@@ -27,7 +26,7 @@ public class ConditionValidationHandlerImpl implements ValidationHandler {
     public void validate(Map<String, String> requestParam, String express,
                          XResult cr) {
 
-//        Matcher m = IF_FORMULA_PARSING_PATT.matcher(express.replaceAll("\\s", ""));
+//        Matcher m = IF_Formula_Parsing_Pattern.matcher(express.replaceAll("\\s", ""));
 //        String firstCondition;
 //        String secondCondition;
 //        String thirdCondition;
@@ -60,7 +59,7 @@ public class ConditionValidationHandlerImpl implements ValidationHandler {
         String f1 = "if('a>b', 'a@b', 'sd# b' )~xxx";
 //        String f2 = "if('a>b','a@b')~asd";
         System.out.println(f1.replaceAll("\\s", ""));
-        Matcher m = IF_FORMULA_PARSING_PATT.matcher(f1.replaceAll("\\s", ""));
+        Matcher m = IF_Formula_Parsing_Pattern.matcher(f1.replaceAll("\\s", ""));
         while (m.find()) {
             System.out.println(m.group());
             System.out.println(m.group(1));

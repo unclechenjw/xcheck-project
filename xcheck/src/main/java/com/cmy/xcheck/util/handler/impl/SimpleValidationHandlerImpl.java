@@ -11,6 +11,7 @@ import com.cmy.xcheck.util.validate.ValidatePack;
 import com.cmy.xcheck.util.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,10 +46,8 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                         }
                     }
 
-                    ValidateParam validateParam = new ValidateParam();
-                    validateParam.setMainFieldName(field);
-                    validateParam.setMainFieldVal(param);
-                    validateParam.setArgumentsVal(preparingArguments(vp.getArguments(), requestParams));
+                    ValidateParam validateParam = new ValidateParam(field, param,
+                            preparingArguments(vp.getArguments(), requestParams), xBean.getFieldAlias());
                     XResult xResult = validateMethod.validate(validateParam);
                     if (xResult.isNotPass()) {
                         return xResult;
@@ -60,12 +59,27 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
     }
 
     private String preparingArguments(String arg, Map<String, String[]> requestParams) {
-        if (StringUtil.isAllDigit(arg)) {
+        if (StringUtil.isEmpty(arg) || StringUtil.isAllDigit(arg)) {
             return arg;
         }
+        if (arg.contains(",")) {
+            String[] split = arg.split(",");
+            StringBuilder sb = new StringBuilder();
+            for (String e : split) {
+                sb.append(preparingArguments_(e, requestParams)).append(",");
+            }
+            return sb.deleteCharAt(sb.length()-1).toString();
+        } else {
+            return preparingArguments_(arg, requestParams);
+        }
+    }
+    private String preparingArguments_(String arg, Map<String, String[]> requestParams) {
         String[] values = requestParams.get(arg);
-        return values == null || StringUtil.isEmpty(values[0]) ? arg
-                : values[0];
+        if (values == null || StringUtil.isEmpty(values[0])) {
+            return arg;
+        } else {
+            return values[0];
+        }
     }
 }
 
