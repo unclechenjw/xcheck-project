@@ -35,8 +35,8 @@ public class XExpressionParser {
     public void parseXBean(Set<Class<?>> classes) {
 
         for (Class<?> clz : classes) {
-            Method[] methods = clz.getMethods();
-            for (Method method : methods) {
+            Method[] declaredMethods = clz.getDeclaredMethods();
+            for (Method method : declaredMethods) {
                 if (method.isAnnotationPresent(Check.class)) {
                     parseXBean_(method);
                 }

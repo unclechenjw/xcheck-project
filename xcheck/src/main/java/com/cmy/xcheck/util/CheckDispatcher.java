@@ -10,6 +10,8 @@ import com.cmy.xcheck.util.handler.XFactory;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -67,24 +69,25 @@ public class CheckDispatcher {
         return XResult.success();
     }
 
-
     private Map<String, String[]>  prepareRequestParams(HttpServletRequest request, XBean xBean) {
         Map<String, String[]> parameterMap = request.getParameterMap();
-        Map<String, String[]> newMap = new HashMap<>();
+        Map<String, String[]> newParameterMap = new HashMap<>();
         parameterMap.entrySet().stream().forEach(entry -> {
             String k = entry.getKey();
             if (k.contains("[")) {
-                newMap.put(k.replaceAll("\\[\\d+\\]", ""), entry.getValue());
+                newParameterMap.put(k.replaceAll("\\[\\d+\\]", ""), entry.getValue());
             } else {
-                newMap.put(k, entry.getValue());
+                newParameterMap.put(k, entry.getValue());
             }
         });
 
         if (xBean.hasPathParam()) {
-            String[] urls = xBean.getUrls();
-
+            Map<String, String> pathVariableMap = (Map<String, String>)request.getAttribute("org.springframework.web.servlet.HandlerMapping.uriTemplateVariables");
+            pathVariableMap.entrySet().stream().forEach(
+                    entry -> newParameterMap.put(entry.getKey(), new String[]{entry.getValue()})
+            );
         }
-        return newMap;
+        return newParameterMap;
     }
 
     /**
