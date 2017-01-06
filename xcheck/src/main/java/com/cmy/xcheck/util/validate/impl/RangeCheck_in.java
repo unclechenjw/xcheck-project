@@ -23,7 +23,10 @@ public class RangeCheck_in extends AbstractValidateMethod {
             }
         }
         int lastIndex = argValues.lastIndexOf(",");
-        String argComment = argValues.substring(0, lastIndex) + "或" + argValues.substring(lastIndex+1, argValues.length());
+
+        String argComment = lastIndex == -1
+                ? argValues.substring(0, lastIndex) + "或" + argValues.substring(lastIndex+1, argValues.length())
+                : argValues;
         return XResult.failure(getFieldAlias(validateParam) + "必须为" + argComment.replaceAll(",", "、"));
     }
 
