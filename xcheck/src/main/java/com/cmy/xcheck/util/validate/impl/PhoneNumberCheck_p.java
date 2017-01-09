@@ -23,7 +23,7 @@ public class PhoneNumberCheck_p extends AbstractValidateMethod {
         if (matcher.matches()) {
             return XResult.success();
         }
-        return XResult.failure(getFieldAlias(validateParam) + "手机号码格式不正确");
+        return XResult.failure("手机号码格式不正确");
     }
 
     @Override
