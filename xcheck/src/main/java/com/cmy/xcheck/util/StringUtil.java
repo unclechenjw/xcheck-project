@@ -13,6 +13,17 @@ public class StringUtil {
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
     }
+    public static boolean isEmpty(String[] args) {
+        if (args == null || args.length == 0) {
+            return false;
+        }
+        for (String str : args) {
+            if (isEmpty(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean isNotEmpty(String str) {
         return !isEmpty(str);

@@ -4,7 +4,6 @@ import com.cmy.xcheck.support.annotation.Check;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -29,9 +28,7 @@ public class CheckDemoController {
     },
     fieldAlias = "orderType=订单类型,id=身份证号码")
     @GetMapping
-    public String test1(HttpServletRequest request) {
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getRequestURI());
+    public String test1() {
         return "success" + new Random().nextInt(100);
     }
 
@@ -39,10 +36,16 @@ public class CheckDemoController {
     @GetMapping({"test/{p1}/{p2}",
         "t/{p1}/t/{p2}"})
     public String test2(@PathVariable String p1,
-                @PathVariable String p2) {
+                        @PathVariable String p2) {
         System.out.println(p1);
         System.out.println(p2);
-        return "success";
+        return "success" + new Random().nextInt(100);
+    }
+
+    @Check({"[arg.a, arg.b]:参数不正确"})
+    @GetMapping("test3")
+    public String test3() {
+        return "success" + new Random().nextInt(100);
     }
 
 }

@@ -29,7 +29,7 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
             for (String field : fields) {
                 String[] params = requestParams.get(field);
 
-                if (params == null) {
+                if (StringUtil.isEmpty(params)) {
                     if (checkItemSimple.isNullable()) {
                         continue;
                     } else {
@@ -37,17 +37,15 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                     }
                 }
 
+                if (validateMethod == null) {
+                    continue;
+                }
                 for (String param : params) {
-                    if (StringUtil.isEmpty(param)) {
-                        if (checkItemSimple.isNullable()) {
-                            continue;
-                        } else {
-                            return XResult.failure(field + "不能为空");
-                        }
-                    }
-
-                    ValidateParam validateParam = new ValidateParam(field, param,
-                            preparingArguments(vp.getArguments(), requestParams), xBean.getFieldAlias());
+                    ValidateParam validateParam = new ValidateParam(
+                            field,
+                            param,
+                            preparingArguments(vp.getArguments(), requestParams),
+                            xBean.getFieldAlias());
                     XResult xResult = validateMethod.validate(validateParam);
                     if (xResult.isNotPass()) {
                         return xResult;

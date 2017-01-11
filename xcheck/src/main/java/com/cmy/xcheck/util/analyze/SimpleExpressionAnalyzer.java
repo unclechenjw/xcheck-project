@@ -41,6 +41,7 @@ public class SimpleExpressionAnalyzer {
         int fieldBehindIndex;
         int atIndex = expression.indexOf("@");
         int numberSignIndex = expression.indexOf("#");
+        int colonIndex = expression.indexOf(":");
 
         // @校验参数不可空
         if (atIndex != -1) {
@@ -51,6 +52,9 @@ public class SimpleExpressionAnalyzer {
             nullable = true;
             fieldBehindIndex = numberSignIndex;
             // 无公式校验,参数不可空
+        } else if (colonIndex != -1) {
+            nullable = false;
+            fieldBehindIndex = colonIndex;
         } else {
             nullable = false;
             fieldBehindIndex = expression.length();
@@ -61,7 +65,6 @@ public class SimpleExpressionAnalyzer {
 
         String message; // 自定义错误提示
         String checkRule; // 校验规则
-        int colonIndex = expression.indexOf(":");
         if (colonIndex == -1) {
             checkRule = expression.substring(fieldBehindIndex, expression.length());
             message = null;
@@ -85,6 +88,9 @@ public class SimpleExpressionAnalyzer {
             }
             validatePacks.add(
                     new ValidatePack(validateMethod, arguments));
+        }
+        if (validatePacks.isEmpty()) {
+            validatePacks.add(new ValidatePack(null, null));
         }
         return new XCheckItemSimple(validatePacks, fields, message, nullable);
     }
