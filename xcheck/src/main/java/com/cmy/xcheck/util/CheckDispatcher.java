@@ -63,6 +63,9 @@ public class CheckDispatcher {
             ValidationHandler handler = xFactory.getCheckHandler(checkItem);
             XResult validate = handler.validate(xBean, checkItem, requestParams);
             if (validate.isNotPass()) {
+                if (StringUtil.isNotEmpty(checkItem.getMessage())) {
+                    validate.setMessage(checkItem.getMessage());
+                }
                 return validate;
             }
         }
