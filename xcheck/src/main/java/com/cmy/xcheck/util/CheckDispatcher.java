@@ -28,7 +28,6 @@ public class CheckDispatcher {
     private XCheckHandlerAdapter xCheckHandlerAdapter;
     @Autowired
     private XFactory xFactory;
-    private static final Pattern Url_Path_Variable_Match_Pattern = Pattern.compile("^\\{(.*)\\}");
 
     /**
      * 校验入口

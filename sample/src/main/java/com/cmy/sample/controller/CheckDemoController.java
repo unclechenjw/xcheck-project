@@ -42,7 +42,7 @@ public class CheckDemoController {
         return "success" + new Random().nextInt(100);
     }
 
-    @Check({"[arg.a, arg.b]:参数不正确"})
+    @Check({"[arg.a, arg.b]:params are invalid"})
     @GetMapping("test3")
     public String test3() {
         return "success" + new Random().nextInt(100);

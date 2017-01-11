@@ -132,7 +132,7 @@ public class XExpressionParser {
      */
     private XCheckItem parseExpression(String expression) {
         XCheckItem checkItem;
-        expression = expression.replace(" ", "");
+        expression = trimExpression(expression);
         if (expression.startsWith("if")) {
             // if表达式
             checkItem = ConditionExpressionAnalyzer.analyze(expression);
@@ -146,4 +146,13 @@ public class XExpressionParser {
         return checkItem;
     }
 
+    private String trimExpression(String expression) {
+        int colonIndex = expression.indexOf(":");
+        if (colonIndex == -1) {
+            return expression.replace(" ", "");
+        } else {
+            return expression.substring(0, colonIndex).replace(" ", "") +
+                    expression.substring(colonIndex, expression.length());
+        }
+    }
 }

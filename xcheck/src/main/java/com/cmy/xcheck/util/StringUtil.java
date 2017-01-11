@@ -15,7 +15,7 @@ public class StringUtil {
     }
     public static boolean isEmpty(String[] args) {
         if (args == null || args.length == 0) {
-            return false;
+            return true;
         }
         for (String str : args) {
             if (isEmpty(str)) {
