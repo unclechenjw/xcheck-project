@@ -24,7 +24,7 @@ public class LengthCheck_l extends AbstractValidateMethod {
             boolean inLengthRange = validateParam.getMainFieldVal().length() >= Integer.parseInt(args[0]) &&
                     validateParam.getMainFieldVal().length() <= Integer.parseInt(args[1]);
             if (!inLengthRange) {
-                return XResult.failure(getFieldAlias(validateParam) + "必须大于等于" + args[0] + "位和小于等于" + args[1] + "位");
+                return XResult.failure(getFieldAlias(validateParam) + "必须" + args[0] + "至" + args[1] + "位");
             }
         }
         return XResult.success();
