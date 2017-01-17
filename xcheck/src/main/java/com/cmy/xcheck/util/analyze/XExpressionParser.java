@@ -26,8 +26,6 @@ import java.util.*;
 public class XExpressionParser {
 
     @Autowired
-    private XHelper xMessageBuilder;
-    @Autowired
     private SimpleExpressionAnalyzer simpleExpressionAnalyzer;
 
     /**
@@ -35,7 +33,6 @@ public class XExpressionParser {
      * @param classes
      */
     public void parseXBean(Set<Class<?>> classes) {
-
         for (Class<?> clz : classes) {
             Method[] declaredMethods = clz.getDeclaredMethods();
             for (Method method : declaredMethods) {

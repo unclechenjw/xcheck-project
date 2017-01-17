@@ -28,8 +28,6 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
     private XHelper xHelper;
     private static final ScriptEngine JS_ENGINE = new ScriptEngineManager().getEngineByName("javascript");
     private static final Pattern Date_Format_Pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}\\s?(\\d{1,2}:\\d{1,2}(:\\d{1,3})?)?");
-    private static final DateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd");
-    private static final DateFormat Date_Time_Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:sss");
 
     @Override
     public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
@@ -73,9 +71,9 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
     private String toLongDate(String date){
         try {
             if (date.length() == 10) {
-                return String.valueOf(Date_Format.parse(date).getTime());
+                return String.valueOf(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime());
             } else {
-                return String.valueOf(Date_Time_Format.parse(date).getTime());
+                return String.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:sss").parse(date).getTime());
             }
         } catch (ParseException e) {
             e.printStackTrace();

@@ -4,52 +4,45 @@ import com.cmy.xcheck.util.item.XCheckItem;
 
 /**
  * 逻辑表达式
- * Created by Kevin72c on 2016/5/2.
+ * Created by Kevin72c on 2017/1/17.
  */
 public class XCheckItemCondition implements XCheckItem {
 
-    private String leftField;
-    private String rightField;
+    private XCheckItem firstItem;
+    private XCheckItem secondItem;
+    private XCheckItem thirdItem;
     private String message;
-    private String comparisonOperator;
-
-    public XCheckItemCondition(String leftField, String rightField, String message, String comparisonOperator) {
-        this.leftField = leftField;
-        this.rightField = rightField;
-        this.message = message;
-        this.comparisonOperator = comparisonOperator;
-    }
 
     @Override
     public String getMessage() {
         return message;
     }
 
+    public XCheckItem getFirstItem() {
+        return firstItem;
+    }
+
+    public void setFirstItem(XCheckItem firstItem) {
+        this.firstItem = firstItem;
+    }
+
+    public XCheckItem getSecondItem() {
+        return secondItem;
+    }
+
+    public void setSecondItem(XCheckItem secondItem) {
+        this.secondItem = secondItem;
+    }
+
+    public XCheckItem getThirdItem() {
+        return thirdItem;
+    }
+
+    public void setThirdItem(XCheckItem thirdItem) {
+        this.thirdItem = thirdItem;
+    }
+
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getLeftField() {
-        return leftField;
-    }
-
-    public void setLeftField(String leftField) {
-        this.leftField = leftField;
-    }
-
-    public String getRightField() {
-        return rightField;
-    }
-
-    public void setRightField(String rightField) {
-        this.rightField = rightField;
-    }
-
-    public String getComparisonOperator() {
-        return comparisonOperator;
-    }
-
-    public void setComparisonOperator(String comparisonOperator) {
-        this.comparisonOperator = comparisonOperator;
     }
 }

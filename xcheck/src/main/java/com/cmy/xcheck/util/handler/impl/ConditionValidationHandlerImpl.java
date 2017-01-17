@@ -23,37 +23,6 @@ public class ConditionValidationHandlerImpl implements ValidationHandler {
         return null;
     }
 
-    public void validate(Map<String, String> requestParam, String express,
-                         XResult cr) {
-
-//        Matcher m = IF_Formula_Parsing_Pattern.matcher(express.replaceAll("\\s", ""));
-//        String firstCondition;
-//        String secondCondition;
-//        String thirdCondition;
-//        String prompt; // 错误提示
-//        if (m.find()) {
-//            firstCondition = m.group(1);
-//            secondCondition = m.group(2);
-//            thirdCondition = m.group(3);
-//            prompt = m.group(4);
-//            operationFactory.validateFormula(firstCondition, requestParam, cr);
-//            if (cr.isPass()) {
-//                operationFactory.validateFormula(secondCondition, requestParam, cr);
-//            } else {
-//                if (thirdCondition != null) {
-//                    operationFactory.validateFormula(thirdCondition, requestParam, cr);
-//                }
-//            }
-//            if (prompt != null) {
-//                cr.failure(prompt);
-//            }
-//            cr.failure("多条件校验维护中,请暂时不要使用");
-//        } else {
-//            throw new ExpressionDefineException(express);
-//        }
-        cr.failure("多条件校验维护中,请暂时不要使用");
-    }
-    
     public static void main(String[] args) {
 //        Pattern p = Pattern.compile("^if\\('(.*?)','(.*?)'(?:,'(.*?)')?\\)(?:~(.*?))?$");
         String f1 = "if('a>b', 'a@b', 'sd# b' )~xxx";

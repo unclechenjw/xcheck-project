@@ -27,13 +27,12 @@ public class IPAnalyser {
             ipAddress = request.getRemoteAddr();
             if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
                 // 根据网卡取本机配置的IP
-                InetAddress inet = null;
                 try {
-                    inet = InetAddress.getLocalHost();
+                    InetAddress inetAddress = InetAddress.getLocalHost();
+                    ipAddress = inetAddress.getHostAddress();
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                ipAddress = inet.getHostAddress();
             }
         }
         // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
