@@ -9,11 +9,11 @@ public class XResult {
     private int status = Success;
     private String message;
 
-    public XResult() {
-    }
-    public XResult(int status) {
-        this.status = status;
-    }
+//    public XResult() {
+//    }
+//    public XResult(int status) {
+//        this.status = status;
+//    }
     public XResult(int status, String message) {
         this.status = status;
         this.message = message;
@@ -29,7 +29,7 @@ public class XResult {
         return new XResult(Failure, msg);
     }
     public static XResult success() {
-        return new XResult(Success);
+        return new XResult(Success, null);
     }
     public int getStatus() {
         return status;

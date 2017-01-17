@@ -2,7 +2,7 @@ package com.cmy.xcheck.util;
 
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.annotation.Check;
-import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
+import com.cmy.xcheck.config.context.XAnnotationConfigApplicationContext;
 import com.cmy.xcheck.util.analyze.ConditionExpressionAnalyzer;
 import com.cmy.xcheck.util.analyze.LogicExpressionAnalyzer;
 import com.cmy.xcheck.util.analyze.SimpleExpressionAnalyzer;

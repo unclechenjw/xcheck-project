@@ -1,6 +1,6 @@
 package com.cmy.xcheck.config;
 
-import com.cmy.xcheck.support.interceptor.XCheckSpringMVCInterceptor;
+import com.cmy.xcheck.util.interceptor.XCheckSpringMVCInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

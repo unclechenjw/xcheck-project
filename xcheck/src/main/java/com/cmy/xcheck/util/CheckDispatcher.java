@@ -4,14 +4,12 @@ import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XCheckHandlerAdapter;
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.support.annotation.Check;
-import com.cmy.xcheck.support.annotation.XAnnotationConfigApplicationContext;
+import com.cmy.xcheck.config.context.XAnnotationConfigApplicationContext;
 import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.handler.XFactory;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.servlet.HandlerMapping;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Component
 public class CheckDispatcher {

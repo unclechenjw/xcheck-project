@@ -1,9 +1,10 @@
-package com.cmy.xcheck.support.annotation;
+package com.cmy.xcheck.config.context;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.cmy.xcheck.support.XBean;
+import com.cmy.xcheck.support.annotation.Check;
 
 public class XAnnotationConfigApplicationContext {
 

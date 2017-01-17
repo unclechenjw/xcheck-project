@@ -1,4 +1,4 @@
-package com.cmy.xcheck.support.interceptor;
+package com.cmy.xcheck.util.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
