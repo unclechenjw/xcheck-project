@@ -1,4 +1,4 @@
-package com.cmy.xcheck.util.analyze;
+package com.cmy.xcheck.util.analyze.impl;
 
 import com.cmy.xcheck.exception.UnsupportedExpressionException;
 import com.cmy.xcheck.util.Assert;

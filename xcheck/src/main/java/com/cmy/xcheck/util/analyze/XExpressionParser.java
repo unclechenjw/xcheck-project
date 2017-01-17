@@ -1,11 +1,13 @@
-package com.cmy.xcheck.util;
+package com.cmy.xcheck.util.analyze;
 
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.annotation.Check;
 import com.cmy.xcheck.config.context.XAnnotationConfigApplicationContext;
-import com.cmy.xcheck.util.analyze.ConditionExpressionAnalyzer;
-import com.cmy.xcheck.util.analyze.LogicExpressionAnalyzer;
-import com.cmy.xcheck.util.analyze.SimpleExpressionAnalyzer;
+import com.cmy.xcheck.util.StringUtil;
+import com.cmy.xcheck.util.XHelper;
+import com.cmy.xcheck.util.analyze.impl.ConditionExpressionAnalyzer;
+import com.cmy.xcheck.util.analyze.impl.LogicExpressionAnalyzer;
+import com.cmy.xcheck.util.analyze.impl.SimpleExpressionAnalyzer;
 import com.cmy.xcheck.util.item.XCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

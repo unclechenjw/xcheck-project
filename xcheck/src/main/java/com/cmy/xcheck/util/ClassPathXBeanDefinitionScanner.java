@@ -2,7 +2,7 @@ package com.cmy.xcheck.util;
 
 import com.cmy.xcheck.exception.XCheckException;
 import com.cmy.xcheck.support.XCheckContext;
-import com.cmy.xcheck.util.XExpressionParser;
+import com.cmy.xcheck.util.analyze.XExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
