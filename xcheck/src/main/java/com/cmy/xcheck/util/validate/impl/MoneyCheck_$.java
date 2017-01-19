@@ -21,9 +21,9 @@ public class MoneyCheck_$ extends AbstractValidateMethod {
     public XResult validate(ValidateParam validateParam) {
         Matcher matcher = MONEY_FORMAT_PATTERN.matcher(validateParam.getMainFieldVal());
         if (matcher.matches()) {
-            return XResult.failure(getFieldAlias(validateParam) + "金额格式不正确");
+            return XResult.success();
         }
-        return XResult.success();
+        return XResult.failure(getFieldAlias(validateParam) + "金额格式不正确");
     }
 
     @Override
