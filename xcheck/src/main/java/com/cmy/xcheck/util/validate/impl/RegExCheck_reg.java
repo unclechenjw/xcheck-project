@@ -22,9 +22,9 @@ public class RegExCheck_reg extends AbstractValidateMethod {
         Pattern checkPattern = Pattern.compile(validateParam.getArgumentsVal());
         Matcher matcher = checkPattern.matcher(validateParam.getMainFieldVal());
         if (matcher.matches()) {
-            return XResult.failure(getFieldAlias(validateParam) + "参数不正确");
+            return XResult.success();
         }
-        return XResult.success();
+        return XResult.failure(getFieldAlias(validateParam) + "参数不正确");
     }
 
     @Override
