@@ -13,6 +13,13 @@ public class XCheckItemCondition implements XCheckItem {
     private XCheckItem thirdItem;
     private String message;
 
+    public XCheckItemCondition(XCheckItem firstItem, XCheckItem secondItem, XCheckItem thirdItem, String message) {
+        this.firstItem = firstItem;
+        this.secondItem = secondItem;
+        this.thirdItem = thirdItem;
+        this.message = message;
+    }
+
     @Override
     public String getMessage() {
         return message;
