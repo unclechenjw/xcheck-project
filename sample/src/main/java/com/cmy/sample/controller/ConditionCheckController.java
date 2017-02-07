@@ -30,4 +30,10 @@ public class ConditionCheckController {
         return "success" + new Random().nextInt(100);
     }
 
+    @Check("a>0")
+    @GetMapping("t4")
+    public String t4() {
+        return "success" + new Random().nextInt(100);
+    }
+
 }

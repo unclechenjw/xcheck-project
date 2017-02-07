@@ -33,7 +33,12 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
     public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
         XCheckItemLogic checkItemLogic = (XCheckItemLogic) checkItem;
         String[] leftValues = requestParams.get(checkItemLogic.getLeftField());
-        String[] rightValues = requestParams.get(checkItemLogic.getRightField());
+        String[] rightValues;
+        if (StringUtil.isAllDigit(checkItemLogic.getRightField())) {
+            rightValues = new String[]{checkItemLogic.getRightField()};
+        } else {
+            rightValues = requestParams.get(checkItemLogic.getRightField());
+        }
         if (leftValues == null) {
             return XResult.failure(checkItemLogic.getLeftField() + "不能为空");
         }
@@ -46,10 +51,6 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         return compareEachFiled(leftValues, rightValues, xBean, checkItemLogic);
     }
 
-    public static void main(String[] args) {
-        Matcher matcher = Date_Format_Pattern.matcher("2012-12-12");
-        System.out.println(matcher.matches());
-    }
     private String getValue(String field, String fieldValue) {
         if (StringUtil.isDecimal(field)) {
             return field;
