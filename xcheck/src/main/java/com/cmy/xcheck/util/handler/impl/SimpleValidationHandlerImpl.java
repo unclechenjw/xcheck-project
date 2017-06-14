@@ -3,20 +3,24 @@ package com.cmy.xcheck.util.handler.impl;
 import com.cmy.xcheck.support.XBean;
 import com.cmy.xcheck.support.XResult;
 import com.cmy.xcheck.util.StringUtil;
+import com.cmy.xcheck.util.XHelper;
 import com.cmy.xcheck.util.handler.ValidationHandler;
 import com.cmy.xcheck.util.item.XCheckItem;
 import com.cmy.xcheck.util.item.impl.XCheckItemSimple;
 import com.cmy.xcheck.util.validate.ValidateMethod;
 import com.cmy.xcheck.util.validate.ValidatePack;
 import com.cmy.xcheck.util.validate.ValidateParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class SimpleValidationHandlerImpl implements ValidationHandler {
+
+    @Autowired
+    private XHelper xHelper;
 
     @Override
     public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
@@ -33,7 +37,8 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
                     if (checkItemSimple.isNullable()) {
                         continue;
                     } else {
-                        return XResult.failure(field + "不能为空");
+                        String alias = xHelper.getAlias(field, xBean.getFieldAlias());
+                        return XResult.failure(alias + "不能为空");
                     }
                 }
 

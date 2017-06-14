@@ -72,7 +72,7 @@ public class XHelper {
         }
     }
 
-    public String getPropertity(String key) {
+    public String getProperty(String key) {
         return properties.getProperty(key);
     }
 
