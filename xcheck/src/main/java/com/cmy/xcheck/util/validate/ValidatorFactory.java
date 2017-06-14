@@ -4,6 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -26,12 +27,7 @@ public class ValidatorFactory implements ApplicationContextAware {
 
     @PostConstruct
     public void init() {
-        ValidateMethodMap = new HashMap<>();
-        Map<String, ValidateMethod> beansOfType = context.getBeansOfType(ValidateMethod.class);
-        System.out.println(beansOfType);
-        for (ValidateMethod vm : beansOfType.values()) {
-            ValidateMethodMap.put(vm.getMethodAttr(), vm);
-        }
+        ValidateMethodMap = context.getBeansOfType(ValidateMethod.class);
     }
 
     public ValidateMethod getValidatorByAbbr(String methodAbbr) {

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @Author chenjw
  * @Date 2016年12月26日
  */
-@Component
+@Component("e")
 public class EmailFormatCheck_e extends AbstractValidateMethod {
 
     private static final Pattern Email_Pattern = Pattern.compile("^.+?@.+?\\..+$");
@@ -27,8 +27,4 @@ public class EmailFormatCheck_e extends AbstractValidateMethod {
         return XResult.failure(getFieldAlias(validateParam) + "邮箱格式不正确");
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "e";
-    }
 }

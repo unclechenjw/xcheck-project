@@ -14,11 +14,9 @@ import org.springframework.stereotype.Component;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
@@ -101,7 +99,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
                     continue;
                 } else {
                     String message = xHelper.getAlias(checkItemLogic.getLeftField(), xBean.getFieldAlias())
-                            + "必须" + xHelper.getPropertity(checkItemLogic.getComparisonOperator())
+                            + "必须" + xHelper.getProperty(checkItemLogic.getComparisonOperator())
                             + xHelper.getAlias(checkItemLogic.getRightField(), xBean.getFieldAlias());
                     return XResult.failure(message);
                 }
@@ -112,9 +110,4 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         return XResult.success();
     }
 
-//    public String buildLogicErrorMessage(XBean xBean, XCheckItemLogic xCheckItem) {
-//        String left = getFiledAlias(xCheckItem.getLeftField(), xBean.getFieldAlias());
-//        String right = getFiledAlias(xCheckItem.getRightField(), xBean.getFieldAlias());
-//        return left + getProperty(xCheckItem.getComparisonOperator()) + right;
-//    }
 }

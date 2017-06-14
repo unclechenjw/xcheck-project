@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Author chenjw
  * @Date 2016年12月08日
  */
-@Component
+@Component("in")
 public class RangeCheck_in extends AbstractValidateMethod {
 
     @Override
@@ -30,8 +30,4 @@ public class RangeCheck_in extends AbstractValidateMethod {
         return XResult.failure(getFieldAlias(validateParam) + "必须为" + argComment.replaceAll(",", "、"));
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "in";
-    }
 }

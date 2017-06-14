@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Author chenjw
  * @Date 2016年12月08日
  */
-@Component
+@Component("d")
 public class AllNumeric_d extends AbstractValidateMethod {
 
     @Override
@@ -23,8 +23,4 @@ public class AllNumeric_d extends AbstractValidateMethod {
         }
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "d";
-    }
 }

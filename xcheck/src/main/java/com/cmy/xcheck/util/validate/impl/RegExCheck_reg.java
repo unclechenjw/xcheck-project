@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * @Author chenjw
  * @Date 2016年12月26日
  */
-@Component
+@Component("reg")
 public class RegExCheck_reg extends AbstractValidateMethod {
 
     @Override
@@ -27,8 +27,4 @@ public class RegExCheck_reg extends AbstractValidateMethod {
         return XResult.failure(getFieldAlias(validateParam) + "参数不正确");
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "reg";
-    }
 }

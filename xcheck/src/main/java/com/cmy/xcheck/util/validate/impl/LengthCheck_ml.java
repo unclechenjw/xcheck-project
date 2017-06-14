@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Author chenjw
  * @Date 2016年12月08日
  */
-@Component
+@Component("ml")
 public class LengthCheck_ml extends AbstractValidateMethod {
 
     @Override
@@ -23,8 +23,4 @@ public class LengthCheck_ml extends AbstractValidateMethod {
         }
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "ml";
-    }
 }

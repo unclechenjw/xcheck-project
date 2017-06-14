@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  * @Author chenjw
  * @Date 2016年12月26日
  */
-@Component
+@Component("id")
 public class IdentityCheck_id extends AbstractValidateMethod {
 
     @Override
@@ -32,11 +32,6 @@ public class IdentityCheck_id extends AbstractValidateMethod {
 //        } else {
 //            return XResult.failure("暂不支持其他校验方法");
 //        }
-    }
-
-    @Override
-    public String getMethodAttr() {
-        return "id";
     }
 
     /**

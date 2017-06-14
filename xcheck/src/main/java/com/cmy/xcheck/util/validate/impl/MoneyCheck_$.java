@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @Author chenjw
  * @Date 2016年12月08日
  */
-@Component
+@Component("$")
 public class MoneyCheck_$ extends AbstractValidateMethod {
     private static final Pattern MONEY_FORMAT_PATTERN =
             Pattern.compile("^-?\\d+(\\.\\d+)?$");
@@ -26,8 +26,4 @@ public class MoneyCheck_$ extends AbstractValidateMethod {
         return XResult.failure(getFieldAlias(validateParam) + "金额格式不正确");
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "$";
-    }
 }

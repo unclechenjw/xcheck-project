@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Author chenjw
  * @Date 2016年12月26日
  */
-@Component
+@Component("l")
 public class LengthCheck_l extends AbstractValidateMethod {
 
     @Override
@@ -30,8 +30,4 @@ public class LengthCheck_l extends AbstractValidateMethod {
         return XResult.success();
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "l";
-    }
 }

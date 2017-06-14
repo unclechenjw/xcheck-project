@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * @Author chenjw
  * @Date 2016年12月26日
  */
-@Component
+@Component("p")
 public class PhoneNumberCheck_p extends AbstractValidateMethod {
     private static final Pattern Tel_Pattern = Pattern.compile("^\\d{11}$");
 
@@ -26,8 +26,4 @@ public class PhoneNumberCheck_p extends AbstractValidateMethod {
         return XResult.failure("手机号码格式不正确");
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "p";
-    }
 }

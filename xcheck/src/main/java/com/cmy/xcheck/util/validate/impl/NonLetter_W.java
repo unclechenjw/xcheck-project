@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Author chenjw
  * @Date 2016年12月08日
  */
-@Component
+@Component("W")
 public class NonLetter_W extends AbstractValidateMethod {
 
     @Override
@@ -23,8 +23,4 @@ public class NonLetter_W extends AbstractValidateMethod {
         }
     }
 
-    @Override
-    public String getMethodAttr() {
-        return "W";
-    }
 }

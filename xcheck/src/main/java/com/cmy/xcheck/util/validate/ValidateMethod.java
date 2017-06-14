@@ -13,5 +13,4 @@ public interface ValidateMethod {
 
     XResult validate(ValidateParam validateParam);
 
-    String getMethodAttr();
 }
