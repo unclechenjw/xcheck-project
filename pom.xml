@@ -26,29 +26,6 @@
         <spring.version>4.3.3.RELEASE</spring.version>
     </properties>
 
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>nexus</id>-->
-            <!--<name>Nexus Maven Central</name>-->
-            <!--<url>${repository.url}/nexus/content/repositories/central/</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-            <!--<id>nexus-releases</id>-->
-            <!--<name>Nexus Release Repository</name>-->
-            <!--<url>${repository.url}/nexus/content/repositories/releases/</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-            <!--<id>nexus-snapshots</id>-->
-            <!--<name>Nexus Snapshot Repository</name>-->
-            <!--<url>${repository.url}/nexus/content/repositories/snapshots/</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-            <!--<id>third</id>-->
-            <!--<name>Nexus Third Repository</name>-->
-            <!--<url>${repository.url}/nexus/content/repositories/thirdparty/</url>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-
     <distributionManagement>
         <repository>
             <id>nexus-releases</id>

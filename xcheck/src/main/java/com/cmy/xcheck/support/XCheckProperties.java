@@ -1,12 +1,15 @@
 package com.cmy.xcheck.support;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.Locale;
 
 /**
  * @Author chenjw
  * @Date 2016年05月09日
  */
-public class XCheckContext {
+@ConfigurationProperties(prefix = "xcheck")
+public class XCheckProperties {
 
     /** 扫描包目录 */
     private String[] controllerPackage;

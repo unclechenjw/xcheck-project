@@ -1,6 +1,6 @@
 package com.cmy.sample.config;
 
-import com.cmy.xcheck.support.XCheckContext;
+import com.cmy.xcheck.support.XCheckProperties;
 import com.cmy.xcheck.support.XCheckHandlerAdapter;
 import com.cmy.xcheck.support.annotation.EnableXCheck;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +22,9 @@ public class XConfig implements XCheckHandlerAdapter {
 
 
     @Bean
-    public XCheckContext xCheckContext() {
+    public XCheckProperties xcheck() {
         String alias = "userID=用户ID, userName=用户名, userType=用户类型,keyword=关键字";
-        XCheckContext xCheckContext = new XCheckContext();
+        XCheckProperties xCheckContext = new XCheckProperties();
         xCheckContext.setErrorMessageDisplay(false);
         xCheckContext.setLocale(Locale.CHINESE);
         xCheckContext.setControllerPackage(new String[]{"com.cmy.sample.controller"});
