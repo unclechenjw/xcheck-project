@@ -43,7 +43,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.cmy.sample.SampleApplication</mainClass>
+                    <mainClass>com.c.j.w.sample.SampleApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
