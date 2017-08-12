@@ -1,7 +1,2 @@
 server:
   port: 8080
-
-redis:
-    host: 192.168.116.93
-    port: 6379
-    password: 1qaz2wsx

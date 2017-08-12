@@ -40,11 +40,8 @@ public class XCheckSpringMVCInterceptor implements HandlerInterceptor {
             HandlerMethod handlerMethod = (HandlerMethod)paramObject;
             // xcheck校验入口
             XResult checkResult = xCheckSupport.check(handlerMethod.getMethod(), request);
-            if (checkResult.isSessionExpire()) {
-                xCheckHandlerAdapter.sessionExpireHandle(request, response, paramObject);
-                return false;
-            } else if (checkResult.isNotPass()) {
-                // 返回校验不通过原因,错误信息， status：300, message：校验结果
+            if (checkResult.isNotPass()) {
+                // 返回校验不通过原因,错误信息， status：响应状态, message：校验不通过原因
                 xCheckHandlerAdapter.checkFailHandle(request, response, paramObject, checkResult.getMessage());
                 return false;
             }

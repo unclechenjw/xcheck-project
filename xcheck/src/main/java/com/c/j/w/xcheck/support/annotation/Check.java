@@ -48,9 +48,6 @@ public @interface Check {
     /** 校验规则 */
     String[] value() default "";
 
-    /** 是否校验用户登录*/
-    boolean required() default false;
-
     /**
      * 字段别名，设置为field=字段，多个用小写逗号分隔[,]
      * 当校验不通过时，提示字段使用别名，否则默认校验字段 */

@@ -62,7 +62,6 @@ public class XExpressionParser {
         String[] values = check.value();
         Map<String, String> fieldAlias = parseFieldAliasToMap(check.fieldAlias());
 
-        boolean required = check.required();
         List<XCheckItem> checkItems = new ArrayList<>();
         for (int i = 0; i < values.length; i++) {
             if (StringUtil.isNotEmpty(values[i])) {
@@ -77,7 +76,7 @@ public class XExpressionParser {
                 hasPathParam = true;
             }
         }
-        XBean xBean = new XBean(fieldAlias, checkItems, required, hasPathParam, urls);
+        XBean xBean = new XBean(fieldAlias, checkItems, hasPathParam, urls);
 
         // 注册校验对象
         XAnnotationConfigApplicationContext.register(check, xBean);
@@ -115,7 +114,7 @@ public class XExpressionParser {
      * @return
      */
     private Map<String, String> parseFieldAliasToMap(String[] fieldAlias) {
-        Map<String, String> m = new HashMap<String, String>();
+        Map<String, String> m = new HashMap<>();
         for (String alias : fieldAlias) {
             String[] split = alias.replaceAll("\\s", "").split(",");
             for (String sp :split) {

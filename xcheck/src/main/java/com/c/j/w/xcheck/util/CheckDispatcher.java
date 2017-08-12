@@ -53,12 +53,7 @@ public class CheckDispatcher {
     }
 
     private XResult dispatch(XBean xBean, HttpServletRequest request) {
-        if (xBean.isRequire()) {
-            if (!xCheckHandlerAdapter.verifySession(request.getParameterMap())) {
-                return new XResult(XResult.XCHECK_SESSION_EXPIRE, "用户未登录或会话过期");
-            }
-        }
-
+        // 参数准备
         Map<String, String[]> requestParams = prepareRequestParams(request, xBean);
         List<XCheckItem> checkItems = xBean.getCheckItems();
         // 遍历表达式

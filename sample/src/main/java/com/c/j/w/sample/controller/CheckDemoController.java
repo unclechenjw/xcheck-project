@@ -3,9 +3,6 @@ package com.c.j.w.sample.controller;
 import com.c.j.w.xcheck.support.annotation.Check;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Random;
-
 /**
  * Created by kevin on 2016/12/1.
  */

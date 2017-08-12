@@ -32,11 +32,6 @@ public class XConfig implements XCheckHandlerAdapter {
         return xCheckContext;
     }
 
-    @Override
-    public boolean verifySession(Map<String, String[]> requestParam) {
-        return false;
-    }
-
     /**
      * 设置校验不通过时响应处理
      * @param request
@@ -60,8 +55,4 @@ public class XConfig implements XCheckHandlerAdapter {
         }
     }
 
-    @Override
-    public void sessionExpireHandle(HttpServletRequest request, HttpServletResponse response, Object paramObject) {
-
-    }
 }
