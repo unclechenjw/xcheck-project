@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.c.j.w</groupId>
             <artifactId>xcheck</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${xcheck.version}</version>
         </dependency>
         <dependency>
             <groupId>com.c.j.w</groupId>

@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <repository.url>http://127.0.0.1:8081</repository.url>
         <spring.version>4.3.3.RELEASE</spring.version>
+        <xcheck.version>1.0.0-RELEASE</xcheck.version>
     </properties>
 
     <!--<distributionManagement>-->
