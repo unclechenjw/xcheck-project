@@ -1,7 +1,5 @@
 package com.c.j.w.xcheck.util.validate.impl;
 
-import com.c.j.w.xcheck.util.validate.AbstractValidateMethod;
-import com.c.j.w.xcheck.util.validate.ValidateParam;
 import com.c.j.w.xcheck.support.XResult;
 import com.c.j.w.xcheck.util.StringUtil;
 import com.c.j.w.xcheck.util.validate.AbstractValidateMethod;
@@ -21,7 +19,7 @@ public class AllNumeric_d extends AbstractValidateMethod {
         if (StringUtil.isAllDigit(validateParam.getMainFieldVal())) {
             return XResult.success();
         } else {
-            return XResult.failure(getFieldAlias(validateParam) + "必须为全数字");
+            return XResult.failure(getFieldAlias(validateParam) + "必须为数字");
         }
     }
 

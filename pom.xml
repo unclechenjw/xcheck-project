@@ -8,7 +8,7 @@
     <modules>
         <module>xcheck</module>
         <!--<module>ac</module>-->
-        <module>sample</module>
+        <!--<module>sample</module>-->
     </modules>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>

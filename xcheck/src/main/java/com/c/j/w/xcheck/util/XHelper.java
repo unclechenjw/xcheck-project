@@ -1,7 +1,6 @@
 package com.c.j.w.xcheck.util;
 
-import com.c.j.w.xcheck.support.XCheckProperties;
-import com.c.j.w.xcheck.support.XCheckProperties;
+import com.c.j.w.xcheck.support.XConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import java.util.Properties;
 public class XHelper {
 
     @Autowired(required = false)
-    private XCheckProperties xCheckProperties;
+    private XConfiguration xCheckProperties;
     private Map<String, String> GLOBAL_FIELD_ALIAS = new HashMap<>();
 
     /**

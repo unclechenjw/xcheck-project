@@ -1,7 +1,7 @@
 package com.c.j.w.sample.config;
 
-import com.c.j.w.xcheck.support.XCheckProperties;
 import com.c.j.w.xcheck.support.XCheckHandlerAdapter;
+import com.c.j.w.xcheck.support.XConfiguration;
 import com.c.j.w.xcheck.support.annotation.EnableXCheck;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by kevin on 2016/12/5.
@@ -21,15 +19,14 @@ import java.util.Map;
 public class XConfig implements XCheckHandlerAdapter {
 
     @Bean
-    public XCheckProperties xcheck() {
+    public XConfiguration xConfiguration() {
         // 配置全局字段注释
         String alias = "userID=用户ID, userName=用户名, userType=用户类型,keyword=关键字";
-        XCheckProperties xCheckContext = new XCheckProperties();
-        xCheckContext.setErrorMessageDisplay(false);
-        xCheckContext.setLocale(Locale.CHINESE);
-        xCheckContext.setControllerPackage(new String[]{"com.c.j.w.sample.controller"});
-        xCheckContext.setFiledAlias(alias);
-        return xCheckContext;
+        return XConfiguration.builder()
+                .filedAlias(alias)
+                .controllerPackage("com.c.j.w.sample.controller")
+                .errorMessageDisplay(false)
+                .build();
     }
 
     /**

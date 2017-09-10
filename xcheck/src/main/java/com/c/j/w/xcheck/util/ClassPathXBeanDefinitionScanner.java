@@ -1,11 +1,10 @@
 package com.c.j.w.xcheck.util;
 
 import com.c.j.w.xcheck.exception.XCheckException;
-import com.c.j.w.xcheck.support.XCheckProperties;
+import com.c.j.w.xcheck.support.XConfiguration;
 import com.c.j.w.xcheck.util.analyze.XExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -26,14 +25,14 @@ public class ClassPathXBeanDefinitionScanner {
     @Autowired
     private XExpressionParser xExpressionParser;
     @Autowired(required = false)
-    private XCheckProperties xCheckProperties;
+    private XConfiguration xConfiguration;
 
     @PostConstruct
     public void scanAndParse() {
-        if (xCheckProperties == null) {
+        if (xConfiguration == null) {
             throw new XCheckException("请设置xcheck环境类XCheckContent");
         }
-        for (String p : xCheckProperties.getControllerPackage()) {
+        for (String p : xConfiguration.getControllerPackage()) {
             Set<Class<?>> classes = scanXBean(p);
             xExpressionParser.parseXBean(classes);
         }
