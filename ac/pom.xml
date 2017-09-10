@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.c.j.w</groupId>
         <artifactId>xcheck-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </parent>
     <artifactId>ac</artifactId>
     <packaging>jar</packaging>

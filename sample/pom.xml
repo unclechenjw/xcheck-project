@@ -5,11 +5,12 @@
     <parent>
         <artifactId>xcheck-project</artifactId>
         <groupId>com.c.j.w</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <artifactId>sample</artifactId>
+    <version>1.0.0-RELEASE</version>
 
     <dependencies>
         <dependency>
@@ -17,11 +18,11 @@
             <artifactId>xcheck</artifactId>
             <version>${xcheck.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.c.j.w</groupId>
-            <artifactId>ac</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.c.j.w</groupId>-->
+            <!--<artifactId>ac</artifactId>-->
+            <!--<version>0.0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
