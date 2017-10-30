@@ -18,11 +18,11 @@
             <artifactId>xcheck</artifactId>
             <version>${xcheck.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.c.j.w</groupId>-->
-            <!--<artifactId>ac</artifactId>-->
-            <!--<version>0.0.1-SNAPSHOT</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.c.j.w</groupId>
+            <artifactId>ac</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

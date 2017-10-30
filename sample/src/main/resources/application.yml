@@ -1,2 +1,9 @@
 server:
   port: 8080
+
+spring:
+  redis:
+    database: 0
+    password: 1qaz2wsx
+    host: 127.0.0.1
+    port: 6379

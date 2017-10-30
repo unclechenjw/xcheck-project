@@ -34,7 +34,7 @@ public class DefaultSecurityResolver implements SecurityResolveAdapter {
             jm.set(JedisKey.Security_Code + verifyCode.getCode().toLowerCase(), 60, ""); // 验证码有效时间60秒
             response.setContentType("application/json;charset=utf-8");
             writer = response.getWriter();
-            writer.write("{\"status\":450,\"message\":\""+ message + "\",\"infobean\":\"" +
+            writer.write("{\"status\":449,\"message\":\""+ message + "\",\"info\":\"" +
                     verifyCode.getBase64Str() + "\"}");
         } catch (IOException var8) {
             var8.printStackTrace();
@@ -51,7 +51,7 @@ public class DefaultSecurityResolver implements SecurityResolveAdapter {
         try {
             response.setContentType("application/json;charset=utf-8");
             writer = response.getWriter();
-            writer.write("{\"status\":300,\"message\":\"访问太频繁啦,休息一下\"}");
+            writer.write("{\"status\":400,\"message\":\"访问太频繁啦,休息一下\"}");
         } catch (IOException var8) {
             var8.printStackTrace();
         } finally {
@@ -67,7 +67,7 @@ public class DefaultSecurityResolver implements SecurityResolveAdapter {
         try {
             response.setContentType("application/json;charset=utf-8");
             writer = response.getWriter();
-            writer.write("{\"status\":300,\"message\":\"访问太频繁啦,休息一会\"}");
+            writer.write("{\"status\":400,\"message\":\"访问太频繁啦,休息一会\"}");
         } catch (IOException var8) {
             var8.printStackTrace();
         } finally {

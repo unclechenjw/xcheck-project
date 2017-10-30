@@ -1,5 +1,6 @@
 package com.c.j.w.sample.config;
 
+import com.c.j.w.security.annotation.EnableSecurity;
 import com.c.j.w.xcheck.support.XCheckHandlerAdapter;
 import com.c.j.w.xcheck.support.XConfiguration;
 import com.c.j.w.xcheck.support.annotation.EnableXCheck;
@@ -16,6 +17,7 @@ import java.io.PrintWriter;
  */
 @Configuration
 @EnableXCheck
+@EnableSecurity
 public class XConfig implements XCheckHandlerAdapter {
 
     @Bean
@@ -42,7 +44,7 @@ public class XConfig implements XCheckHandlerAdapter {
         try {
             response.setContentType("application/json; charset=utf-8");
             writer = response.getWriter();
-            writer.write("{\"status\":" + 300 + ",\"message\":\"" + failMessage + "\"}");
+            writer.write("{\"status\":" + 400 + ",\"message\":\"" + failMessage + "\"}");
         } catch (IOException var8) {
             var8.printStackTrace();
         } finally {

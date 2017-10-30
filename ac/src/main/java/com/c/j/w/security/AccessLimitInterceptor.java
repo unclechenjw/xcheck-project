@@ -23,6 +23,8 @@ import java.lang.reflect.Method;
 @Component
 public class AccessLimitInterceptor implements HandlerInterceptor {
 
+    // 图片验证码字段
+    private static final String Image_Verify_Code = "imageVerifyCode";
     @Autowired
     private JedisManager jm;
     @Autowired
@@ -75,8 +77,6 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
         return result;
     }
 
-    private static final String SecurityCode = "securityCode";
-
     /**
      * 校验通过返回true,否则false
      * @param request
@@ -88,7 +88,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
             return true;
         }
         Security security = method.getAnnotation(Security.class);
-        String verifyCode = request.getParameter(SecurityCode);
+        String verifyCode = request.getParameter(Image_Verify_Code);
         if (verifyCode != null && verifyCode.length() > 0) {
             if (jm.del(JedisKey.Security_Code + verifyCode.toLowerCase()) > 0) {
                 // 验证码正确校验通过
@@ -121,7 +121,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
                                   AccessCondition accessCondition) {
         // 获取请求ip
         String ipAddress = IPAnalyser.getIPAddress(request);
-        String key = JedisKey.Security_IP + accessCondition.module() + ipAddress;
+        String key = JedisKey.Security_IP + accessCondition.module() + ":" + ipAddress;
         Long increment = jm.incr(key);
         if (increment > accessCondition.limit()) {
             // 返回错误提示
@@ -148,7 +148,7 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
                     "注解中设置fieldNameOfTel属性");
         }
         String tel = request.getParameter(fieldNameOfTel);
-        String key = JedisKey.Security_Tel + accessCondition.module() + tel;
+        String key = JedisKey.Security_Tel + accessCondition.module() + ":" + tel;
         Long increment = jm.incr(key);
         if (increment > accessCondition.limit()) {
             // 返回错误提示
