@@ -3,6 +3,8 @@ package com.c.j.w.sample.controller;
 import com.c.j.w.xcheck.support.annotation.Check;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 /**
  * Created by kevin on 2016/12/1.
  */
@@ -26,7 +28,7 @@ public class CheckDemoController {
     })
     @GetMapping("t1")
     public String t1() {
-        return "validation passed";
+        return "Passed validation";
     }
 
 
@@ -42,7 +44,7 @@ public class CheckDemoController {
             fieldAlias = "startTime=开始时间,endTime=结束时间")
     @GetMapping("t2")
     public String t2() {
-        return "validation passed";
+        return "Passed validation";
     }
 
     /**
@@ -56,7 +58,7 @@ public class CheckDemoController {
     public String t3(@PathVariable String p1, @PathVariable String p2) {
         System.out.println(p1);
         System.out.println(p2);
-        return "validation passed";
+        return "Passed validation";
     }
 
     /**
@@ -69,7 +71,16 @@ public class CheckDemoController {
     })
     @GetMapping("t4")
     public String t4() {
-        return "validation passed";
+        return "Passed validation";
     }
 
+    @Check({
+            "a@d",                   // 参数a不能为空必须为数字
+            "b@w",                   // 参数b不能为空必须为字母
+    })
+    @PostMapping("x")
+    public String x(@RequestBody HashMap hashMap) {
+        System.out.println(hashMap);
+        return "Passed validation";
+    }
 }

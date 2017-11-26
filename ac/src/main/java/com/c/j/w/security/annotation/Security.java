@@ -18,8 +18,8 @@ public @interface Security {
     String module() default "";
 
     /** 默认过期时间30秒 */
-    int seconds() default 180;
+    int seconds() default 60;
 
     /** 请求次数限制 */
-    int limit() default 3;
+    int limit() default 2;
 }

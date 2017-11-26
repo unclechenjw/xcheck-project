@@ -17,8 +17,8 @@ public class SecurityDemoController {
     @GetMapping("s")
 //    @Security()
 //    @AccessCondition(limit = 2, seconds = 60)
-    @AccessCondition(limit = 3, seconds = 60, module = "register", limitMethod = LimitMethod.Tel, fieldNameOfTel = "tel")
-    @Security(limit = 3, seconds = 60, module = "register")
+    @Security(limit = 1, seconds = 60, module = "get-verify-code")
+    @AccessCondition(limit = 2, seconds = 60, module = "get-verify-code", limitMethod = LimitMethod.Tel, fieldNameOfTel = "mobileNumber")
     public String s() {
         return "success";
     }

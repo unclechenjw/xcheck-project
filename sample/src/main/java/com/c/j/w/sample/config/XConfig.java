@@ -35,11 +35,10 @@ public class XConfig implements XCheckHandlerAdapter {
      * 设置校验不通过时响应处理
      * @param request
      * @param response
-     * @param paramObject HandlerInterceptor拦截器的方法preHandle第三个参数
      * @param failMessage 校验不通过原因
      */
     @Override
-    public void checkFailHandle(HttpServletRequest request, HttpServletResponse response, Object paramObject, String failMessage) {
+    public void checkFailHandle(HttpServletRequest request, HttpServletResponse response, String failMessage) {
         PrintWriter writer = null;
         try {
             response.setContentType("application/json; charset=utf-8");

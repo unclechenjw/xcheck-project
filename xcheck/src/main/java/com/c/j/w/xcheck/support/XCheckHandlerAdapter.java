@@ -14,12 +14,10 @@ public interface XCheckHandlerAdapter {
      * 参数校验不通过处理方法
      * @param request
      * @param response
-     * @param paramObject HandlerInterceptor拦截器的方法preHandle第三个参数
      * @param failMessage 校验不通过原因
      */
     void checkFailHandle(HttpServletRequest request,
                           HttpServletResponse response,
-                          Object paramObject,
                           String failMessage);
 
 }
