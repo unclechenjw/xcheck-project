@@ -134,10 +134,11 @@ public class CheckDispatcher {
             });
         } else {
             String[] strings = map.get(key);
+            String v = value == null ? null : value.toString();
             if (strings == null) {
-                map.put(key, new String[]{value.toString()});
+                map.put(key, new String[]{v});
             } else {
-                add(map, key, strings, value.toString());
+                add(map, key, strings, v);
             }
         }
     }
