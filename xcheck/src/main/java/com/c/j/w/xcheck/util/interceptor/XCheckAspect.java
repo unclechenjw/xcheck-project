@@ -1,5 +1,6 @@
 package com.c.j.w.xcheck.util.interceptor;
 
+import com.c.j.w.xcheck.exception.XCheckException;
 import com.c.j.w.xcheck.support.XCheckHandlerAdapter;
 import com.c.j.w.xcheck.support.XResult;
 import com.c.j.w.xcheck.util.CheckDispatcher;
@@ -11,6 +12,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author chenjw
  */
@@ -20,7 +23,7 @@ public class XCheckAspect {
 
     @Autowired
     private CheckDispatcher checkDispatcher;
-    @Autowired
+    @Autowired(required = false)
     private XCheckHandlerAdapter xCheckHandlerAdapter;
 
     @Pointcut("@annotation(com.c.j.w.xcheck.support.annotation.Check)")
@@ -43,4 +46,10 @@ public class XCheckAspect {
         return joinPoint.proceed();
     }
 
+    @PostConstruct
+    public void checkHandlerAdapterInstanceExists() {
+        if (xCheckHandlerAdapter == null) {
+            throw new XCheckException("XCheckHandlerAdapter is unimplemented exception");
+        }
+    }
 }
