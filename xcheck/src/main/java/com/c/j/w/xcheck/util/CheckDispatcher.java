@@ -154,7 +154,8 @@ public class CheckDispatcher {
     }
 
     private boolean isParameterJSONFormat(HttpServletRequest request) {
-        return request.getHeader("content-type").contains(Application_JSON) ? true : false;
+        String contentType = request.getHeader("content-type");
+        return contentType != null && contentType.contains(Application_JSON) ? true : false;
     }
 
     /**
