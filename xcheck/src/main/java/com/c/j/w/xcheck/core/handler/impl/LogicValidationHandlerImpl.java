@@ -61,7 +61,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         }
     }
     private boolean isDateFormat(String str) {
-        return Date_Format_Pattern.matcher(str).matches();
+        return str != null && Date_Format_Pattern.matcher(str).matches();
     }
 
     /**
