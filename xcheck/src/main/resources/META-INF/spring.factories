@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.c.j.w.xcheck.config.XCheckConfiguration
