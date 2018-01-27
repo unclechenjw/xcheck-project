@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.c.j.w</groupId>
+    <groupId>com.maidao</groupId>
     <artifactId>xcheck-project</artifactId>
-    <version>1.0.0-RELEASE</version>
+    <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>xcheck</module>
-        <!--<module>ac</module>-->
-        <!--<module>sample</module>-->
+        <module>ac</module>
+        <module>sample</module>
     </modules>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
@@ -22,43 +22,24 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <repository.url>http://127.0.0.1:8081</repository.url>
+        <repository.url>http://192.168.1.200:8081</repository.url>
         <spring.version>4.3.3.RELEASE</spring.version>
-        <xcheck.version>1.0.0-RELEASE</xcheck.version>
+        <!--<xcheck.version>1.0.0-RELEASE</xcheck.version>-->
+        <xcheck.version>0.0.1-SNAPSHOT</xcheck.version>
     </properties>
 
     <distributionManagement>
         <repository>
-            <id>nexus-releases</id>
+            <id>maidao-maven-releases</id>
             <name>Nexus Release Repository</name>
             <url>${repository.url}/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>nexus-snapshots</id>
+            <id>maidao-maven-snapshots</id>
             <name>Nexus Snapshot Repository</name>
-            <url>${repository.url}/repositories/snapshots/</url>
+            <url>${repository.url}/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>1.4.1.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Brixton.SR5</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>

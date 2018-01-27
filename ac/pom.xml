@@ -2,21 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.c.j.w</groupId>
-        <artifactId>xcheck-project</artifactId>
-        <version>1.0.0-RELEASE</version>
-    </parent>
+    <groupId>com.c.j.w</groupId>
     <artifactId>ac</artifactId>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <scope>provided</scope>
+            <version>4.3.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -27,7 +22,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <scope>provided</scope>
+            <version>2.9.0</version>
         </dependency>
     </dependencies>
 
