@@ -22,7 +22,7 @@ import java.util.jar.JarFile;
 public class ClassPathXBeanDefinitionScanner {
 
     @Autowired
-    private ExpressionParser xExpressionParser;
+    private ExpressionParser expressionParser;
     @Autowired(required = false)
     private CheckProperties checkProperties;
 
@@ -33,7 +33,7 @@ public class ClassPathXBeanDefinitionScanner {
         }
         for (String p : checkProperties.getControllerPackage()) {
             Set<Class<?>> classes = scanXBean(p);
-            xExpressionParser.parseXBean(classes);
+            expressionParser.parseXBean(classes);
         }
     }
 

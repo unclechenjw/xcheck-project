@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component("ml")
-public class LengthCheck_ml extends AbstractValidateMethod {
+public class MaxLengthValidator extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {

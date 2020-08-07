@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Date 2016年12月08日
  */
 @Component("in")
-public class RangeCheck_in extends AbstractValidateMethod {
+public class RangeValidator extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {

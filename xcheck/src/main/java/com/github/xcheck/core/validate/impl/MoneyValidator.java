@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * @Date 2016年12月08日
  */
 @Component("$")
-public class MoneyCheck_$ extends AbstractValidateMethod {
+public class MoneyValidator extends AbstractValidateMethod {
     private static final Pattern MONEY_FORMAT_PATTERN =
             Pattern.compile("^-?\\d+(\\.\\d+)?$");
     @Override

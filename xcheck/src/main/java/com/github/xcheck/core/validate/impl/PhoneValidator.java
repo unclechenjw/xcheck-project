@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @Date 2016年12月26日
  */
 @Component("p")
-public class PhoneNumberCheck_p extends AbstractValidateMethod {
+public class PhoneValidator extends AbstractValidateMethod {
     private static final Pattern Tel_Pattern = Pattern.compile("^\\d{11}$");
 
     @Override

@@ -7,19 +7,19 @@ import com.github.xcheck.core.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
 /**
- * 全数字
+ * 全字母
  * @Author chenjw
  * @Date 2016年12月08日
  */
-@Component("d")
-public class AllNumeric_d extends AbstractValidateMethod {
+@Component("w")
+public class AllLetterValidator extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
-        if (StringUtil.isAllDigit(validateParam.getMainFieldVal())) {
+        if (StringUtil.isAllLetter(validateParam.getMainFieldVal())) {
             return XResult.success();
         } else {
-            return XResult.failure(getFieldAlias(validateParam) + "必须为数字");
+            return XResult.failure(getFieldAlias(validateParam) + "必须为字母");
         }
     }
 

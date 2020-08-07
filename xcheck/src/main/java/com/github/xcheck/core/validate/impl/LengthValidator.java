@@ -6,12 +6,12 @@ import com.github.xcheck.core.validate.ValidateParam;
 import org.springframework.stereotype.Component;
 
 /**
- * 全字母
+ * 长度交易
  * @Author chenjw
  * @Date 2016年12月26日
  */
 @Component("l")
-public class LengthCheck_l extends AbstractValidateMethod {
+public class LengthValidator extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {

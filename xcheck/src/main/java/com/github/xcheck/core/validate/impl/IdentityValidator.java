@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * @Date 2016年12月26日
  */
 @Component("id")
-public class IdentityCheck_id extends AbstractValidateMethod {
+public class IdentityValidator extends AbstractValidateMethod {
 
     @Override
     public XResult validate(ValidateParam validateParam) {
