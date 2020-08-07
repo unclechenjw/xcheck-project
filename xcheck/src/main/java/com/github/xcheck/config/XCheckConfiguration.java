@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration;
  * Created by kevin on 16/9/10.
  */
 @Configuration
-@ComponentScan(basePackages = "com.c.j.w.xcheck.core")
+@ComponentScan(basePackages = "com.github.xcheck.core")
 public class XCheckConfiguration {
 }

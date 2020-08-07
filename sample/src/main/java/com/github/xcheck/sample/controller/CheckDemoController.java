@@ -1,4 +1,4 @@
-package com.c.j.w.sample.controller;
+package com.github.xcheck.sample.controller;
 
 import com.github.xcheck.support.annotation.Check;
 import org.springframework.web.bind.annotation.*;

@@ -29,10 +29,6 @@ public class DefaultXCheckHandler implements XCheckHandlerAdapter {
             writer.write("{\"status\":" + 400 + ",\"message\":\"" + failMessage + "\"}");
         } catch (IOException var8) {
             var8.printStackTrace();
-        } finally {
-            if(writer != null) {
-                writer.close();
-            }
         }
     }
 

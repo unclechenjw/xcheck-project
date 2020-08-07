@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
- * Created by kevin on 16/9/10.
- */
+ * @author chenjw
+ * @date 2020/8/7
+ **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
