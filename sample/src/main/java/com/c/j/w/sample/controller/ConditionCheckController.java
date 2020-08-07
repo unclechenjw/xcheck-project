@@ -1,6 +1,6 @@
 package com.c.j.w.sample.controller;
 
-import com.c.j.w.xcheck.support.annotation.Check;
+import com.github.xcheck.support.annotation.Check;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

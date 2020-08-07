@@ -2,29 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.maidao</groupId>
-    <!--<groupId>com.c.j.w</groupId>-->
+    <groupId>com.github</groupId>
     <artifactId>xcheck</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <java.version>1.8</java.version>
-        <repository.url>http://192.168.1.200:8081</repository.url>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>maidao-maven-releases</id>
-            <name>Nexus Release Repository</name>
-            <url>${repository.url}/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>maidao-maven-snapshots</id>
-            <name>Nexus Snapshot Repository</name>
-            <url>${repository.url}/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -69,13 +54,6 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
-            <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.factories</include>
@@ -84,7 +62,6 @@
         </resources>
 
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -93,16 +70,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>utf-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                    </archive>
                 </configuration>
             </plugin>
         </plugins>
