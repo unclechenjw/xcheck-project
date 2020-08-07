@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
 
 /**
- * 其他条件表达式校验参考
- * Created by kevin on 2016/12/1.
- */
+ * @author chenjw
+ * @date 2016/12/1
+ **/
 @RestController
 @RequestMapping("c")
 public class ConditionCheckController {

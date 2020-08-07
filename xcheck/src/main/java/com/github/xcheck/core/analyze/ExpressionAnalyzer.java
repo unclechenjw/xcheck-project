@@ -9,5 +9,10 @@ import com.github.xcheck.core.item.XCheckItem;
  */
 public interface ExpressionAnalyzer {
 
+    /**
+     * 解析表达式
+     * @param expression
+     * @return
+     */
     XCheckItem analyze(String expression);
 }

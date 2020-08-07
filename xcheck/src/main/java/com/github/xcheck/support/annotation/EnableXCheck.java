@@ -1,6 +1,6 @@
 package com.github.xcheck.support.annotation;
 
-import com.github.xcheck.config.XCheckConfiguration;
+import com.github.xcheck.config.XcheckConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -12,6 +12,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
-@Import(XCheckConfiguration.class)
+@Import(XcheckConfiguration.class)
 public @interface EnableXCheck {
 }

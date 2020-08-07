@@ -12,8 +12,9 @@ import java.util.regex.Pattern;
 
 /**
  * 解析逻辑表达式
- * Created by Kevin72c on 2016/5/2.
- */
+ * @author chenjw
+ * @date 2016/5/2
+ **/
 @Component
 @Scope("prototype")
 public class LogicExpressionAnalyzer implements ExpressionAnalyzer {
@@ -21,6 +22,7 @@ public class LogicExpressionAnalyzer implements ExpressionAnalyzer {
     private static final Pattern COMPARISON_OPERATOR_PATTERN =
             Pattern.compile("(.*?)(<=|<|>=|>|==|!=)(.*)");
 
+    @Override
     public XCheckItem analyze(String expression) {
         // 提示信息分隔符
         String[] split = expression.split(":");

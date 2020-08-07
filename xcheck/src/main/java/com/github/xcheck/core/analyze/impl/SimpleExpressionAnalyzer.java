@@ -17,10 +17,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * 解析普通表达式
- * Created by Kevin72c on 2016/5/2.
- */
+ * @author chenjw
+ * @date 2016/5/2
+ **/
 @Component
 @Scope("prototype")
 public class SimpleExpressionAnalyzer {

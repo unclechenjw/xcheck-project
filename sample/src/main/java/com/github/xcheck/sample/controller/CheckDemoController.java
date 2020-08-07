@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 
 /**
- * Created by kevin on 2016/12/1.
- */
+ * @author chenjw
+ * @date 2016/12/1
+ **/
 @RestController
 @RequestMapping("xcheck")
 public class CheckDemoController {

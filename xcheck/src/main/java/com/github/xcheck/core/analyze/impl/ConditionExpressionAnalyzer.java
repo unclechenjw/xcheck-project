@@ -26,6 +26,7 @@ public class ConditionExpressionAnalyzer implements ExpressionAnalyzer {
     private static final Pattern Analyze_Pattern = Pattern.compile("^if\\('(.*?)','(.*?)'(?:,'(.*?)')?\\)(?:\\:(.*?))?$");
     private static final String ERROR_MSG = "if条件表达式设置有误，正确应该为if('必填条件','必填条件','选填条件'):选填提示信息";
 
+    @Override
     public XCheckItem analyze(String expression) {
         Matcher m = Analyze_Pattern.matcher(expression.replaceAll("\\s", ""));
         if (!m.find()) {

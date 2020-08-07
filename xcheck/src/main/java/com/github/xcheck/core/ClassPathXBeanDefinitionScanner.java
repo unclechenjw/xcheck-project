@@ -1,7 +1,7 @@
 package com.github.xcheck.core;
 
 import com.github.xcheck.exception.XCheckException;
-import com.github.xcheck.core.analyze.XExpressionParser;
+import com.github.xcheck.core.analyze.ExpressionParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ import java.util.jar.JarFile;
 public class ClassPathXBeanDefinitionScanner {
 
     @Autowired
-    private XExpressionParser xExpressionParser;
+    private ExpressionParser xExpressionParser;
     @Autowired(required = false)
     private XCheckProperties xCheckProperties;
 

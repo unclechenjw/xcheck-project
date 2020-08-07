@@ -4,9 +4,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by kevin on 16/9/10.
- */
+ * @author chenjw
+ * @date 2016/9/10
+ **/
 @Configuration
 @ComponentScan(basePackages = "com.github.xcheck.core")
-public class XCheckConfiguration {
+public class XcheckConfiguration {
 }
