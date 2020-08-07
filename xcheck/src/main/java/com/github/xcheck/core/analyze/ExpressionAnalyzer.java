@@ -1,6 +1,6 @@
 package com.github.xcheck.core.analyze;
 
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 
 /**
  * 公式解析接口
@@ -14,5 +14,5 @@ public interface ExpressionAnalyzer {
      * @param expression
      * @return
      */
-    XCheckItem analyze(String expression);
+    CheckItem analyze(String expression);
 }

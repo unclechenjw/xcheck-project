@@ -5,8 +5,8 @@ import com.github.xcheck.core.XResult;
 import com.github.xcheck.core.util.StringUtil;
 import com.github.xcheck.core.util.XHelper;
 import com.github.xcheck.core.handler.ValidationHandler;
-import com.github.xcheck.core.item.XCheckItem;
-import com.github.xcheck.core.item.impl.XCheckItemSimple;
+import com.github.xcheck.core.item.CheckItem;
+import com.github.xcheck.core.item.impl.SimpleCheckItem;
 import com.github.xcheck.core.validate.ValidateMethod;
 import com.github.xcheck.core.validate.ValidatePack;
 import com.github.xcheck.core.validate.ValidateParam;
@@ -23,8 +23,8 @@ public class SimpleValidationHandlerImpl implements ValidationHandler {
     private XHelper xHelper;
 
     @Override
-    public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
-        XCheckItemSimple checkItemSimple = (XCheckItemSimple) checkItem;
+    public XResult validate(XBean xBean, CheckItem checkItem, Map<String, String[]> requestParams) {
+        SimpleCheckItem checkItemSimple = (SimpleCheckItem) checkItem;
         List<ValidatePack> validatePacks = checkItemSimple.getValidatePacks();
 
         for (ValidatePack vp : validatePacks) {

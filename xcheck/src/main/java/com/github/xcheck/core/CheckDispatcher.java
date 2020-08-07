@@ -6,7 +6,7 @@ import com.github.xcheck.support.annotation.Check;
 import com.github.xcheck.core.util.WebUtil;
 import com.github.xcheck.core.handler.ValidationHandler;
 import com.github.xcheck.core.handler.HandlerFactory;
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class CheckDispatcher {
     @Autowired
     private HandlerFactory handlerFactory;
     @Autowired
-    private XCheckProperties xCheckProperties;
+    private CheckProperties checkProperties;
 
     /**
      * 校验入口
@@ -44,7 +44,7 @@ public class CheckDispatcher {
         // 带有Check注解的方法进行参数规则校验
         if (isAnnotationPresent) {
             Check check = method.getAnnotation(Check.class);
-            XBean xBean = XAnnotationConfigApplicationContext.getXBean(check);
+            XBean xBean = AnnotationConfigApplicationContext.getXBean(check);
             if (xBean == null) {
                 throw new RuntimeException("未配置扫描校验对象,请在XCheckContext中配置ControllerPackage路径");
             }
@@ -63,9 +63,9 @@ public class CheckDispatcher {
     private XResult dispatch(XBean xBean, Method method, ProceedingJoinPoint joinPoint) {
         // 参数准备
         Map<String, String[]> requestParams = prepareRequestParams(xBean, method, joinPoint);
-        List<XCheckItem> checkItems = xBean.getCheckItems();
+        List<CheckItem> checkItems = xBean.getCheckItems();
         // 遍历表达式
-        for (XCheckItem checkItem : checkItems) {
+        for (CheckItem checkItem : checkItems) {
             ValidationHandler handler = handlerFactory.getCheckHandler(checkItem);
             XResult validate = handler.validate(xBean, checkItem, requestParams);
             if (validate.isNotPass()) {
@@ -81,12 +81,12 @@ public class CheckDispatcher {
      * @param validate
      * @return
      */
-    private XResult getResultWithProcessingFailureMessage(XCheckItem checkItem, XResult validate) {
+    private XResult getResultWithProcessingFailureMessage(CheckItem checkItem, XResult validate) {
         if (checkItem.getMessage() != null) {
             validate.setMessage(checkItem.getMessage());
             return validate;
         }
-        if (!xCheckProperties.isShowErrorMessage()) {
+        if (!checkProperties.isShowErrorMessage()) {
             validate.setMessage(Request_Param_Incorrect);
         }
         return validate;

@@ -4,4 +4,4 @@ server:
 xcheck:
   controller-package: com.github.xcheck.sample
   column-alias: startTime=开始时间, endTime=结束时间
-  show-error-message: false
+  show-error-message: true

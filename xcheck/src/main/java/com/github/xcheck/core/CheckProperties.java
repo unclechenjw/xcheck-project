@@ -4,12 +4,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author chenjw
- * @Date 2016年05月09日
- */
+ * @author chenjw
+ * @date 2016/05/09
+ **/
 @Configuration
 @ConfigurationProperties(prefix = "xcheck")
-public class XCheckProperties {
+public class CheckProperties {
 
     /** 扫描包目录 */
     private String[] controllerPackage;

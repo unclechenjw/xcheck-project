@@ -1,9 +1,9 @@
 package com.github.xcheck.core.analyze.impl;
 
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 import com.github.xcheck.core.util.StringUtil;
 import com.github.xcheck.core.analyze.ExpressionAnalyzer;
-import com.github.xcheck.core.item.impl.XCheckItemCondition;
+import com.github.xcheck.core.item.impl.ConditionCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class ConditionExpressionAnalyzer implements ExpressionAnalyzer {
     private static final String ERROR_MSG = "if条件表达式设置有误，正确应该为if('必填条件','必填条件','选填条件'):选填提示信息";
 
     @Override
-    public XCheckItem analyze(String expression) {
+    public CheckItem analyze(String expression) {
         Matcher m = Analyze_Pattern.matcher(expression.replaceAll("\\s", ""));
         if (!m.find()) {
             throw new IllegalArgumentException(ERROR_MSG + "请检查\""+ expression + "\",是否正确");
@@ -36,16 +36,16 @@ public class ConditionExpressionAnalyzer implements ExpressionAnalyzer {
         String secondExp = m.group(2);
         String thirdExp = m.group(3);
         String message = m.group(4);
-        XCheckItem firstItem = getCheckItem(firstExp);
-        XCheckItem secondItem = getCheckItem(secondExp);
-        XCheckItem thirdItem = null;
+        CheckItem firstItem = getCheckItem(firstExp);
+        CheckItem secondItem = getCheckItem(secondExp);
+        CheckItem thirdItem = null;
         if (StringUtil.isNotEmpty(thirdExp)) {
             thirdItem = getCheckItem(thirdExp);
         }
-        return new XCheckItemCondition(firstItem, secondItem, thirdItem, message);
+        return new ConditionCheckItem(firstItem, secondItem, thirdItem, message);
     }
 
-    private XCheckItem getCheckItem(String expression) {
+    private CheckItem getCheckItem(String expression) {
         if (StringUtil.isEmpty(expression)) {
             throw new IllegalArgumentException(ERROR_MSG + "请检查\""+ expression + "\",是否正确");
         }

@@ -1,13 +1,13 @@
 package com.github.xcheck.core.analyze;
 
-import com.github.xcheck.core.XAnnotationConfigApplicationContext;
+import com.github.xcheck.core.AnnotationConfigApplicationContext;
 import com.github.xcheck.core.XBean;
 import com.github.xcheck.support.annotation.Check;
 import com.github.xcheck.core.util.StringUtil;
 import com.github.xcheck.core.analyze.impl.ConditionExpressionAnalyzer;
 import com.github.xcheck.core.analyze.impl.LogicExpressionAnalyzer;
 import com.github.xcheck.core.analyze.impl.SimpleExpressionAnalyzer;
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -61,7 +61,7 @@ public class ExpressionParser {
         String[] values = check.value();
         Map<String, String> fieldAlias = parseFieldAliasToMap(check.fieldAlias());
 
-        List<XCheckItem> checkItems = new ArrayList<>();
+        List<CheckItem> checkItems = new ArrayList<>();
         for (int i = 0; i < values.length; i++) {
             if (StringUtil.isNotEmpty(values[i])) {
                 checkItems.add(parseExpression(values[i]));
@@ -78,7 +78,7 @@ public class ExpressionParser {
         XBean xBean = new XBean(fieldAlias, checkItems, hasPathParam, urls);
 
         // 注册校验对象
-        XAnnotationConfigApplicationContext.register(check, xBean);
+        AnnotationConfigApplicationContext.register(check, xBean);
     }
 
     private String[] getUrls(Method method) {
@@ -139,8 +139,8 @@ public class ExpressionParser {
      * @param expression
      * @return
      */
-    public XCheckItem parseExpression(String expression) {
-        XCheckItem checkItem;
+    public CheckItem parseExpression(String expression) {
+        CheckItem checkItem;
         expression = trimExpression(expression);
         if (expression.startsWith("if")) {
             // if表达式

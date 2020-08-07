@@ -1,11 +1,11 @@
 package com.github.xcheck.core.handler.impl;
 
 import com.github.xcheck.core.handler.ValidationHandler;
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 import com.github.xcheck.core.XBean;
 import com.github.xcheck.core.XResult;
 import com.github.xcheck.core.handler.HandlerFactory;
-import com.github.xcheck.core.item.impl.XCheckItemCondition;
+import com.github.xcheck.core.item.impl.ConditionCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,23 +18,21 @@ public class ConditionValidationHandlerImpl implements ValidationHandler {
     private HandlerFactory xFactory;
 
     @Override
-    public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
-        XCheckItemCondition xCheckItemCondition = (XCheckItemCondition) checkItem;
-        XCheckItem tmpItem = xCheckItemCondition.getFirstItem();
+    public XResult validate(XBean xBean, CheckItem checkItem, Map<String, String[]> requestParams) {
+        ConditionCheckItem conditionCheckItem = (ConditionCheckItem) checkItem;
+        CheckItem tmpItem = conditionCheckItem.getFirstItem();
         ValidationHandler handler = xFactory.getCheckHandler(tmpItem);
         XResult firstValidate = handler.validate(xBean, tmpItem, requestParams);
         if (firstValidate.isPass()) {
-            tmpItem = xCheckItemCondition.getSecondItem();
-            handler = xFactory.getCheckHandler(tmpItem);
-            return handler.validate(xBean, tmpItem, requestParams);
+            tmpItem = conditionCheckItem.getSecondItem();
         } else {
-            tmpItem = xCheckItemCondition.getThirdItem();
+            tmpItem = conditionCheckItem.getThirdItem();
             if (tmpItem == null) {
                 return XResult.success();
             }
-            handler = xFactory.getCheckHandler(tmpItem);
-            return handler.validate(xBean, tmpItem, requestParams);
         }
+        handler = xFactory.getCheckHandler(tmpItem);
+        return handler.validate(xBean, tmpItem, requestParams);
     }
 
 }

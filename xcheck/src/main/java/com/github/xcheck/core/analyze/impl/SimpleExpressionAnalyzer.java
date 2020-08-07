@@ -1,9 +1,8 @@
 package com.github.xcheck.core.analyze.impl;
 
-import com.github.xcheck.core.item.XCheckItem;
-import com.github.xcheck.core.item.impl.XCheckItemSimple;
+import com.github.xcheck.core.item.CheckItem;
+import com.github.xcheck.core.item.impl.SimpleCheckItem;
 import com.github.xcheck.exception.UnsupportedExpressionException;
-import com.github.xcheck.core.util.Assert;
 import com.github.xcheck.core.validate.ValidateMethod;
 import com.github.xcheck.core.validate.ValidatePack;
 import com.github.xcheck.core.validate.ValidatorFactory;
@@ -35,8 +34,8 @@ public class SimpleExpressionAnalyzer {
     /** 普通表达式捕获pattern */
     private Pattern SIMPLE_EXPRESSION_PATTERN = Pattern.compile("(@|#)([a-zA-Z0-9$]*)(?:\\((.*?)\\))?");
 
-    public XCheckItem analyze(String expression) {
-        Assert.simpleExpressionIllegal(expression);
+    public CheckItem analyze(String expression) {
+        simpleExpressionIllegal(expression);
 
         boolean nullable;
         int fieldBehindIndex;
@@ -93,7 +92,7 @@ public class SimpleExpressionAnalyzer {
         if (validatePacks.isEmpty()) {
             validatePacks.add(new ValidatePack(null, null));
         }
-        return new XCheckItemSimple(validatePacks, fields, message, nullable);
+        return new SimpleCheckItem(validatePacks, fields, message, nullable);
     }
 
 
@@ -111,5 +110,14 @@ public class SimpleExpressionAnalyzer {
             fieldList = Arrays.asList(fields);
         }
         return fieldList;
+    }
+
+    private static void simpleExpressionIllegal(String expression) {
+        int atIndex = expression.indexOf("@");
+        int numberSignIndex = expression.indexOf("#");
+        if (atIndex != -1 && numberSignIndex != -1) {
+            throw new IllegalArgumentException(
+                    "what the hell is @ and # together?");
+        }
     }
 }

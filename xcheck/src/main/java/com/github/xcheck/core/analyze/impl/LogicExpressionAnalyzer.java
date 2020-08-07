@@ -2,8 +2,8 @@ package com.github.xcheck.core.analyze.impl;
 
 import com.github.xcheck.exception.ExpressionDefineException;
 import com.github.xcheck.core.analyze.ExpressionAnalyzer;
-import com.github.xcheck.core.item.XCheckItem;
-import com.github.xcheck.core.item.impl.XCheckItemLogic;
+import com.github.xcheck.core.item.CheckItem;
+import com.github.xcheck.core.item.impl.LogicCheckItem;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ public class LogicExpressionAnalyzer implements ExpressionAnalyzer {
             Pattern.compile("(.*?)(<=|<|>=|>|==|!=)(.*)");
 
     @Override
-    public XCheckItem analyze(String expression) {
+    public CheckItem analyze(String expression) {
         // 提示信息分隔符
         String[] split = expression.split(":");
         String message = split.length > 1 ? split[1] : null;
@@ -37,7 +37,7 @@ public class LogicExpressionAnalyzer implements ExpressionAnalyzer {
         String comparisonOperator = matcher.group(2);
         String rightField = matcher.group(3);
 
-        return new XCheckItemLogic(leftField, rightField, comparisonOperator, message);
+        return new LogicCheckItem(leftField, rightField, comparisonOperator, message);
     }
 
 }

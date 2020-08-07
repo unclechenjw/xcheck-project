@@ -1,7 +1,7 @@
 package com.github.xcheck.core.interceptor;
 
 import com.github.xcheck.exception.XCheckException;
-import com.github.xcheck.core.XCheckHandlerAdapter;
+import com.github.xcheck.core.CheckHandlerAdapter;
 import com.github.xcheck.core.XResult;
 import com.github.xcheck.core.CheckDispatcher;
 import com.github.xcheck.core.util.WebUtil;
@@ -22,12 +22,12 @@ import javax.annotation.PostConstruct;
 @Order(1)
 @Aspect
 @Component
-public class XCheckAspect {
+public class XcheckAspect {
 
     @Autowired
     private CheckDispatcher checkDispatcher;
     @Autowired
-    private XCheckHandlerAdapter xCheckHandlerAdapter;
+    private CheckHandlerAdapter checkHandlerAdapter;
 
     @Pointcut("@annotation(com.github.xcheck.support.annotation.Check)")
     public void handleMethod() {
@@ -40,7 +40,7 @@ public class XCheckAspect {
         XResult checkResult = checkDispatcher.check(joinPoint);
         if (checkResult.isNotPass()) {
             // 返回校验不通过原因,错误信息， status：响应状态, message：校验不通过原因
-            xCheckHandlerAdapter.checkFailHandle(
+            checkHandlerAdapter.checkFailHandle(
                     WebUtil.getCurrentRequest(),
                     WebUtil.getCurrentResponse(),
                     checkResult.getMessage());
@@ -51,7 +51,7 @@ public class XCheckAspect {
 
     @PostConstruct
     public void checkHandlerAdapterInstanceExists() {
-        if (xCheckHandlerAdapter == null) {
+        if (checkHandlerAdapter == null) {
             throw new XCheckException("XCheckHandlerAdapter is unimplemented exception");
         }
     }

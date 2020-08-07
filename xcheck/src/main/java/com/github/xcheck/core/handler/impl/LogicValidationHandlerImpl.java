@@ -6,8 +6,8 @@ import com.github.xcheck.core.XResult;
 import com.github.xcheck.core.util.StringUtil;
 import com.github.xcheck.core.util.XHelper;
 import com.github.xcheck.core.handler.ValidationHandler;
-import com.github.xcheck.core.item.XCheckItem;
-import com.github.xcheck.core.item.impl.XCheckItemLogic;
+import com.github.xcheck.core.item.CheckItem;
+import com.github.xcheck.core.item.impl.LogicCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +28,8 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
     private static final Pattern Date_Format_Pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}\\s?(\\d{1,2}:\\d{1,2}(:\\d{1,3})?)?");
 
     @Override
-    public XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams) {
-        XCheckItemLogic checkItemLogic = (XCheckItemLogic) checkItem;
+    public XResult validate(XBean xBean, CheckItem checkItem, Map<String, String[]> requestParams) {
+        LogicCheckItem checkItemLogic = (LogicCheckItem) checkItem;
         String[] leftValues = requestParams.get(checkItemLogic.getLeftField());
         String[] rightValues;
         if (StringUtil.isAllDigit(checkItemLogic.getRightField())) {
@@ -80,7 +80,7 @@ public class LogicValidationHandlerImpl implements ValidationHandler {
         }
     }
 
-    private XResult compareEachFiled(String[] leftValues, String[] rightValues, XBean xBean, XCheckItemLogic checkItemLogic) {
+    private XResult compareEachFiled(String[] leftValues, String[] rightValues, XBean xBean, LogicCheckItem checkItemLogic) {
         for (int i = 0; i < leftValues.length; i++) {
             String finalLeftVal = getValue(checkItemLogic.getLeftField(), leftValues[i]);
             if (StringUtil.isEmpty(finalLeftVal)) {

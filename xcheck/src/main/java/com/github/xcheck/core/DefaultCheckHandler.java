@@ -12,7 +12,7 @@ import java.io.PrintWriter;
  */
 //@ConditionalOnMissingBean(XCheckHandlerAdapter.class)
 @Configuration
-public class DefaultXCheckHandler implements XCheckHandlerAdapter {
+public class DefaultCheckHandler implements CheckHandlerAdapter {
 
     /**
      * 设置校验不通过时响应处理

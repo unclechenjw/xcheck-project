@@ -1,6 +1,6 @@
 package com.github.xcheck.core;
 
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 
 import java.util.List;
 import java.util.Map;
@@ -8,11 +8,11 @@ import java.util.Map;
 public class XBean {
 
     private Map<String, String> fieldAlias;
-    private List<XCheckItem> checkItems;
+    private List<CheckItem> checkItems;
     private boolean hasPathParam;
     private String[] urls;
 
-    public XBean(Map<String, String> fieldAlias, List<XCheckItem> checkItems, boolean hasPathParam, String[] urls) {
+    public XBean(Map<String, String> fieldAlias, List<CheckItem> checkItems, boolean hasPathParam, String[] urls) {
         this.fieldAlias = fieldAlias;
         this.checkItems = checkItems;
         this.hasPathParam = hasPathParam;
@@ -22,13 +22,13 @@ public class XBean {
     public Map<String, String> getFieldAlias() {
         return fieldAlias;
     }
-    public List<XCheckItem> getCheckItems() {
+    public List<CheckItem> getCheckItems() {
         return checkItems;
     }
     public void setFieldAlias(Map<String, String> fieldAlias) {
         this.fieldAlias = fieldAlias;
     }
-    public void setCheckItems(List<XCheckItem> checkItems) {
+    public void setCheckItems(List<CheckItem> checkItems) {
         this.checkItems = checkItems;
     }
     public boolean hasPathParam() {

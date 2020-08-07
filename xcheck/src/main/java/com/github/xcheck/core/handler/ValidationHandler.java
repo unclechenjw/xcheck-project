@@ -1,6 +1,6 @@
 package com.github.xcheck.core.handler;
 
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 import com.github.xcheck.core.XBean;
 import com.github.xcheck.core.XResult;
 
@@ -14,5 +14,5 @@ public interface ValidationHandler {
      * @param checkItem
      * @param requestParams
      */
-    XResult validate(XBean xBean, XCheckItem checkItem, Map<String, String[]> requestParams);
+    XResult validate(XBean xBean, CheckItem checkItem, Map<String, String[]> requestParams);
 }

@@ -3,9 +3,9 @@ package com.github.xcheck.core.handler;
 import com.github.xcheck.core.handler.impl.ConditionValidationHandlerImpl;
 import com.github.xcheck.core.handler.impl.LogicValidationHandlerImpl;
 import com.github.xcheck.core.handler.impl.SimpleValidationHandlerImpl;
-import com.github.xcheck.core.item.XCheckItem;
-import com.github.xcheck.core.item.impl.XCheckItemLogic;
-import com.github.xcheck.core.item.impl.XCheckItemSimple;
+import com.github.xcheck.core.item.CheckItem;
+import com.github.xcheck.core.item.impl.LogicCheckItem;
+import com.github.xcheck.core.item.impl.SimpleCheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +23,12 @@ public class HandlerFactory {
     @Autowired
     private ConditionValidationHandlerImpl conditionValidationHandler;
 
-    public ValidationHandler getCheckHandler(XCheckItem checkItem) {
+    public ValidationHandler getCheckHandler(CheckItem checkItem) {
         ValidationHandler handler;
-        if (checkItem instanceof XCheckItemSimple) {
+        if (checkItem instanceof SimpleCheckItem) {
             //  普通校验项目
             handler = simpleValidationHandler;
-        } else if (checkItem instanceof XCheckItemLogic) {
+        } else if (checkItem instanceof LogicCheckItem) {
             handler = logicValidationHandler;
         } else {
             handler = conditionValidationHandler;

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.github.xcheck.support.annotation.Check;
 
-public class XAnnotationConfigApplicationContext {
+public class AnnotationConfigApplicationContext {
 
     private static final Map<Check, XBean> REPOSITORY = new HashMap<>();
 

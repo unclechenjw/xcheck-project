@@ -1,19 +1,20 @@
 package com.github.xcheck.core.item.impl;
 
-import com.github.xcheck.core.item.XCheckItem;
+import com.github.xcheck.core.item.CheckItem;
 
 /**
  * 逻辑表达式
- * Created by Kevin72c on 2016/5/2.
- */
-public class XCheckItemLogic implements XCheckItem {
+ * @author chenjw
+ * @date 2016/5/2
+ **/
+public class LogicCheckItem implements CheckItem {
 
     private String leftField;
     private String rightField;
     private String message;
     private String comparisonOperator;
 
-    public XCheckItemLogic(String leftField, String rightField, String comparisonOperator, String message) {
+    public LogicCheckItem(String leftField, String rightField, String comparisonOperator, String message) {
         this.leftField = leftField;
         this.rightField = rightField;
         this.comparisonOperator = comparisonOperator;

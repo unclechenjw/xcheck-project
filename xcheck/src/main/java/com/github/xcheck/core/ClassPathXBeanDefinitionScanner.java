@@ -24,14 +24,14 @@ public class ClassPathXBeanDefinitionScanner {
     @Autowired
     private ExpressionParser xExpressionParser;
     @Autowired(required = false)
-    private XCheckProperties xCheckProperties;
+    private CheckProperties checkProperties;
 
     @PostConstruct
     public void scanAndParse() {
-        if (xCheckProperties == null) {
+        if (checkProperties == null) {
             throw new XCheckException("请设置xcheck环境类XCheckContent");
         }
-        for (String p : xCheckProperties.getControllerPackage()) {
+        for (String p : checkProperties.getControllerPackage()) {
             Set<Class<?>> classes = scanXBean(p);
             xExpressionParser.parseXBean(classes);
         }

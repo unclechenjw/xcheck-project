@@ -1,6 +1,6 @@
 package com.github.xcheck.core.util;
 
-import com.github.xcheck.core.XCheckProperties;
+import com.github.xcheck.core.CheckProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import java.util.Properties;
 public class XHelper {
 
     @Autowired(required = false)
-    private XCheckProperties xCheckProperties;
+    private CheckProperties checkProperties;
     private Map<String, String> GLOBAL_FIELD_ALIAS = new HashMap<>();
 
     /**
@@ -58,7 +58,7 @@ public class XHelper {
         }
 
         /** 加载全局字段别名 */
-        String filedAlias = xCheckProperties.getColumnAlias();
+        String filedAlias = checkProperties.getColumnAlias();
         try {
             if (StringUtil.isNotEmpty(filedAlias)) {
                 String[] split = filedAlias.replace(" ", "").split(",");

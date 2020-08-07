@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Author chenjw
  * @Date 2016年09月10日
  */
-public interface XCheckHandlerAdapter {
+public interface CheckHandlerAdapter {
 
     /**
      * 参数校验不通过处理方法
